@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-tech-menu',
+  selector: 'tech-menu',
   templateUrl: './tech-menu.component.html',
-  styleUrls: ['./tech-menu.component.sass']
+  styleUrls: ['./tech-menu.component.scss']
 })
-export class TechMenuComponent implements OnInit {
+export class TechMenu implements OnInit {
 
   constructor() { }
 

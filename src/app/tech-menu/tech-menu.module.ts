@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TechMenuComponent } from './tech-menu.component';
+import { TechMenu } from './tech-menu.component';
+import { RouterModule } from '@angular/router';
 
 
 
 @NgModule({
-  declarations: [
-    TechMenuComponent
-  ],
+  declarations: [TechMenu],
+  exports: [TechMenu],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
   ]
 })
 export class TechMenuModule { }
