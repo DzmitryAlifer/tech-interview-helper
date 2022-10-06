@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TechMenuModule } from './tech-menu/tech-menu.module';
 
 @NgModule({
   declarations: [
@@ -11,8 +10,7 @@ import { TechMenuModule } from './tech-menu/tech-menu.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    TechMenuModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
