@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { VoiceRecognitionService } from './service/voice-recognition.service';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +10,11 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent {
   readonly answers$: Observable<string[]> = this.voiceRecognitionService.getAnswers();
+  readonly allAnswers$ = new BehaviorSubject<string[]>(['answer1', 'answer2']); 
 
-  constructor(private readonly voiceRecognitionService : VoiceRecognitionService) {}
+  constructor(private readonly voiceRecognitionService : VoiceRecognitionService) {
+    this.voiceRecognitionService.getAnswers()
+  }
 
   startVoiceRecognition(){
     this.voiceRecognitionService.start();
