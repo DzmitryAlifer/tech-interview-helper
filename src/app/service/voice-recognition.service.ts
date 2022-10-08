@@ -33,19 +33,19 @@ export class VoiceRecognitionService {
   }
 
   start() {
-    this.isStopped = false;
+    // this.isStopped = false;
     this.recognition.start();
-    this.recognition.addEventListener('end', (condition:any) => {
-      if (this.isStopped) {
-        this.recognition.stop();
-      } else {
-        this.recognition.start();
-      }
-    });
+    // this.recognition.addEventListener('end', (condition:any) => {
+    //   if (this.isStopped) {
+    //     this.recognition.stop();
+    //   } else {
+    //     this.recognition.start();
+    //   }
+    // });
   }
 
   stop() {
-    this.isStopped = true;
+    // this.isStopped = true;
     this.recognition.stop();
   }
 }

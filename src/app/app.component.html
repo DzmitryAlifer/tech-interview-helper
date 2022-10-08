@@ -1,7 +1,15 @@
 <tech-menu></tech-menu>
-<div>
-    <button style="margin: 10px;" (click)="startService()">Start</button>
-    <button style="margin: 10px;" (click)="stopService()">Stop</button>
+<div class="content">
+    <!-- <button style="margin: 10px;" (click)="startVoiceRecognition()">Start</button> -->
+    <!-- <button style="margin: 10px;" (click)="stopVoiceRecognition()">Stop</button> -->
+    <button class="start-stop"
+        color="primary"
+        mat-raised-button 
+        (mouseenter)="startVoiceRecognition()"
+        (touchenter)="startVoiceRecognition()"
+        (mouseleave)="stopVoiceRecognition()"
+        (touchleave)="stopVoiceRecognition()">
+    </button>
     
     <p *ngFor="let answer of answers$ | async">{{answer}}</p>
 </div>

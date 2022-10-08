@@ -11,15 +11,13 @@ import { Observable } from 'rxjs';
 export class AppComponent {
   readonly answers$: Observable<string[]> = this.voiceRecognitionService.getAnswers();
 
-  constructor(private readonly voiceRecognitionService : VoiceRecognitionService) {
-    // this.voiceRecognitionService.init();
-  }
+  constructor(private readonly voiceRecognitionService : VoiceRecognitionService) {}
 
-  startService(){
+  startVoiceRecognition(){
     this.voiceRecognitionService.start();
   }
 
-  stopService(){
+  stopVoiceRecognition(){
     this.voiceRecognitionService.stop();
   }
 }
