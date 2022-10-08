@@ -5,7 +5,7 @@ export enum Topic {
 }
 
 export interface DictionaryAnswer {
-    topic: Topic;
+    topic: string;
     dictionary: string[];
     answer: string;
 }
