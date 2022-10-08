@@ -12,7 +12,7 @@ export class AppComponent {
   readonly answers$: Observable<string[]> = this.voiceRecognitionService.getAnswers();
 
   constructor(private readonly voiceRecognitionService : VoiceRecognitionService) {
-    this.voiceRecognitionService.init();
+    // this.voiceRecognitionService.init();
   }
 
   startService(){

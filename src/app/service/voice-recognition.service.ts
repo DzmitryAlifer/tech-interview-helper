@@ -8,7 +8,11 @@ declare var webkitSpeechRecognition: any
 @Injectable({providedIn: 'root'})
 export class VoiceRecognitionService {
   isStopped = false;
-  recognition =  new webkitSpeechRecognition();
+  recognition =  {
+    ... new webkitSpeechRecognition(),
+    lang: 'en-US',
+    interimResults: false,
+  };
 
   private readonly answers$: Observable<string[]> = fromEvent(this.recognition, 'result').pipe(
     map(({results}: any) => Array.from(results)[0]),
@@ -20,7 +24,7 @@ export class VoiceRecognitionService {
   );
 
   init() {
-    this.recognition.interimResults = true;
+    this.recognition.interimResults = false;
     this.recognition.lang = 'en-US';
 
     this.answers$.subscribe(answers => {
@@ -43,6 +47,7 @@ export class VoiceRecognitionService {
       }
     });
   }
+
   stop() {
     this.isStopped = true;
     this.recognition.stop();
