@@ -1,0 +1,1 @@
+Hoisting is the default JS behavior when all the var and function declarations are moved on top of their scope (global or local) without their value initialization.
