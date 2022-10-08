@@ -9,11 +9,14 @@ import { Observable, BehaviorSubject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  readonly answers$: Observable<string[]> = this.voiceRecognitionService.getAnswers();
+  allAnswers: string[] = [];
+  // readonly answers$: Observable<string[]> = this.voiceRecognitionService.getAnswers();
   readonly allAnswers$ = new BehaviorSubject<string[]>(['answer1', 'answer2']); 
 
   constructor(private readonly voiceRecognitionService : VoiceRecognitionService) {
-    this.voiceRecognitionService.getAnswers()
+    this.voiceRecognitionService.getAnswers().subscribe(answers => {
+      this.allAnswers.unshift(...answers);
+    });
   }
 
   startVoiceRecognition(){

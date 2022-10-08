@@ -9,6 +9,10 @@ declare var webkitSpeechRecognition: any
 export class VoiceRecognitionService {
   isStopped = false;
   recognition = new webkitSpeechRecognition();
+  
+  constructor() {
+    this.recognition.continious = true;
+  }
 
   private readonly answers$: Observable<string[]> = fromEvent(this.recognition, 'result').pipe(
     map(({results}: any) => Array.from(results)[0]),
@@ -18,15 +22,6 @@ export class VoiceRecognitionService {
         .filter(dictionaryAnswer => hasMatchedWord(pronouncedWords, dictionaryAnswer.dictionary))
         .map(({answer}) => answer)),
   );
-
-  init() {
-    this.recognition.interimResults = false;
-    this.recognition.lang = 'en-US';
-
-    this.answers$.subscribe(answers => {
-      console.log(answers);
-    });
-  }
 
   getAnswers(): Observable<string[]> {
     return this.answers$;
