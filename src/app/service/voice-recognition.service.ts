@@ -9,7 +9,7 @@ export class VoiceRecognitionService {
   
   isStopped = false;
   public text = '';
-  tempWords : any;
+  tempWords = '';
 
   constructor() { }
 
@@ -18,13 +18,11 @@ export class VoiceRecognitionService {
     this.recognition.lang = 'en-US';
 
     this.recognition.addEventListener('result', (e:any) => {
-      console.log(e);
       const transcript = Array.from(e.results)
         .map((result:any) => result[0])
         .map((result) => result.transcript)
         .join('');
       this.tempWords = transcript;
-      console.log(transcript);
       const pronouncedWords = transcript.split(' ');
       const matchedAnswers: string[] = Array.from(JS_DICTIONARY.values())
         .filter(dictionaryAnswer => hasMatchedWord(pronouncedWords, dictionaryAnswer.dictionary))
