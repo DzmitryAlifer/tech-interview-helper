@@ -1,6 +1,6 @@
 topic,words,answer
 Types,types,"Object, String, Symbol, Number, BigInt, Boolean, null, undefined"
-Object creation,object creation,"1. Function based:  function User(name) { this.name = name; } const user = new User('John'); 
+Object creation,object creation,"1. Function based:  function User(name) { this.name = name; } const user = new User('John');\r\n
 2. Object literal: const user = { name: 'John' }; 
 3. new Object: const user = new Object(); user.name = 'John'; 
 4. Object.create: const user = Object.create(person); // person is user's prototype (user inherits properties of person)"
