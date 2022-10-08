@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { JS_DICTIONARY } from '../../dictionary/js';
 import { fromEvent, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { AnswerProviderService } from './answer-provider.service';
 
 declare var webkitSpeechRecognition: any
 
@@ -9,10 +10,9 @@ declare var webkitSpeechRecognition: any
 export class VoiceRecognitionService {
   isStopped = false;
   recognition = new webkitSpeechRecognition();
+  private readonly jsDictionaryAnswers$ = this.answerProviderService.getAllJsDictionaryAnswers();
   
-  constructor() {
-    this.recognition.continious = true;
-  }
+  constructor(private readonly answerProviderService: AnswerProviderService) {}
 
   private readonly answers$: Observable<string[]> = fromEvent(this.recognition, 'result').pipe(
     map(({results}: any) => Array.from(results)[0]),
