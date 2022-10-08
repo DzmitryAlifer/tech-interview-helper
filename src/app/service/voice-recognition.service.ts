@@ -8,11 +8,7 @@ declare var webkitSpeechRecognition: any
 @Injectable({providedIn: 'root'})
 export class VoiceRecognitionService {
   isStopped = false;
-  recognition =  {
-    ... new webkitSpeechRecognition(),
-    lang: 'en-US',
-    interimResults: false,
-  };
+  recognition = new webkitSpeechRecognition();
 
   private readonly answers$: Observable<string[]> = fromEvent(this.recognition, 'result').pipe(
     map(({results}: any) => Array.from(results)[0]),
