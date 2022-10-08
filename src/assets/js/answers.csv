@@ -1,6 +1,9 @@
 topic,words,answer
-Types,types,"Object, String, Symbol, Number, BigInt, Boolean, null,\n\r undefined"
-Object creation,object creation,"1. Function based:  function User(name) { this.name = name; } const user = new User('John'); 2. Object literal: const user = { name: 'John' }; 3. new Object: const user = new Object(); user.name = 'John'; 4. Object.create: const user = Object.create(person); // person is user's prototype (user inherits properties of person)"
+Types,types,"Object, String, Symbol, Number, BigInt, Boolean, null, undefined"
+Object creation,object creation,"1. Function based:  function User(name) { this.name = name; } const user = new User('John'); 
+2. Object literal: const user = { name: 'John' }; 
+3. new Object: const user = new Object(); user.name = 'John'; 
+4. Object.create: const user = Object.create(person); // person is user's prototype (user inherits properties of person)"
 Strict mode,use strict mode,"In ES5, a new feature called Strict Mode allows to write code in a strict operational environment. It's much less error-prone since all forms of errors(including silent errors) will be thrown."
 Pure function,pure,"1. Given the same input, always returns the same output. 2. Produces no side-effects."
 var vs let,var let,"var has function scope and is hoisted (initialized with undefined before the code is run). let has block scope and isn't hoisted. Let was introduced because function scope is confusing and was one of the main sources of bugs in JS."
