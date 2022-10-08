@@ -2,6 +2,7 @@
 <div>
     <button style="margin: 10px;" (click)="startService()">Start</button>
     <button style="margin: 10px;" (click)="stopService()">Stop</button>
-    <p>{{text}}</p>
+    
+    <p *ngFor="let answer of answers$ | async">{{answer}}</p>
 </div>
 <router-outlet></router-outlet>
