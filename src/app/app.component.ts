@@ -9,13 +9,13 @@ import { Observable, BehaviorSubject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  allAnswers: string[] = [];
-  // readonly answers$: Observable<string[]> = this.voiceRecognitionService.getAnswers();
-  readonly allAnswers$ = new BehaviorSubject<string[]>(['answer1', 'answer2']); 
+  private readonly allAnswers: string[] = [];
+  readonly allAnswers$ = new BehaviorSubject<string[]>([]); 
 
   constructor(private readonly voiceRecognitionService : VoiceRecognitionService) {
     this.voiceRecognitionService.getAnswers().subscribe(answers => {
       this.allAnswers.unshift(...answers);
+      this.allAnswers$.next(this.allAnswers);
     });
   }
 

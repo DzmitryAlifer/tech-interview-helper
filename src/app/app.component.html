@@ -8,7 +8,6 @@
         (mouseleave)="stopVoiceRecognition()"
         (touchleave)="stopVoiceRecognition()">
     </button>
-    <!-- <p *ngFor="let answer of answers$ | async">{{answer}}</p> -->
-    <p *ngFor="let answer of allAnswers">{{answer}}</p>
+    <p *ngFor="let answer of allAnswers$ | async">{{answer}}</p>
 </div>
 <router-outlet></router-outlet>
