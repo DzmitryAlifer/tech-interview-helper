@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { fromEvent, Observable } from 'rxjs';
-import { filter, map, withLatestFrom } from 'rxjs/operators';
+import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
 import { AnswerProviderService, DictionaryAnswer } from './answer-provider.service';
 
 declare var webkitSpeechRecognition: any;
@@ -19,6 +19,7 @@ export class VoiceRecognitionService {
   );
 
   private readonly answers$: Observable<string[]> = this.pronouncedWords$.pipe(
+    tap(console.log),
     withLatestFrom(this.jsDictionaryAnswers$),
     map(([pronouncedWords, jsDictionaryAnswers]) => Array.from(jsDictionaryAnswers.values())
           .filter(dictionaryAnswer => hasMatchedWord(pronouncedWords, dictionaryAnswer.dictionary))),
