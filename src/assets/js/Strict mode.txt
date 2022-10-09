@@ -1,6 +1,0 @@
-In ES5, a new feature called Strict Mode allows to write code in a strict operational environment. It's much less error-prone, since all forms of errors (including silent errors) will be thrown. So debugging becomes a lot simpler.
-
-When 'use strict' is on:
-1. duplicate arguments are not allowed by developers
-2. JS keywords cannot be used as parameter or function name
-3. global variables aren't allowed.

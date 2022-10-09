@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { DictionaryAnswer, JS_DICTIONARY } from '../../dictionary/js';
 import { fromEvent, Observable } from 'rxjs';
-import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
-import { AnswerProviderService } from './answer-provider.service';
+import { filter, map, withLatestFrom } from 'rxjs/operators';
+import { AnswerProviderService, DictionaryAnswer } from './answer-provider.service';
 
-declare var webkitSpeechRecognition: any
+declare var webkitSpeechRecognition: any;
 
 @Injectable({providedIn: 'root'})
 export class VoiceRecognitionService {

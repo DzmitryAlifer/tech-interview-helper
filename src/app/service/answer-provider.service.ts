@@ -2,7 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DictionaryAnswer } from 'src/dictionary/js';
+
+export interface DictionaryAnswer {
+  topic: string;
+  dictionary: string[];
+  answer: string;
+}
 
 @Injectable({providedIn: 'root'})
 export class AnswerProviderService {
