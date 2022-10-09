@@ -1,4 +1,29 @@
-<p><a [routerLink]="['/java']">Java</a></p>
-<p><a [routerLink]="['/css']">HTML/CSS</a></p>
-<p><a [routerLink]="['/js']">JavaScript</a></p>
-<p><a [routerLink]="['/angular']">Angular</a></p>
+<ng-container *ngIf="{techStatuses: techStatuses$ | async} as data">
+    <button class="tech-button" 
+        [color]="data.techStatuses?.get(Tech.JAVA) ? 'primary' : 'basic'" 
+        mat-raised-button 
+        (click)="toggleTech(Tech.JAVA)">
+        {{Tech.JAVA}}
+    </button>
+
+    <button class="tech-button" 
+        [color]="data.techStatuses?.get(Tech.CSS) ? 'primary' : 'basic'"
+        mat-raised-button 
+        (click)="toggleTech(Tech.CSS)">
+        {{Tech.CSS}}
+    </button>
+
+    <button class="tech-button" 
+        [color]="data.techStatuses?.get(Tech.JAVASCRIPT) ? 'primary' : 'basic'"
+        mat-raised-button  
+        (click)="toggleTech(Tech.JAVASCRIPT)">
+        {{Tech.JAVASCRIPT}}
+    </button>
+
+    <button class="tech-button" 
+        [color]="data.techStatuses?.get(Tech.ANGULAR) ? 'primary' : 'basic'"
+        mat-raised-button 
+        (click)="toggleTech(Tech.ANGULAR)">
+        {{Tech.ANGULAR}}
+    </button>
+</ng-container>

@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Tech } from 'src/types';
+import { SelectedTechService } from '../service/selected-tech.service';
+
 
 @Component({
   selector: 'tech-menu',
   templateUrl: './tech-menu.component.html',
   styleUrls: ['./tech-menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TechMenu implements OnInit {
+export class TechMenu {
+  readonly Tech = Tech;
 
-  constructor() { }
+  readonly techStatuses$ = this.selectedTechService.getSelectedTechsMap();
 
-  ngOnInit(): void {
+  constructor(private readonly selectedTechService: SelectedTechService) {}
+
+  toggleTech(tech: Tech): void {
+    this.selectedTechService.toggleTech(tech);
   }
-
 }

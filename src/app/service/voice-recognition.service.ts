@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { fromEvent, Observable } from 'rxjs';
 import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
-import { AnswerProviderService, DictionaryAnswer } from './answer-provider.service';
+import { AnswerProviderService } from './answer-provider.service';
+import { DictionaryAnswer } from 'src/types';
+
 
 declare var webkitSpeechRecognition: any;
+
 
 @Injectable({providedIn: 'root'})
 export class VoiceRecognitionService {
   isStopped = false;
   recognition = new webkitSpeechRecognition();
-  private readonly jsDictionaryAnswers$: Observable<Map<string, DictionaryAnswer>> = 
-      this.answerProviderService.getAllJsDictionaryAnswers();
+  private readonly allDictionaryAnswers$: Observable<Map<string, DictionaryAnswer>[]> = 
+    this.answerProviderService.getAllDictionaryAnswers();
 
   private readonly pronouncedWords$: Observable<string[]> = fromEvent(this.recognition, 'result').pipe(
     map(({results}: any) => Array.from(results)[0]),
@@ -20,8 +23,8 @@ export class VoiceRecognitionService {
 
   private readonly answers$: Observable<string[]> = this.pronouncedWords$.pipe(
     tap(console.log),
-    withLatestFrom(this.jsDictionaryAnswers$),
-    map(([pronouncedWords, jsDictionaryAnswers]) => Array.from(jsDictionaryAnswers.values())
+    withLatestFrom(this.allDictionaryAnswers$),
+    map(([pronouncedWords, allDictionaryAnswers]) => Array.from(jsDictionaryAnswers.values())
           .filter(dictionaryAnswer => hasMatchedWord(pronouncedWords, dictionaryAnswer.dictionary))),
     map(matchedDictionaryAnswers => matchedDictionaryAnswers.map(dictionaryAnswer => dictionaryAnswer.answer)),
   );
