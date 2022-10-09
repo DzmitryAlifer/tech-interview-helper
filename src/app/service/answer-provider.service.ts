@@ -20,7 +20,7 @@ export class AnswerProviderService {
         const dictionaryAnswers = new Map<string, DictionaryAnswer>();
         const csvToRowArray = data.split('\n');
         
-        for (let index = 1; index < csvToRowArray.length - 1; index++) {
+        for (let index = 1; index < csvToRowArray.length; index++) {
           const row = csvToRowArray[index].split(',');
           const topic = row[0];
           const dictionary = row[1].split(' ');
