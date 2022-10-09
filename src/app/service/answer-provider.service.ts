@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DictionaryAnswer } from 'src/dictionary/js';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class AnswerProviderService {
 
   constructor(private readonly http: HttpClient) {}
