@@ -42,5 +42,5 @@ export class VoiceRecognitionService {
 }
 
 function hasMatchedWord(left: string[], right: string[]): boolean {
-  return left.some(word => right.includes(word));
+  return left.some(word => right.includes(word.toLocaleLowerCase()));
 }
