@@ -1,13 +1,22 @@
 <tech-menu></tech-menu>
 <div class="content">
-    <button class="start-stop"
-        color="primary"
-        mat-raised-button 
-        (mouseenter)="startVoiceRecognition()"
-        (touchenter)="startVoiceRecognition()"
-        (mouseleave)="stopVoiceRecognition()"
-        (touchleave)="stopVoiceRecognition()">
-    </button>
-    <mat-card class="answer" *ngFor="let answer of allAnswers$ | async">{{answer}}</mat-card>
+    <div class="header">
+        <button class="start-stop"
+            color="primary"
+            mat-raised-button 
+            (mouseenter)="startVoiceRecognition()"
+            (touchenter)="startVoiceRecognition()"
+            (mouseleave)="stopVoiceRecognition()"
+            (touchleave)="stopVoiceRecognition()">
+        </button>
+    </div>
+
+    <ng-container *ngFor="let oneTechDictionaryAnswers of allDictionaryAnswers$ | async">
+        <mat-card class="answer" *ngFor="let dictionaryAnswer of oneTechDictionaryAnswers">
+            <p><b>{{dictionaryAnswer.topic}}</b></p>
+            <p>{{dictionaryAnswer.answer}}</p>
+        </mat-card>
+    </ng-container>
+    
 </div>
 <router-outlet></router-outlet>

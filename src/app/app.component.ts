@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { VoiceRecognitionService } from './service/voice-recognition.service';
 import { BehaviorSubject } from 'rxjs';
+import { DictionaryAnswer } from 'src/types';
 
 @Component({
   selector: 'app-root',
@@ -9,13 +10,13 @@ import { BehaviorSubject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  private readonly allAnswers: string[] = [];
-  readonly allAnswers$ = new BehaviorSubject<string[]>([]); 
+  private readonly allAnswers: DictionaryAnswer[][] = [];
+  readonly allDictionaryAnswers$ = new BehaviorSubject<DictionaryAnswer[][]>([]); 
 
   constructor(private readonly voiceRecognitionService : VoiceRecognitionService) {
     this.voiceRecognitionService.getAnswers().subscribe(answers => {
       this.allAnswers.unshift(...answers);
-      this.allAnswers$.next(this.allAnswers);
+      this.allDictionaryAnswers$.next(this.allAnswers);
     });
   }
 

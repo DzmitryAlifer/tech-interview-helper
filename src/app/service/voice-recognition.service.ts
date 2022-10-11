@@ -21,17 +21,16 @@ export class VoiceRecognitionService {
     map((result: any) => result[0].transcript.split(' ')),
   );
 
-  private readonly answers$: Observable<string[]> = this.pronouncedWords$.pipe(
+  private readonly answers$: Observable<DictionaryAnswer[][]> = this.pronouncedWords$.pipe(
     tap(console.log),
     withLatestFrom(this.allDictionaryAnswers$),
-    map(([pronouncedWords, allDictionaryAnswers]) => Array.from(jsDictionaryAnswers.values())
-          .filter(dictionaryAnswer => hasMatchedWord(pronouncedWords, dictionaryAnswer.dictionary))),
-    map(matchedDictionaryAnswers => matchedDictionaryAnswers.map(dictionaryAnswer => dictionaryAnswer.answer)),
+    map(([pronouncedWords, allDictionaryAnswers]) => 
+        allDictionaryAnswers.map(dictionaryAnswers => getRecognizedDictionaryAnswers(pronouncedWords, dictionaryAnswers))),
   );
 
   constructor(private readonly answerProviderService: AnswerProviderService) {}
 
-  getAnswers(): Observable<string[]> {
+  getAnswers(): Observable<DictionaryAnswer[][]> {
     return this.answers$;
   }
 
@@ -46,4 +45,9 @@ export class VoiceRecognitionService {
 
 function hasMatchedWord(left: string[], right: string[]): boolean {
   return left.some(word => right.includes(word.toLocaleLowerCase()));
+}
+
+function getRecognizedDictionaryAnswers(pronouncedWords: string[], dictionaryMap: Map<string, DictionaryAnswer>): DictionaryAnswer[] {
+  return Array.from(dictionaryMap.values())
+      .filter(dictionaryAnswer => hasMatchedWord(pronouncedWords, dictionaryAnswer.dictionary));
 }
