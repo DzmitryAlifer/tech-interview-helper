@@ -10,7 +10,7 @@ import { DictionaryAnswer } from 'src/types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  private readonly allAnswers: DictionaryAnswer[][] = [];
+  private allAnswers: DictionaryAnswer[][] = [];
   readonly pronouncedText$: Observable<string> = this.voiceRecognitionService.getPronouncedText();
   readonly allDictionaryAnswers$ = new BehaviorSubject<DictionaryAnswer[][]>([]); 
 
@@ -27,5 +27,10 @@ export class AppComponent {
 
   stopVoiceRecognition(){
     this.voiceRecognitionService.stop();
+  }
+
+  cleanup(): void {
+    this.allAnswers = [];
+    this.allDictionaryAnswers$.next([]);
   }
 }
