@@ -1,5 +1,8 @@
 <tech-menu></tech-menu>
-<div class="content">
+<div class="content" *ngIf="{
+    allDictionaryAnswers: allDictionaryAnswers$ | async,
+    pronouncedText: pronouncedText$ | async
+} as data">
     <div class="header">
         <button class="start-stop"
             color="primary"
@@ -10,8 +13,12 @@
             (touchleave)="stopVoiceRecognition()">
         </button>
     </div>
+    <div class="speech">
+        <mat-icon>mic</mat-icon>
+        <span>{{data.pronouncedText}}</span>
+    </div>
 
-    <ng-container *ngFor="let oneTechDictionaryAnswers of allDictionaryAnswers$ | async">
+    <ng-container *ngFor="let oneTechDictionaryAnswers of data.allDictionaryAnswers">
         <mat-card class="answer" *ngFor="let dictionaryAnswer of oneTechDictionaryAnswers">
             <p><b>{{dictionaryAnswer.topic}}</b></p>
             <p>{{dictionaryAnswer.answer}}</p>

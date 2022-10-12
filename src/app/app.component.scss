@@ -10,6 +10,7 @@
 }
 
 .header {
+    display: block;
     position: fixed;
     text-align: center;
     top: 0;
@@ -34,6 +35,11 @@
     &:hover:before {
         content: "Unhover to stop";
     }
+}
+
+.speech {
+    margin-top: 12px;
+    text-align: center;
 }
 
 .answer {

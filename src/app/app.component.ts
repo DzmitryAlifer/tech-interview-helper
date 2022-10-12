@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { VoiceRecognitionService } from './service/voice-recognition.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { DictionaryAnswer } from 'src/types';
 
 @Component({
@@ -11,6 +11,7 @@ import { DictionaryAnswer } from 'src/types';
 })
 export class AppComponent {
   private readonly allAnswers: DictionaryAnswer[][] = [];
+  readonly pronouncedText$: Observable<string> = this.voiceRecognitionService.getPronouncedText();
   readonly allDictionaryAnswers$ = new BehaviorSubject<DictionaryAnswer[][]>([]); 
 
   constructor(private readonly voiceRecognitionService : VoiceRecognitionService) {
