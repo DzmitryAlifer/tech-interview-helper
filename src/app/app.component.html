@@ -23,8 +23,8 @@
 
     <ng-container *ngFor="let oneTechDictionaryAnswers of data.allDictionaryAnswers">
         <mat-card class="answer" *ngFor="let dictionaryAnswer of oneTechDictionaryAnswers">
-            <p><b>{{dictionaryAnswer.topic}}</b></p>
-            <p>{{dictionaryAnswer.answer}}</p>
+            <p class="topic"><b>{{dictionaryAnswer.topic}}</b></p>
+            <p innerHTML="{{dictionaryAnswer.answer}}"></p>
         </mat-card>
     </ng-container>
     

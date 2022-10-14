@@ -3,6 +3,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Tech } from 'src/types';
 import { map } from 'rxjs';
 
+
+const ENABLED_TECHS_BY_DEFAULT: string[] = [Tech.JAVASCRIPT, Tech.ANGULAR];
+
+
 @Injectable({providedIn: 'root'})
 export class SelectedTechService {
 
@@ -28,8 +32,9 @@ export class SelectedTechService {
   }
 
   private populateInintialTechStates(): Map<Tech, boolean> {
-    return Object.keys(Tech).reduce((map, tech) => {
-      map.set(tech as Tech, false);
+    return Object.values(Tech).reduce((map, tech) => {
+      const isEnabled = ENABLED_TECHS_BY_DEFAULT.includes(tech);
+      map.set(tech as Tech, isEnabled);
       return map;
     }, new Map<Tech, boolean>());
   }
