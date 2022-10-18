@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JavaPageComponent } from './java-page.component';
+import { KnowledgeSidebarComponent } from './knowledge-sidebar.component';
 
-describe('JavaPageComponent', () => {
-  let component: JavaPageComponent;
-  let fixture: ComponentFixture<JavaPageComponent>;
+describe('KnowledgeSidebarComponent', () => {
+  let component: KnowledgeSidebarComponent;
+  let fixture: ComponentFixture<KnowledgeSidebarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ JavaPageComponent ]
+      declarations: [ KnowledgeSidebarComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(JavaPageComponent);
+    fixture = TestBed.createComponent(KnowledgeSidebarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

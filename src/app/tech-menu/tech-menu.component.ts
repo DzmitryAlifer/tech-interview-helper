@@ -10,7 +10,7 @@ import { SelectedTechService } from '../service/selected-tech.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TechMenu {
-  readonly Tech = Tech;
+  readonly techs = Object.values(Tech);
 
   readonly techStatuses$ = this.selectedTechService.getSelectedTechsMap();
 

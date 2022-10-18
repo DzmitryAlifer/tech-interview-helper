@@ -1,53 +1,7 @@
 :host {
     display: flex;
-}
 
-.content {
-    justify-content: center;
-    position: relative;
-    top: 120px;
-    width: 100%;
-}
-
-.header {
-    display: block;
-    position: fixed;
-    text-align: center;
-    top: 0;
-    width: calc(100% - 120px);
-}
-
-.start-stop {
-    font-size: 18px;
-    height: 80px;
-    margin: 32px;
-    padding: 12px;
-    width: 300px;
-
-    &:not(:hover):before {
-        content: "Hover to start voice recognition";
+    knowledge-sidebar {
+        width: 40%;
     }
-
-    &:hover {
-        background-color: crimson;
-    }
-
-    &:hover:before {
-        content: "Unhover to stop";
-    }
-}
-
-.speech {
-    margin-top: 12px;
-    text-align: center;
-}
-
-.topic {
-    font-size: 18px;
-}
-
-.answer {
-    font-size: 16px;
-    margin: 12px auto;
-    width: 500px;
 }

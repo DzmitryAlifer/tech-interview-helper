@@ -1,0 +1,25 @@
+:host {
+    display: flex;
+    width: 100%;
+}
+
+.knowledge {
+    border-right: 1px solid lightgray;
+    width: calc(100% - 64px);
+}
+
+.button-bar {
+    display: grid;
+
+    ::ng-deep {
+        .mat-button-toggle-button {
+            height: 120px;
+            width: 64px;
+        }
+
+        .mat-button-toggle-label-content {
+            padding: 0;
+            transform: rotate(270deg);
+        }
+    }
+}

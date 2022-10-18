@@ -1,0 +1,25 @@
+<ng-container *ngIf="{
+    allDictionaryAnswers: allDictionaryAnswers$ | async,
+    pronouncedText: pronouncedText$ | async
+} as data">
+    <div class="header">
+        <button class="start-stop" color="primary" mat-raised-button (mouseenter)="startVoiceRecognition()"
+            (touchenter)="startVoiceRecognition()" (mouseleave)="stopVoiceRecognition()"
+            (touchleave)="stopVoiceRecognition()">
+        </button>
+        <button mat-fab color="primary" (click)="cleanup()">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+    <div class="speech">
+        <mat-icon>mic</mat-icon>
+        <span>{{data.pronouncedText}}</span>
+    </div>
+
+    <ng-container *ngFor="let oneTechDictionaryAnswers of data.allDictionaryAnswers">
+        <mat-card class="answer" *ngFor="let dictionaryAnswer of oneTechDictionaryAnswers">
+            <p class="topic"><b>{{dictionaryAnswer.topic}}</b></p>
+            <p innerHTML="{{dictionaryAnswer.answer}}"></p>
+        </mat-card>
+    </ng-container>
+</ng-container>
