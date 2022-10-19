@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DictionaryAnswer, Tech } from 'src/types';
 import { SelectedTechService } from './selected-tech.service';
@@ -16,13 +16,20 @@ export class AnswerProviderService {
     private readonly selectedTechService: SelectedTechService,
   ) {}
 
+  getAllAnswers(): Observable<Map<string, DictionaryAnswer>[]> {
+    return of(Object.values(Tech)).pipe(
+      switchMap(allTechs => 
+        forkJoin(allTechs.map(tech => this.getAllDictionaryAnswersForTech(tech)))),
+    );
+  }
+
   getAllDictionaryAnswers(): Observable<Map<string, DictionaryAnswer>[]> {
     return this.selectedTechService.getSelectedTechs().pipe(
       switchMap(selectedTechs => 
         forkJoin(selectedTechs.map(tech => this.getAllDictionaryAnswersForTech(tech)))));
   }
 
-  private getAllDictionaryAnswersForTech(tech: Tech): Observable<Map<string, DictionaryAnswer>> {
+  private getAllDictionaryAnswersForTech(tech: Tech|string): Observable<Map<string, DictionaryAnswer>> {
     return this.http.get(`assets/${tech}.csv`, {responseType: 'text'}).pipe(
       map(data => csvDataToDictionaryAnswers(data)),
     );

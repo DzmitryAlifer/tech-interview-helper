@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Tech } from 'src/types';
+import { AnswerProviderService } from '../service/answer-provider.service';
 
 
 @Component({
@@ -10,6 +11,7 @@ import { Tech } from 'src/types';
 })
 export class KnowledgeSidebar {
   readonly techs = Object.values(Tech);
+  readonly allAnswers$ = this.answerProviderService.getAllAnswers();
 
-  constructor() {}
+  constructor(private readonly answerProviderService: AnswerProviderService) {}
 }
