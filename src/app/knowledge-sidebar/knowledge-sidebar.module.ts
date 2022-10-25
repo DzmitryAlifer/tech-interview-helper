@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { KnowledgeSidebar } from './knowledge-sidebar.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     CommonModule,
     MatSidenavModule,
     MatButtonToggleModule,
+    ReactiveFormsModule,
   ]
 })
 export class KnowledgeSidebarModule {}
