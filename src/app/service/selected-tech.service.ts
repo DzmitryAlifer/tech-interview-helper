@@ -4,7 +4,7 @@ import { Tech } from 'src/types';
 import { map } from 'rxjs';
 
 
-const ENABLED_TECHS_BY_DEFAULT: string[] = [Tech.JAVASCRIPT, Tech.ANGULAR];
+const ENABLED_TECHS_BY_DEFAULT: string[] = [Tech.CSS];
 
 
 @Injectable({providedIn: 'root'})
