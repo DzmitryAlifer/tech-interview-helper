@@ -2,13 +2,5 @@
     <mat-button-toggle *ngFor="let tech of techs" [value]="tech">{{tech}}</mat-button-toggle>
 </mat-button-toggle-group>
 
-<div class="embedded-code">
-    <form [formGroup]="form">
-        <input type="text" formControlName="codeUrl">
-    </form>
-
-    <iframe id="code" width="100%" height="100%" frameBorder="0" [src]="safeCodeUrl$ | async"></iframe>
-</div>
-
 <div class="knowledge">
 </div>
