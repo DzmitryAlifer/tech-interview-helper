@@ -2,13 +2,14 @@
     allDictionaryAnswers: allDictionaryAnswers$ | async,
     pronouncedText: pronouncedText$ | async
 } as data">
-    <div class="header">
-        <button class="start-stop" color="primary" mat-raised-button (mouseenter)="startVoiceRecognition()"
+    <div class="button-bar">
+        <button class="clean" mat-fab color="primary" (click)="cleanup()">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button class="start-stop" mat-fab color="primary" mat-raised-button (mouseenter)="startVoiceRecognition()"
             (touchenter)="startVoiceRecognition()" (mouseleave)="stopVoiceRecognition()"
             (touchleave)="stopVoiceRecognition()">
-        </button>
-        <button mat-fab color="primary" (click)="cleanup()">
-            <mat-icon>delete</mat-icon>
+            <mat-icon>mic</mat-icon>
         </button>
     </div>
     <div class="speech">

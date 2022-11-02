@@ -1,4 +1,4 @@
-<ng-container *ngIf="{techStatuses: techStatuses$ | async} as data">
+<div class="button-bar" *ngIf="{techStatuses: techStatuses$ | async} as data">
     <button *ngFor="let tech of techs"
         class="tech-button"
         mat-raised-button
@@ -6,4 +6,4 @@
         (click)="toggleTechRecognition(tech)">
         {{tech}}
     </button>
-</ng-container>
+</div>

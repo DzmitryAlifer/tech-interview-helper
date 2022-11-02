@@ -1,3 +1,5 @@
+$button-bar-width: 64px;
+
 :host {
     display: flex;
     width: 100%;
@@ -5,16 +7,24 @@
 
 .knowledge {
     border-right: 1px solid lightgray;
-    width: calc(100% - 64px);
+    padding-left: $button-bar-width + 12px;
+    width: calc(100% - $button-bar-width);
+}
+
+.answer {
+    font-size: 12px;
+    padding-bottom: 24px;
 }
 
 .button-bar {
     display: grid;
+    height: 100vh;
+    position: fixed;
 
     ::ng-deep {
         .mat-button-toggle-button {
-            height: 120px;
-            width: 64px;
+            height: 100%;
+            width: $button-bar-width;
         }
 
         .mat-button-toggle-label-content {

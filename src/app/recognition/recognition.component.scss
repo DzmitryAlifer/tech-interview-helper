@@ -5,31 +5,28 @@
     width: 100%;
 }
 
-.header {
-    display: block;
+.button-bar {
     position: fixed;
-    text-align: center;
     top: 0;
     width: calc(100% - 120px);
-}
 
-.start-stop {
-    font-size: 18px;
-    height: 80px;
-    margin: 32px;
-    padding: 12px;
-    width: 300px;
+    button {
+        margin: 8px 12px;
 
-    &:not(:hover):before {
-        content: "Hover to start voice recognition";
-    }
+        &.start-stop {
+            height: 80px;
+            width: 80px;
 
-    &:hover {
-        background-color: crimson;
-    }
+            &:hover {
+                background-color: crimson;
+            }
 
-    &:hover:before {
-        content: "Unhover to stop";
+            mat-icon {
+                font-size: 48px;
+                height: 48px;
+                width: 48px;
+            }
+        }
     }
 }
 

@@ -1,5 +1,5 @@
 export enum Tech {
-    JAVA = 'Java',
+    // JAVA = 'Java',
     CSS = 'CSS',
     JAVASCRIPT = 'JavaScript',
     ANGULAR = 'Angular',
