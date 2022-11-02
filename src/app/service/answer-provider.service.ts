@@ -10,6 +10,7 @@ import { SelectedTechService } from './selected-tech.service';
 
 @Injectable({providedIn: 'root'})
 export class AnswerProviderService {
+  private readonly allTechs: Tech[] = Object.values(Tech);
 
   constructor(
     private readonly http: HttpClient,
@@ -17,7 +18,7 @@ export class AnswerProviderService {
   ) {}
 
   getAllAnswers(): Observable<Map<string, DictionaryAnswer>[]> {
-    return of(Object.values(Tech)).pipe(
+    return of(this.allTechs).pipe(
       switchMap(allTechs => 
         forkJoin(allTechs.map(tech => this.getAllDictionaryAnswersForTech(tech)))),
     );
@@ -31,12 +32,12 @@ export class AnswerProviderService {
 
   private getAllDictionaryAnswersForTech(tech: Tech|string): Observable<Map<string, DictionaryAnswer>> {
     return this.http.get(`assets/${tech}.csv`, {responseType: 'text'}).pipe(
-      map(data => csvDataToDictionaryAnswers(data)),
+      map(data => csvDataToDictionaryAnswers(tech, data)),
     );
   }
 }
 
-function csvDataToDictionaryAnswers(csvData: string): Map<string, DictionaryAnswer> {
+function csvDataToDictionaryAnswers(tech: Tech |string, csvData: string): Map<string, DictionaryAnswer> {
   const dictionaryAnswers = new Map<string, DictionaryAnswer>();
   const csvToRowArray = csvData.split('\n');
 
@@ -45,7 +46,7 @@ function csvDataToDictionaryAnswers(csvData: string): Map<string, DictionaryAnsw
     const topic = row[0];
     const dictionary = row[1].split(' ');
     const answer = row[2];
-    dictionaryAnswers.set(topic, { topic, dictionary, answer });
+    dictionaryAnswers.set(`${tech}:${topic}`, { topic, dictionary, answer });
   }
 
   return dictionaryAnswers;

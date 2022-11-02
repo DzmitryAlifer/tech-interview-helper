@@ -16,7 +16,7 @@ export class TechMenu {
 
   constructor(private readonly selectedTechService: SelectedTechService) {}
 
-  toggleTech(tech: Tech): void {
-    this.selectedTechService.toggleTech(tech);
+  toggleTechRecognition(tech: Tech): void {
+    this.selectedTechService.toggleTechRecognition(tech);
   }
 }

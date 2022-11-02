@@ -3,17 +3,26 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Tech } from 'src/types';
 import { map } from 'rxjs';
 
-
+const INITIAL_KNOWLEDGE_BASE_TECH = Tech.CSS;
 const ENABLED_TECHS_BY_DEFAULT: string[] = [Tech.CSS];
 
 
 @Injectable({providedIn: 'root'})
 export class SelectedTechService {
 
+  private readonly knowledgeBaseTech$ = new BehaviorSubject<Tech>(INITIAL_KNOWLEDGE_BASE_TECH);
   private readonly selectedTechsMap$ = 
       new BehaviorSubject<Map<Tech, boolean>>(this.populateInintialTechStates());
 
-  toggleTech(tech: Tech): void {
+  setKnowledgeBaseTech(tech: Tech): void {
+    this.knowledgeBaseTech$.next(tech);
+  }
+
+  getKnowledgeBaseTech(): Observable<Tech> {
+    return this.knowledgeBaseTech$.asObservable();
+  }
+
+  toggleTechRecognition(tech: Tech): void {
     const previousStateMap = this.selectedTechsMap$.getValue();
     previousStateMap.set(tech, !previousStateMap.get(tech));
     this.selectedTechsMap$.next(previousStateMap);

@@ -1,6 +1,10 @@
 <mat-button-toggle-group class="button-bar" name="tech">
-    <mat-button-toggle *ngFor="let tech of techs" [value]="tech">{{tech}}</mat-button-toggle>
+    <mat-button-toggle *ngFor="let tech of techs" [value]="tech" (change)="selectTech(tech)">{{tech}}</mat-button-toggle>
 </mat-button-toggle-group>
 
 <div class="knowledge">
+    <div *ngFor="let topicAnswer of (selectedTechKnowledgeBase$ | async) | keyvalue">
+        <p><b>{{topicAnswer.key}}</b></p>
+        <p [innerHtml]="topicAnswer.value.answer"></p>
+    </div>
 </div>
