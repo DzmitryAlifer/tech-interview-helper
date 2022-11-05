@@ -2,6 +2,8 @@ $button-bar-width: 64px;
 
 :host {
     display: flex;
+    height: 100vh;
+    overflow: auto;
     width: 100%;
 }
 

@@ -1,9 +1,8 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnChanges, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DictionaryAnswer, Tech } from 'src/types';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { delay, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AnswerProviderService } from '../service/answer-provider.service';
-import { SelectedTechService } from '../service/selected-tech.service';
 
 
 const INITIAL_KNOWLEDGE_BASE_TECH = Tech.CSS;
@@ -17,24 +16,21 @@ const INITIAL_KNOWLEDGE_BASE_TECH = Tech.CSS;
 })
 export class KnowledgeSidebar {
   readonly techs = Object.values(Tech);
-  readonly selectedTech$ = new BehaviorSubject<Tech>(INITIAL_KNOWLEDGE_BASE_TECH);
-  readonly allAnswers$ = this.answerProviderService.getAllAnswers();
+  private readonly selectedTech$ = new BehaviorSubject<Tech>(INITIAL_KNOWLEDGE_BASE_TECH);
+  private readonly allAnswers$ = this.answerProviderService.getAllAnswers();
   
-  readonly selectedTechKnowledgeBase$: Observable<Map<string, DictionaryAnswer>> = this.selectedTech$.pipe(
-    withLatestFrom(this.allAnswers$),
-    map(([selectedTech, allAnswers]) => {
-      const matchedTechAnswers = allAnswers.find(answers => {
-        const techTopics = Array.from(answers.keys());
-        return !!techTopics.length && techTopics[0].split(':')[0] === selectedTech;
-      })
-      return matchedTechAnswers ?? new Map();
-    }),
+  readonly selectedTechKnowledgeBase$: Observable<Map<string, DictionaryAnswer>> = 
+    combineLatest([this.selectedTech$, this.allAnswers$]).pipe(
+      map(([selectedTech, allAnswers]) => {
+        const matchedTechAnswers = allAnswers.find(answers => {
+          const techTopics = Array.from(answers.keys());
+          return !!techTopics.length && techTopics[0].split(':')[0] === selectedTech;
+        })
+        return matchedTechAnswers ?? new Map();
+      }),
   );
 
-  constructor(
-    private readonly answerProviderService: AnswerProviderService,
-    private readonly selectedTechService: SelectedTechService,
-  ) {}
+  constructor(private readonly answerProviderService: AnswerProviderService) {}
 
   selectTech(tech: Tech): void {
     this.selectedTech$.next(tech);

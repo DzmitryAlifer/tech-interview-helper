@@ -1,5 +1,7 @@
 :host {
+    height: 85vh;;
     justify-content: center;
+    overflow: auto;
     position: relative;
     top: 120px;
     width: 100%;
@@ -31,6 +33,7 @@
 }
 
 .speech {
+    color:grey;
     margin-top: 12px;
     text-align: center;
 }

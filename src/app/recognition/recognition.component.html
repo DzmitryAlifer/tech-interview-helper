@@ -11,10 +11,7 @@
             (touchleave)="stopVoiceRecognition()">
             <mat-icon>mic</mat-icon>
         </button>
-    </div>
-    <div class="speech">
-        <mat-icon>mic</mat-icon>
-        <span>{{data.pronouncedText}}</span>
+        <span class="speech"><b><i>{{data.pronouncedText}}</i></b></span>
     </div>
 
     <ng-container *ngFor="let oneTechDictionaryAnswers of data.allDictionaryAnswers">
