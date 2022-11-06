@@ -3,8 +3,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Tech } from 'src/types';
 import { map } from 'rxjs';
 
-const INITIAL_KNOWLEDGE_BASE_TECH = Tech.CSS;
-const ENABLED_TECHS_BY_DEFAULT: string[] = [Tech.CSS];
+const INITIAL_KNOWLEDGE_BASE_TECH = Tech.ANGULAR;
+const ENABLED_TECHS_BY_DEFAULT: string[] = [Tech.ANGULAR];
 
 
 @Injectable({providedIn: 'root'})
