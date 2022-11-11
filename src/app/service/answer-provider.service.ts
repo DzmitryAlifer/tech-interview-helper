@@ -39,7 +39,7 @@ export class AnswerProviderService {
 
 function csvDataToDictionaryAnswers(tech: Tech |string, csvData: string): Map<string, DictionaryAnswer> {
   const dictionaryAnswers = new Map<string, DictionaryAnswer>();
-  const csvToRowArray = csvData.split('\n');
+  const csvToRowArray = csvData.split('\n').filter(Boolean);
 
   for (let index = 1; index < csvToRowArray.length; index++) {
     const row = csvToRowArray[index].split(',');
