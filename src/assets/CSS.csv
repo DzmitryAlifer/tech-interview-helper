@@ -1,4 +1,5 @@
 topic,words,answer
+HTML5 APIs,html,audio and video API; canvas; different kinds of < input > tag; drag'n'drop; form validation; localStorage IndexedDB etc; web components; Web Sockets; Service Workers; Geolocation; Blobs
 DOM,dom dome document object don't,<i>Document Object Model</i> connects web pages to scripts or programming languages by representing the in-memory structure of a document (e.g. web page). DOM represents a document with a logical tree. Each branch of the tree ends in a node and each node contains objects. DOM methods allow programmatic access to the tree. With them you can change the document's structure or style or content.<br><br>Nodes can also have event handlers attached to them. Once an event is triggered the event handlers get executed.
 CSS,css cascade style sheet shit,<i>CSS</i> - language that determines how the elements in the page are shown. <i>CSS</i> is used to develop a consistent look and feel for all the pages. It allows to separate the style from layout.
 CSS box model,box model mother,Each HTML element is wrapped into a rectangular box. It has <i>height</i> <i>width</i> <i>padding</i> <i>border</i> and <i>margin</i>.
