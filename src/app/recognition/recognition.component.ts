@@ -11,6 +11,7 @@ import { DictionaryAnswer } from 'src/types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Recognition {
+  fontSizePx = 16;
   private allAnswers: DictionaryAnswer[][] = [];
   readonly pronouncedText$: Observable<string> = this.voiceRecognitionService.getPronouncedText();
   readonly allDictionaryAnswers$ = new BehaviorSubject<DictionaryAnswer[][]>([]);
@@ -35,5 +36,11 @@ export class Recognition {
     this.allDictionaryAnswers$.next([]);
   }
 
-
+  textDecrease(): void {
+    this.fontSizePx--;
+  }
+  
+  textIncrease(): void {
+    this.fontSizePx++;
+  }
 }

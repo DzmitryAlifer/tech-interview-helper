@@ -3,11 +3,23 @@
     pronouncedText: pronouncedText$ | async
 } as data">
     <div class="button-bar">
+        <button class="text-size" mat-fab color="primary" (click)="textDecrease()">
+            <mat-icon>text_decrease</mat-icon>
+        </button>
+        <button class="text-size" mat-fab color="primary" (click)="textIncrease()">
+            <mat-icon>text_increase</mat-icon>
+        </button>
         <button class="clean" mat-fab color="primary" (click)="cleanup()">
             <mat-icon>delete</mat-icon>
         </button>
-        <button class="start-stop" mat-fab color="primary" mat-raised-button (mouseenter)="startVoiceRecognition()"
-            (touchenter)="startVoiceRecognition()" (mouseleave)="stopVoiceRecognition()"
+        <button 
+            class="start-stop"
+            mat-fab 
+            color="primary" 
+            mat-raised-button 
+            (mouseenter)="startVoiceRecognition()"
+            (touchenter)="startVoiceRecognition()" 
+            (mouseleave)="stopVoiceRecognition()"
             (touchleave)="stopVoiceRecognition()">
             <mat-icon>mic</mat-icon>
         </button>
@@ -15,7 +27,10 @@
     </div>
 
     <ng-container *ngFor="let oneTechDictionaryAnswers of data.allDictionaryAnswers">
-        <mat-card class="answer" *ngFor="let dictionaryAnswer of oneTechDictionaryAnswers">
+        <mat-card 
+            *ngFor="let dictionaryAnswer of oneTechDictionaryAnswers"
+            class="answer"
+            [style.font-size.px]="fontSizePx">
             <p class="topic"><b>{{dictionaryAnswer.topic}}</b></p>
             <p innerHTML="{{dictionaryAnswer.answer}}"></p>
         </mat-card>
