@@ -3,10 +3,16 @@
     pronouncedText: pronouncedText$ | async
 } as data">
     <div class="button-bar">
-        <button class="text-size" mat-fab color="primary" (click)="textDecrease()">
+        <button class="text-size" mat-fab color="primary" (click)="decreaseText()">
             <mat-icon>text_decrease</mat-icon>
         </button>
-        <button class="text-size" mat-fab color="primary" (click)="textIncrease()">
+        <button class="text-size" mat-fab color="primary" (click)="squeezeCard()">
+            <mat-icon>text_increase</mat-icon>
+        </button>
+        <button class="text-size" mat-fab color="primary" (click)="squeezeCard()">
+            <mat-icon>text_decrease</mat-icon>
+        </button>
+        <button class="text-size" mat-fab color="primary" (click)="widenCard()">
             <mat-icon>text_increase</mat-icon>
         </button>
         <button class="clean" mat-fab color="primary" (click)="cleanup()">
@@ -30,7 +36,8 @@
         <mat-card 
             *ngFor="let dictionaryAnswer of oneTechDictionaryAnswers"
             class="answer"
-            [style.font-size.px]="fontSizePx">
+            [style.font-size.px]="fontSizePx"
+            [style.width.px]="answerCardWidthPx">
             <p class="topic"><b>{{dictionaryAnswer.topic}}</b></p>
             <p innerHTML="{{dictionaryAnswer.answer}}"></p>
         </mat-card>

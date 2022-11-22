@@ -4,6 +4,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { DictionaryAnswer } from 'src/types';
 
 
+const SIZE_STEP_PX = 16;
+
+
 @Component({
   selector: 'recognition',
   templateUrl: './recognition.component.html',
@@ -12,6 +15,7 @@ import { DictionaryAnswer } from 'src/types';
 })
 export class Recognition {
   fontSizePx = 16;
+  answerCardWidthPx = 400;
   private allAnswers: DictionaryAnswer[][] = [];
   readonly pronouncedText$: Observable<string> = this.voiceRecognitionService.getPronouncedText();
   readonly allDictionaryAnswers$ = new BehaviorSubject<DictionaryAnswer[][]>([]);
@@ -36,11 +40,19 @@ export class Recognition {
     this.allDictionaryAnswers$.next([]);
   }
 
-  textDecrease(): void {
+  decreaseText(): void {
     this.fontSizePx--;
   }
   
-  textIncrease(): void {
+  increaseText(): void {
     this.fontSizePx++;
+  }
+
+  squeezeCard(): void {
+    this.answerCardWidthPx -= SIZE_STEP_PX;
+  }
+
+  widenCard(): void {
+    this.answerCardWidthPx += SIZE_STEP_PX;
   }
 }
