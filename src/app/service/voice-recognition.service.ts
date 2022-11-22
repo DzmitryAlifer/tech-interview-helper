@@ -40,6 +40,7 @@ export class VoiceRecognitionService {
   }
 
   start() {
+    this.recognition.stop();
     this.recognition.start();
   }
 
