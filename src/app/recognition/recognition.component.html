@@ -3,17 +3,17 @@
     pronouncedText: pronouncedText$ | async
 } as data">
     <div class="button-bar">
-        <button class="text-size" mat-fab color="primary" (click)="decreaseText()">
+        <button class="text-size-button" mat-fab color="primary" (click)="decreaseText()">
             <mat-icon>text_decrease</mat-icon>
         </button>
-        <button class="text-size" mat-fab color="primary" (click)="increaseText()">
+        <button class="text-size-button" mat-fab color="primary" (click)="increaseText()">
             <mat-icon>text_increase</mat-icon>
         </button>
-        <button class="text-size" mat-fab color="primary" (click)="squeezeCard()">
-            <mat-icon>text_decrease</mat-icon>
+        <button class="card-size-button" mat-fab color="primary" (click)="squeezeCard()">
+            <mat-icon>unfold_less</mat-icon>
         </button>
-        <button class="text-size" mat-fab color="primary" (click)="widenCard()">
-            <mat-icon>text_increase</mat-icon>
+        <button class="card-size-button" mat-fab color="primary" (click)="widenCard()">
+            <mat-icon>unfold_more</mat-icon>
         </button>
         <button class="clean" mat-fab color="primary" (click)="cleanup()">
             <mat-icon>delete</mat-icon>
