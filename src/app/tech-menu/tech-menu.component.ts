@@ -23,4 +23,8 @@ export class TechMenu {
   signIn(): void {
     firebase.signInWithGoogle();
   }
+
+  signOut(): void {
+    firebase.signOut();
+  }
 }

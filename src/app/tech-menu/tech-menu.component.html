@@ -1,6 +1,5 @@
-<button mat-raised-button (onclick)="signIn()">
-    Sign In
-  </button>
+<button mat-raised-button (click)="signIn()">Sign In</button>
+<button mat-raised-button (click)="signOut()">Sign Out</button>
 
 <div class="button-bar" *ngIf="{techStatuses: techStatuses$ | async} as data">
     <button *ngFor="let tech of techs"

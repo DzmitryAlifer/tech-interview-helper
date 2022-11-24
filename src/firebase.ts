@@ -10,6 +10,11 @@ import {
   setDoc,
 } from 'firebase/firestore';
 
+export default interface User {
+  displayName: string;
+  photoURL: string;
+  email: string;
+}
 
 const config = {
   apiKey: 'AIzaSyBxfkwcHwkojE_-lTJpSU0YHqVyxFJmr9s',
@@ -29,7 +34,7 @@ export const authentication = getAuth(app);
 
 export async function signInWithGoogle() {
   const { user } = await signInWithPopup(authentication, provider);
-  const documentReference = doc(database, FirestoreCollection.USERS, user.uid);
+  const documentReference = doc(database, 'users', user.uid);
   const snapshot = await getDoc(documentReference);
   if (!snapshot.exists()) {
     await registerUser(documentReference);
@@ -38,4 +43,16 @@ export async function signInWithGoogle() {
 
 export async function signOut() {
   await authentication.signOut();
+}
+
+export async function registerUser(reference: DocumentReference) {
+  const { currentUser } = authentication;
+  if (!currentUser) return;
+  const { displayName, photoURL, email } = currentUser;
+  const data: User = {
+    displayName: displayName || '',
+    photoURL: photoURL || '',
+    email: email || '',
+  };
+  await setDoc(reference, data);
 }
