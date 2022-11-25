@@ -7,6 +7,11 @@ export enum Tech {
     NGRX = 'NgRx',
 }
 
+export enum Theme {
+    LIGHT = 'light',
+    DARK = 'dark',
+}
+
 export interface DictionaryAnswer {
     topic: string;
     dictionary: string[];

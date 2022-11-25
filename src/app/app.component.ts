@@ -3,6 +3,7 @@ import { VoiceRecognitionService } from './service/voice-recognition.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DictionaryAnswer } from 'src/types';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

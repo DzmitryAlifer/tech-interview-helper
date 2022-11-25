@@ -1,8 +1,8 @@
 <mat-toolbar *ngIf="{user: user$ | async} as data" color="primary">
     <span>Tech Interview Helper</span>
     <span class="spacer"></span>
-    <button mat-icon-button>
-        <mat-icon>brightness_4</mat-icon>
+    <button mat-icon-button (click)="toggleTheme()">
+        <mat-icon>{{isDarkTheme ? 'brightness_4' : 'brightness_5'}}</mat-icon>
     </button>
     <button *ngIf="!data.user" mat-icon-button (click)="signIn()">
         <mat-icon>login</mat-icon>
