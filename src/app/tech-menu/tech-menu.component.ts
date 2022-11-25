@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Tech } from 'src/types';
 import { SelectedTechService } from '../service/selected-tech.service';
-import * as firebase from '../../firebase';
+
 
 @Component({
   selector: 'tech-menu',
@@ -18,13 +18,5 @@ export class TechMenu {
 
   toggleTechRecognition(tech: Tech): void {
     this.selectedTechService.toggleTechRecognition(tech);
-  }
-
-  signIn(): void {
-    firebase.signInWithGoogle();
-  }
-
-  signOut(): void {
-    firebase.signOut();
   }
 }

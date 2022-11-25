@@ -11,11 +11,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { RecognitionModule } from './recognition/recognition.module';
 import { KnowledgeSidebarModule } from './knowledge-sidebar/knowledge-sidebar.module';
 import { ToolbarModule } from './toolbar/toolbar.module';
-
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,

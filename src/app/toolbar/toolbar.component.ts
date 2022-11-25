@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { tap } from 'rxjs/operators';
+import { AuthService } from '../service/auth.service';
 
 
 @Component({
@@ -8,5 +10,15 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToolbarComponent {
+  readonly user$ = this.authService.authenticatedUser$.pipe(tap(console.log));
 
+  constructor(private readonly authService: AuthService) {}
+
+  signIn(): void {
+    this.authService.googleAuth();
+  }
+
+  signOut(): void {
+    this.authService.signOut();
+  }
 }
