@@ -4,15 +4,16 @@
     overflow: auto;
     position: relative;
     top: 80px;
-    width: 100%;
+    width: 40%;
 }
 
 .button-bar {
     position: fixed;
-    top: 0;
+    top: -20px;
     width: calc(100% - 120px);
 
     button {
+        box-shadow: none;
         margin: 8px 12px;
 
         &.start-stop {

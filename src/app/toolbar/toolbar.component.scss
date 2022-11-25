@@ -1,0 +1,11 @@
+@import '../../styles.scss';
+
+.mat-toolbar {
+    height: $header-height;
+    position: fixed;
+    width: 100%;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}

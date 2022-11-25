@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { RecognitionModule } from './recognition/recognition.module';
 import { KnowledgeSidebarModule } from './knowledge-sidebar/knowledge-sidebar.module';
+import { ToolbarModule } from './toolbar/toolbar.module';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { KnowledgeSidebarModule } from './knowledge-sidebar/knowledge-sidebar.mo
     MatIconModule,
     RecognitionModule,
     TechMenuModule,
+    ToolbarModule,
   ],
   bootstrap: [AppComponent],
 })

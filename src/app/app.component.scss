@@ -1,3 +1,7 @@
-:host {
+@import '../styles.scss';
+
+.container {
     display: flex;
+    position: fixed;
+    top: $header-height;
 }
