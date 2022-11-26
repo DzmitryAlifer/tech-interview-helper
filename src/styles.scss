@@ -1,34 +1,6 @@
+@import 'themes';
+
 $header-height: 48px;
-
-:root {
-    --theme-background: white;
-    --theme-color: black;
-}
-
-:root[theme=dark] {
-    --theme-background: #222;
-    --theme-color: rgba(255,255,255,.75);
-
-    ::-webkit-scrollbar {
-        background-color: #444;
-    }
-
-    ::-webkit-scrollbar-track {
-        background-color: #444;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background-color: #888;
-        border-radius: 6px;
-        border: 3px solid #444;
-    }
-}
-
-html {
-    background: var(--theme-background);
-    color: var(--theme-color);
-    transition: all ease-in-out 400ms;
-}
 
 html, 
 body {

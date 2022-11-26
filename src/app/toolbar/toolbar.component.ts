@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { tap } from 'rxjs/operators';
-import { Theme } from 'src/types';
-import { AuthService } from '../service/auth.service';
-import { ThemeService } from '../service/theme.service';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {map} from 'rxjs/operators';
+import {Theme} from 'src/types';
+import {AuthService} from '../service/auth.service';
+import {ThemeService} from '../service/theme.service';
 
 
 @Component({
@@ -12,13 +12,17 @@ import { ThemeService } from '../service/theme.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToolbarComponent {
-  isDarkTheme = this.themeService.getTheme() === Theme.DARK;
-  readonly user$ = this.authService.authenticatedUser$.pipe(tap(console.log));
-
+  readonly isDarkTheme$ = this.themeService.theme$.pipe(map(theme => theme === Theme.DARK));
+  readonly user$ = this.authService.authenticatedUser$;
+  
   constructor(
     private readonly authService: AuthService,
     private readonly themeService: ThemeService,
   ) {}
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
 
   signIn(): void {
     this.authService.googleAuth();
@@ -27,10 +31,4 @@ export class ToolbarComponent {
   signOut(): void {
     this.authService.signOut();
   }
-
-  toggleTheme(): void {
-    this.isDarkTheme = !this.isDarkTheme;
-    this.themeService.setTheme(this.isDarkTheme ? Theme.DARK : Theme.LIGHT);
-  }
-
 }

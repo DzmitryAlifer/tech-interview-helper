@@ -1,7 +1,11 @@
-<toolbar></toolbar>
+<div *ngIf="{isDarkTheme: isDarkTheme$ | async} as data" 
+    [class.app-mat-theme-dark]="data.isDarkTheme" 
+    [class.app-mat-theme-light]="!data.isDarkTheme">
+    <toolbar></toolbar>
 
-<div class="container">
-    <knowledge-sidebar></knowledge-sidebar>
-    <recognition></recognition>
-    <tech-menu></tech-menu>
+    <div class="container">
+        <knowledge-sidebar></knowledge-sidebar>
+        <recognition></recognition>
+        <tech-menu></tech-menu>
+    </div>
 </div>

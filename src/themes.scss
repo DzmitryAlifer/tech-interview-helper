@@ -1,0 +1,65 @@
+:root {
+    --theme-background: white;
+    --theme-color: black;
+}
+
+:root[theme=dark] {
+    --theme-background: #222;
+    --theme-color: rgba(255, 255, 255, .75);
+
+    ::-webkit-scrollbar {
+        background-color: #444;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: #444;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 6px;
+        border: 3px solid #444;
+    }
+}
+
+html {
+    background: var(--theme-background);
+    color: var(--theme-color);
+    transition: all ease-in-out 400ms;
+}
+
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+@mixin define-css-classes($theme) {
+    @include angular-material-theme($theme);
+
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    .theme-dependent-colors {
+        background: mat-color($primary);
+        color: mat-color($accent);
+    }
+}
+
+$app-themes: (app-mat-theme: (primary-base: $mat-indigo, accent-base: $mat-pink));
+
+@each $css-class,
+$theme in $app-themes {
+    $primary: if(map-has-key($theme, primary), map-get($theme, primary), mat-palette(map-get($theme, primary-base)));
+    $accent: if(map-has-key($theme, accent), map-get($theme, accent), mat-palette(map-get($theme, accent-base)));
+    $warn: if(map-has-key($theme, warn), map-get($theme, warn), mat-palette(if(map-has-key($theme, warn-base), map-get($theme, warn-base), $mat-red)));
+
+    .#{$css-class} {
+        @include define-css-classes(mat-light-theme($primary, $accent, $warn));
+    }
+
+    .#{$css-class}-dark {
+        @include define-css-classes(mat-dark-theme($primary, $accent, $warn));
+    }
+}
