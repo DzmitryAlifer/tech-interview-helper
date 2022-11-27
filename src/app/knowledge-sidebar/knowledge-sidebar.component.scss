@@ -15,7 +15,7 @@
 
 .expand-collapse-buttons {
     position: absolute;
-    top: -48px;
+    top: -$header-height;
 
     button {
         box-shadow: none;
@@ -35,7 +35,7 @@
 
 .button-bar {
     display: grid;
-    height: 100vh;
+    height: calc(100vh - $header-height);
     position: fixed;
     z-index: 10;
 
