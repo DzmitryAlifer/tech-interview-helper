@@ -1,14 +1,16 @@
+@import '../../styles.scss';
+
 :host {
-    height: 90vh;
+    height: calc(100vh - $header-height);
     justify-content: center;
     overflow: auto;
     position: relative;
-    top: 80px;
 }
 
 .button-bar {
     position: fixed;
     top: -20px;
+    z-index: 10;
 
     button {
         box-shadow: none;
