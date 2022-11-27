@@ -1,8 +1,8 @@
-$button-bar-width: 64px;
+@import '../../styles';
 
 :host {
     display: flex;
-    height: 100vh;
+    height: calc(100vh - $header-height);;
     overflow: auto;
     width: 50%;
 }
