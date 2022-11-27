@@ -3,9 +3,8 @@
 :host {
     display: flex;
     height: calc(100vh - $header-height);
-    min-width: 600px;
+    width: 500px;
     overflow: auto;
-    width: 50%;
 }
 
 .knowledge {

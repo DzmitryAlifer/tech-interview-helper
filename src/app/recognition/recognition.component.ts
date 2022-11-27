@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { VoiceRecognitionService } from '../service/voice-recognition.service';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { DictionaryAnswer } from 'src/types';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {VoiceRecognitionService} from '../service/voice-recognition.service';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {DictionaryAnswer} from 'src/types';
 
 
-const SIZE_STEP_PX = 16;
+const INITIAL_ANSWER_CARD_WIDTH_PX = 400;
+const ANSWER_CARD_WIDTH_STEP_PX = 16;
+const INITIAL_FONT_SIZE_PX = 16;
 
 
 @Component({
@@ -14,8 +16,8 @@ const SIZE_STEP_PX = 16;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Recognition {
-  fontSizePx = 16;
-  answerCardWidthPx = 400;
+  fontSizePx = INITIAL_FONT_SIZE_PX;
+  answerCardWidthPx = INITIAL_ANSWER_CARD_WIDTH_PX;
   private allAnswers: DictionaryAnswer[][] = [];
   readonly pronouncedText$: Observable<string> = this.voiceRecognitionService.getPronouncedText();
   readonly allDictionaryAnswers$ = new BehaviorSubject<DictionaryAnswer[][]>([]);
@@ -49,10 +51,10 @@ export class Recognition {
   }
 
   squeezeCard(): void {
-    this.answerCardWidthPx -= SIZE_STEP_PX;
+    this.answerCardWidthPx -= ANSWER_CARD_WIDTH_STEP_PX;
   }
 
   widenCard(): void {
-    this.answerCardWidthPx += SIZE_STEP_PX;
+    this.answerCardWidthPx += ANSWER_CARD_WIDTH_STEP_PX;
   }
 }

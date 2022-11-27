@@ -17,27 +17,29 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
+import { MeetingModule } from './meeting/meeting.module';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
-    AngularFirestoreModule,
-    AngularFireStorageModule,
-    AngularFireDatabaseModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    BrowserModule,
-    HttpClientModule,
-    KnowledgeSidebarModule,
-    MatButtonModule,
-    MatCardModule,
-    MatIconModule,
-    RecognitionModule,
-    TechMenuModule,
-    ToolbarModule,
-  ],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent],
+    bootstrap: [AppComponent],
+    imports: [
+      AngularFireModule.initializeApp(environment.firebase),
+      AngularFireAuthModule,
+      AngularFirestoreModule,
+      AngularFireStorageModule,
+      AngularFireDatabaseModule,
+      AppRoutingModule,
+      BrowserAnimationsModule,
+      BrowserModule,
+      HttpClientModule,
+      KnowledgeSidebarModule,
+      MatButtonModule,
+      MatCardModule,
+      MatIconModule,
+      MeetingModule,
+      RecognitionModule,
+      TechMenuModule,
+      ToolbarModule,
+    ],
 })
-export class AppModule { }
+export class AppModule {}

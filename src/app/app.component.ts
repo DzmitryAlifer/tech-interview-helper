@@ -1,7 +1,9 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {SafeResourceUrl} from '@angular/platform-browser';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {DictionaryAnswer, Theme} from 'src/types';
+import {DataService} from './service/data.service';
 import {ThemeService} from './service/theme.service';
 import {VoiceRecognitionService} from './service/voice-recognition.service';
 
@@ -17,8 +19,10 @@ export class AppComponent {
   readonly pronouncedText$: Observable<string> = this.voiceRecognitionService.getPronouncedText();
   readonly allDictionaryAnswers$ = new BehaviorSubject<DictionaryAnswer[][]>([]); 
   readonly isDarkTheme$ = this.themeService.theme$.pipe(map(theme => theme === Theme.DARK));
+  readonly meetingUrl$: Observable<SafeResourceUrl> = this.dataService.getUrl();
   
   constructor(
+    private readonly dataService: DataService,
     private readonly themeService: ThemeService,
     private readonly voiceRecognitionService : VoiceRecognitionService,
   ) {

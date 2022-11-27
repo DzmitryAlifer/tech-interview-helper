@@ -6,6 +6,15 @@
     width: 100%;
 }
 
+.meeting-link-field {
+    font-size: 12px;
+
+    button {
+        box-shadow: none;
+        top: 6px;
+    }
+}
+
 .spacer {
     flex: 1 1 auto;
 }

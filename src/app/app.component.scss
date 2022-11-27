@@ -1,7 +1,13 @@
 @import '../styles.scss';
 
-.container {
+.outer-container {
     display: flex;
-    position: fixed;
+}
+
+.inner-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
     top: $header-height;
+    width: 100%;
 }

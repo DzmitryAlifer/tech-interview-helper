@@ -3,6 +3,15 @@
     user: user$ | async
 } as data" color="primary">
     <span class="spacer"></span>
+    <mat-form-field class="meeting-link-field">
+        <mat-label>Meeting link</mat-label>
+        <input matInput type="text" [formControl]="meetingLink" />
+        <button mat-fab color="primary" (click)="openMeeting()">
+            <mat-icon>meeting_room</mat-icon>
+        </button>
+    </mat-form-field>
+    <span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span>
+    
     <button mat-icon-button (click)="toggleTheme()">
         <mat-icon>{{data.isDarkTheme ? 'brightness_5' : 'brightness_4'}}</mat-icon>
     </button>

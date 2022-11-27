@@ -1,11 +1,17 @@
-<div *ngIf="{isDarkTheme: isDarkTheme$ | async} as data" 
+<div *ngIf="{
+    isDarkTheme: isDarkTheme$ | async,
+    meetingUrl: meetingUrl$ | async
+} as data" 
     [class.app-mat-theme-dark]="data.isDarkTheme" 
     [class.app-mat-theme-light]="!data.isDarkTheme">
     <toolbar></toolbar>
 
-    <div class="container">
-        <knowledge-sidebar></knowledge-sidebar>
-        <recognition></recognition>
-        <tech-menu></tech-menu>
+    <div class="outer-container">
+        <div class="inner-container">
+            <knowledge-sidebar></knowledge-sidebar>
+            <recognition></recognition>
+            <tech-menu></tech-menu>
+        </div>
+        <meeting *ngIf="data.meetingUrl" [url]="data.meetingUrl"></meeting>
     </div>
 </div>
