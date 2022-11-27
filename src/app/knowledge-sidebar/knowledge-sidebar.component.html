@@ -6,7 +6,9 @@
 
 <div class="knowledge">
     <div *ngFor="let topicAnswer of (selectedTechKnowledgeBase$ | async) | keyvalue">
-        <p><b>{{topicAnswer.key.split(':')[1]}}</b></p>
-        <p class="answer" [innerHtml]="topicAnswer.value.answer"></p>
+        <details>
+            <summary><b>{{topicAnswer.key.split(':')[1]}}</b></summary>
+            <p class="answer" [innerHtml]="topicAnswer.value.answer"></p>
+        </details>
     </div>
 </div>

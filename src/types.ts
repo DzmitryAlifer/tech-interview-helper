@@ -5,6 +5,7 @@ export enum Tech {
     ANGULAR = 'Angular',
     RXJS = 'RxJS',
     NGRX = 'NgRx',
+    CODING = 'Coding',
 }
 
 export enum Theme {
