@@ -9,10 +9,13 @@
 }
 
 .knowledge {
-    padding-left: $button-bar-width + 12px;
+    padding: 12px 12px 12px $button-bar-width + 12px;
+    width: calc(100% - $button-bar-width);
+}
+
+.expand-collapse-buttons {
     position: absolute;
     top: -48px;
-    width: calc(100% - $button-bar-width);
 
     button {
         box-shadow: none;
