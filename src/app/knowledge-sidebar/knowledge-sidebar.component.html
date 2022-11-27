@@ -5,10 +5,16 @@
 </mat-button-toggle-group>
 
 <div class="knowledge">
-    <div *ngFor="let topicAnswer of (selectedTechKnowledgeBase$ | async) | keyvalue">
-        <details>
-            <summary><b>{{topicAnswer.key.split(':')[1]}}</b></summary>
-            <p class="answer" [innerHtml]="topicAnswer.value.answer"></p>
-        </details>
-    </div>
+    <button mat-fab color="primary" (click)="expandAll()">
+        <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+    
+    <button mat-fab color="primary" (click)="collapseAll()">
+        <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+
+    <details #details *ngFor="let topicAnswer of (selectedTechKnowledgeBase$ | async) | keyvalue">
+        <summary><b>{{topicAnswer.key.split(':')[1]}}</b></summary>
+        <p class="answer" [innerHtml]="topicAnswer.value.answer"></p>
+    </details>
 </div>

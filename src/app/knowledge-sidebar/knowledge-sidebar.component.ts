@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { DictionaryAnswer, Tech } from 'src/types';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,6 +15,8 @@ const INITIAL_KNOWLEDGE_BASE_TECH = Tech.CSS;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KnowledgeSidebar {
+  @ViewChildren('details') detailsElements!: QueryList<ElementRef>;
+  
   readonly techs = Object.values(Tech);
   private readonly selectedTech$ = new BehaviorSubject<Tech>(INITIAL_KNOWLEDGE_BASE_TECH);
   private readonly allAnswers$ = this.answerProviderService.getAllAnswers();
@@ -34,5 +36,13 @@ export class KnowledgeSidebar {
 
   selectTech(tech: Tech): void {
     this.selectedTech$.next(tech);
+  }
+
+  expandAll(): void {
+    this.detailsElements.forEach(details => details.nativeElement.setAttribute('open', ''));
+  }
+
+  collapseAll(): void {
+    this.detailsElements.forEach(details => details.nativeElement.removeAttribute('open'));
   }
 }

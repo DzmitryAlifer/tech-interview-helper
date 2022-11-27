@@ -9,9 +9,20 @@
 }
 
 .knowledge {
-    border-right: 1px solid lightgray;
     padding-left: $button-bar-width + 12px;
+    position: absolute;
+    top: -48px;
     width: calc(100% - $button-bar-width);
+
+    button {
+        box-shadow: none;
+
+        mat-icon {
+            font-size: 40px;
+            line-height: 24px;
+            padding-right: 16px;
+        }
+    }
 }
 
 .answer {
@@ -23,6 +34,7 @@
     display: grid;
     height: 100vh;
     position: fixed;
+    z-index: 10;
 
     ::ng-deep {
         .mat-button-toggle-button {
