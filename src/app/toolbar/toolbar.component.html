@@ -15,15 +15,26 @@
     <button mat-icon-button (click)="toggleTheme()">
         <mat-icon>{{data.isDarkTheme ? 'brightness_5' : 'brightness_4'}}</mat-icon>
     </button>
+    
+    <button mat-icon-button [matMenuTriggerFor]="settingsMenu">
+        <mat-icon>settings</mat-icon>
+    </button>
+    <mat-menu #settingsMenu="matMenu">
+        <button mat-menu-item (click)="openTechs()">
+            <mat-icon>checklist</mat-icon>Toggle technologies
+        </button>
+    </mat-menu>
+    
     <button *ngIf="!data.user" mat-icon-button (click)="signIn()">
         <mat-icon>login</mat-icon>
     </button>
-    <button *ngIf="data.user" mat-icon-button>
-        <img class="user-img" [src]="data.user.photoURL"  [matMenuTriggerFor]="menu">
+    
+    <button *ngIf="data.user" mat-icon-button [matMenuTriggerFor]="userMenu">
+        <img class="user-img" [src]="data.user.photoURL">
     </button>
-    <mat-menu #menu="matMenu">
+    <mat-menu #userMenu="matMenu">
         <button mat-menu-item  (click)="signOut()">
             <mat-icon>logout</mat-icon>Sign Out
         </button>
-      </mat-menu>
+    </mat-menu>
 </mat-toolbar>

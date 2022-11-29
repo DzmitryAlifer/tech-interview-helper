@@ -3,6 +3,7 @@
 :host {
     height: calc(100vh - $header-height);
     justify-content: center;
+    min-width: 400px;
     overflow: auto;
     position: relative;
 }

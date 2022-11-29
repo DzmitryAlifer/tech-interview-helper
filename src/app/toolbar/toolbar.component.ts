@@ -35,6 +35,10 @@ export class ToolbarComponent {
     this.themeService.toggleTheme();
   }
 
+  openTechs(): void {
+
+  }
+
   signIn(): void {
     this.authService.googleAuth();
   }
