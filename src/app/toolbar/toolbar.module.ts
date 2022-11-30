@@ -5,6 +5,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {ToolbarComponent} from './toolbar.component';
 
@@ -16,6 +17,7 @@ import {ToolbarComponent} from './toolbar.component';
     MatIconModule,
     MatInputModule,
     MatMenuModule,
+    MatSidenavModule,
     MatToolbarModule,
     ReactiveFormsModule,
   ],

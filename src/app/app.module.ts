@@ -6,6 +6,7 @@ import { TechMenuModule } from './tech-menu/tech-menu.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { RecognitionModule } from './recognition/recognition.module';
@@ -18,6 +19,8 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
 import { MeetingModule } from './meeting/meeting.module';
+import { SettingsPanelModule } from './settings-panel/settings-panel.module';
+
 
 @NgModule({
     declarations: [AppComponent],
@@ -36,8 +39,10 @@ import { MeetingModule } from './meeting/meeting.module';
       MatButtonModule,
       MatCardModule,
       MatIconModule,
+      MatSidenavModule,
       MeetingModule,
       RecognitionModule,
+      SettingsPanelModule,
       TechMenuModule,
       ToolbarModule,
     ],
