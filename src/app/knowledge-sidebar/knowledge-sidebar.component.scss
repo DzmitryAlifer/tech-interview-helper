@@ -13,8 +13,9 @@
 }
 
 .expand-collapse-buttons {
-    position: absolute;
-    top: -$header-height;
+    position: fixed;
+    top: 0px;
+    z-index: 10;
 
     button {
         box-shadow: none;

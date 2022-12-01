@@ -1,5 +1,13 @@
 @import '../styles.scss';
 
+mat-sidenav-container {
+    top: $header-height;
+}
+
+.side-panel {
+    overflow: hidden;
+}
+
 .outer-container {
     display: flex;
 }
@@ -8,6 +16,6 @@
     display: flex;
     justify-content: center;
     position: relative;
-    top: $header-height;
+    // top: $header-height;
     width: 100%;
 }

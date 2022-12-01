@@ -6,14 +6,16 @@
     [class.app-mat-theme-dark]="data.isDarkTheme" 
     [class.app-mat-theme-light]="!data.isDarkTheme">
     <mat-sidenav-container>
-        <toolbar></toolbar>
-        <div class="outer-container">
-            <div class="inner-container">
-                <knowledge-sidebar></knowledge-sidebar>
-                <recognition></recognition>
-                <tech-menu></tech-menu>
+        <mat-sidenav-content class="side-panel">
+            <toolbar></toolbar>
+            <div class="outer-container">
+                <div class="inner-container">
+                    <knowledge-sidebar></knowledge-sidebar>
+                    <recognition></recognition>
+                    <tech-menu></tech-menu>
+                </div>
             </div>
-        </div>
+        </mat-sidenav-content>
         <mat-sidenav #settings  mode="over" position="end">
             <settings-panel></settings-panel>
         </mat-sidenav>
