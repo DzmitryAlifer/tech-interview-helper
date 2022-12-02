@@ -10,6 +10,8 @@ import {
   getFirestore,
   setDoc,
   Firestore,
+  query,
+  where,
 } from 'firebase/firestore';
 
 export interface User {
@@ -68,13 +70,10 @@ export async function registerUser(reference: DocumentReference) {
 export async function getCurrentUserSettings() {
   const { currentUser } = authentication;
   if (!currentUser) return;
-  const documentReference = doc(database, 'settings', currentUser?.uid ?? '');
-  const snapshot = await getDoc<DocumentData>(documentReference);
-
-  if (snapshot.exists()) {
-    console.log("Document data:", snapshot.data());
-  } else {
-    console.log("No such document!");
-  }
-  return snapshot;
+  const settingsRef = collection(database, 'settings');
+  const queryResult = query(settingsRef, where('userUid', '==', currentUser?.uid ?? ''));
+  const querySnapshot = await getDocs(queryResult);
+  querySnapshot.forEach((doc) => {
+    console.log(doc.id, " => ", doc.data());
+  });
 }
