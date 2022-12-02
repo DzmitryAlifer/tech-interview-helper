@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import * as auth from 'firebase/auth';
-// import * as firebase from 'firebase/app';
 import firebase from 'firebase/compat/app';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/compat/firestore';
 import {Router} from '@angular/router';
 import {merge, Observable, Subject} from 'rxjs';
+import {getUserSettings} from './firebase';
 
 
 export default interface User {
@@ -29,6 +29,10 @@ export class AuthService {
   ) {
     this.authenticatedUser$.subscribe(user => {
       localStorage.setItem('user', user ? JSON.stringify(user) : 'null');
+      
+      getUserSettings().then(settings => {
+        localStorage.setItem('settings', JSON.stringify(settings));
+      });
     });
   }
 

@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
+import {Tech} from 'src/types';
+import {Settings} from './firebase';
 
 
 @Injectable({providedIn: 'root'})
@@ -16,5 +18,19 @@ export class SettingsService {
   closeSettings(): void {
     this.isOpen = false;
     this.isOpenSettingsSubject$.next(this.isOpen);
+  }
+
+  getSettings(): Settings|null {
+    const settingsString = localStorage.getItem('settings');
+
+    if (!settingsString) {
+      return null;
+    }
+
+    return JSON.parse(settingsString) as Settings;
+  }
+
+  getEnabledTechs(): Tech[] {
+    return this.getSettings()?.enabledTechs ?? [];
   }
 }

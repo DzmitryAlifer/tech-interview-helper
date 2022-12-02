@@ -1,4 +1,3 @@
-import { DocumentData } from '@angular/fire/compat/firestore';
 import {initializeApp} from 'firebase/app';
 import {GoogleAuthProvider, getAuth, signInWithPopup} from 'firebase/auth';
 import {
@@ -13,6 +12,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
+import { Tech } from 'src/types';
 
 export interface User {
   uid?: string;
@@ -23,7 +23,7 @@ export interface User {
 
 export interface Settings {
   userUid: string;
-  enabledTechs: string[];
+  enabledTechs: Tech[];
 }
 
 const config = {
@@ -41,15 +41,17 @@ const provider = new GoogleAuthProvider();
 const database: Firestore = getFirestore(app);
 const authentication = getAuth(app);
 
-export async function signInWithGoogle() {
-  const { user } = await signInWithPopup(authentication, provider);
-  const documentReference = doc(database, 'users', user.uid);
-  const snapshot = await getDoc(documentReference);
+// export async function signInWithGoogle() {
+//   const { user } = await signInWithPopup(authentication, provider);
+//   const documentReference = doc(database, 'users', user.uid);
+//   const snapshot = await getDoc(documentReference);
   
-  if (!snapshot.exists()) {
-    await registerUser(documentReference);
-  }
-}
+//   if (!snapshot.exists()) {
+//     await registerUser(documentReference);
+//   } else {
+//     const settings = getCurrentUserSettings();
+//   }
+// }
 
 export async function signOut() {
   await authentication.signOut();
@@ -67,13 +69,27 @@ export async function registerUser(reference: DocumentReference) {
   await setDoc(reference, data);
 }
 
-export async function getCurrentUserSettings() {
-  const { currentUser } = authentication;
-  if (!currentUser) return;
+export async function getUserSettings(): Promise<Settings|null> {
+  const {currentUser} = authentication;
+  
+  if (!currentUser) {
+    return null;
+  }
+
   const settingsRef = collection(database, 'settings');
   const queryResult = query(settingsRef, where('userUid', '==', currentUser?.uid ?? ''));
   const querySnapshot = await getDocs(queryResult);
-  querySnapshot.forEach((doc) => {
-    console.log(doc.id, " => ", doc.data());
-  });
+
+  return querySnapshot.size ? querySnapshot.docs[0].data() as Settings : null;
+}
+
+export async function saveUserSettings(settings: Settings) {
+  const {currentUser} = authentication;
+  
+  if (!currentUser) {
+    return;
+  }
+  
+  const documentRef = doc(database, 'settings', currentUser.uid);
+  await setDoc(documentRef, settings);
 }
