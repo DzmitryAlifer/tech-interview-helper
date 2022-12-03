@@ -31,7 +31,7 @@ export class SettingsService {
   }
 
   getEnabledTechs(): Tech[] {
-    return this.getSettings()?.enabledTechs ?? [];
+    return this.getSettings()?.enabledTechs ?? Object.values(Tech);
   }
 
   saveSettings(settings: Settings) {
