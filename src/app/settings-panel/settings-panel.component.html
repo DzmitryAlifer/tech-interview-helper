@@ -7,12 +7,15 @@
 
 <mat-divider></mat-divider>
 
-<form [formGroup]="settingsForm">
-    <mat-form-field *ngFor="let tech of techs">
-        <mat-slide-toggle
-            [formControlName]="tech"
-            [checked]="enabledTechs.includes(tech.toString())" color="primary">{{tech}}</mat-slide-toggle>
-    </mat-form-field>
+<form [formGroup]="settingsForm" (ngSubmit)="saveSettings()">
+    <mat-slide-toggle 
+        *ngFor="let tech of techs"
+        [formControlName]="tech"
+        [checked]="enabledTechs.includes(tech.toString())"
+        color="primary">
+        {{tech}}
+    </mat-slide-toggle>
+
+    <button mat-raised-button color="primary" type="submit">Save</button>
 </form>
 
-<button mat-raised-button color="primary">Save</button>
