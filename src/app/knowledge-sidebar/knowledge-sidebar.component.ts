@@ -50,4 +50,8 @@ export class KnowledgeSidebar {
   collapseAll(): void {
     this.detailsElements.forEach(details => details.nativeElement.removeAttribute('open'));
   }
+
+  addAnswer(): void {
+    
+  }
 }

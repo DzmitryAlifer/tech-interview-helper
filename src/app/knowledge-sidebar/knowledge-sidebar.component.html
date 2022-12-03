@@ -1,16 +1,19 @@
-<mat-button-toggle-group class="button-bar" name="tech">
+<mat-button-toggle-group class="vertical-button-bar" name="tech">
     <mat-button-toggle *ngFor="let tech of techs$ | async" (change)="selectTech(tech)">
         <b>{{tech}}</b>
     </mat-button-toggle>
 </mat-button-toggle-group>
 
 <div class="knowledge">
-    <div class="expand-collapse-buttons">
+    <div class="horizontal-button-bar">
         <button mat-fab color="primary" (click)="expandAll()">
-            <mat-icon>keyboard_arrow_down</mat-icon>
+            <mat-icon class="expand">keyboard_arrow_down</mat-icon>
         </button>
         <button mat-fab color="primary" (click)="collapseAll()">
-            <mat-icon>keyboard_arrow_up</mat-icon>
+            <mat-icon class="collapse">keyboard_arrow_up</mat-icon>
+        </button>
+        <button mat-fab color="primary" (click)="addAnswer()">
+            <mat-icon class="new-answer">assignment_add</mat-icon>
         </button>
     </div>
 
