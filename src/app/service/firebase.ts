@@ -22,7 +22,7 @@ export interface User {
 }
 
 export interface Settings {
-  userUid: string;
+  userUid?: string;
   enabledTechs: Tech[];
 }
 
@@ -37,59 +37,38 @@ const config = {
 };
 
 const app = initializeApp(config);
-const provider = new GoogleAuthProvider();
 const database: Firestore = getFirestore(app);
 const authentication = getAuth(app);
-
-// export async function signInWithGoogle() {
-//   const { user } = await signInWithPopup(authentication, provider);
-//   const documentReference = doc(database, 'users', user.uid);
-//   const snapshot = await getDoc(documentReference);
-  
-//   if (!snapshot.exists()) {
-//     await registerUser(documentReference);
-//   } else {
-//     const settings = getCurrentUserSettings();
-//   }
-// }
 
 export async function signOut() {
   await authentication.signOut();
 }
 
 export async function registerUser(reference: DocumentReference) {
-  const { currentUser } = authentication;
-  if (!currentUser) return;
-  const { displayName, photoURL, email } = currentUser;
-  const data: User = {
-    displayName: displayName || '',
-    photoURL: photoURL || '',
-    email: email || '',
-  };
-  await setDoc(reference, data);
+  if (!authentication.currentUser) return;
+
+  await setDoc(reference, {
+    displayName: authentication.currentUser.displayName ?? '',
+    photoURL: authentication.currentUser.photoURL ?? '',
+    email: authentication.currentUser.email ?? '',
+  });
 }
 
 export async function getUserSettings(): Promise<Settings|null> {
-  const {currentUser} = authentication;
-  
-  if (!currentUser) {
-    return null;
-  }
+  if (!authentication.currentUser?.uid) return null;
 
-  const settingsRef = collection(database, 'settings');
-  const queryResult = query(settingsRef, where('userUid', '==', currentUser?.uid ?? ''));
-  const querySnapshot = await getDocs(queryResult);
+  const reference = doc(database, 'settings', authentication.currentUser.uid);
+  const snapshot = await getDoc(reference);
 
-  return querySnapshot.size ? querySnapshot.docs[0].data() as Settings : null;
+  return snapshot.exists() ? snapshot.data() as Settings : null;
 }
 
-export async function saveUserSettings(settings: Settings) {
-  const {currentUser} = authentication;
+export function saveUserSettings(settings: Settings) {
+  if (!authentication.currentUser?.uid) return;
   
-  if (!currentUser) {
-    return;
-  }
+  const documentRef = doc(database, 'settings', authentication.currentUser.uid);
   
-  const documentRef = doc(database, 'settings', currentUser.uid);
-  await setDoc(documentRef, settings);
+  setDoc(documentRef, settings).then(() => {
+    localStorage.setItem('settings', JSON.stringify(settings));
+  });
 }

@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
-import { DictionaryAnswer, Tech } from 'src/types';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AnswerProviderService } from '../service/answer-provider.service';
+import {ChangeDetectionStrategy, Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
+import {DictionaryAnswer, Tech} from 'src/types';
+import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {AnswerProviderService} from '../service/answer-provider.service';
+import {SettingsService} from '../service/settings.service';
 
 
 const INITIAL_KNOWLEDGE_BASE_TECH = Tech.CSS;
@@ -17,7 +18,7 @@ const INITIAL_KNOWLEDGE_BASE_TECH = Tech.CSS;
 export class KnowledgeSidebar {
   @ViewChildren('details') detailsElements!: QueryList<ElementRef>;
   
-  readonly techs = Object.values(Tech);
+  readonly techs: Tech[] = this.settingsService.getEnabledTechs();
   private readonly selectedTech$ = new BehaviorSubject<Tech>(INITIAL_KNOWLEDGE_BASE_TECH);
   private readonly allAnswers$ = this.answerProviderService.getAllAnswers();
   
@@ -32,7 +33,10 @@ export class KnowledgeSidebar {
       }),
   );
 
-  constructor(private readonly answerProviderService: AnswerProviderService) {}
+  constructor(
+    private readonly answerProviderService: AnswerProviderService,
+    private readonly settingsService: SettingsService,
+  ) {}
 
   selectTech(tech: Tech): void {
     this.selectedTech$.next(tech);

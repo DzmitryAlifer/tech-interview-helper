@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 import {Tech} from 'src/types';
-import {Settings} from './firebase';
+import {saveUserSettings, Settings} from './firebase';
 
 
 @Injectable({providedIn: 'root'})
@@ -35,6 +35,6 @@ export class SettingsService {
   }
 
   saveSettings(settings: Settings) {
-    
+    saveUserSettings(settings);
   }
 }

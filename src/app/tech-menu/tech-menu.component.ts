@@ -12,7 +12,7 @@ import {SettingsService} from '../service/settings.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TechMenu {
-  readonly enabledTechs: Tech[] = this.settingsService.getEnabledTechs();
+  readonly techs: Tech[] = this.settingsService.getEnabledTechs();
   readonly techStatuses$: Observable<Map<Tech, boolean>> = this.selectedTechService.getSelectedTechsMap();
 
   constructor(

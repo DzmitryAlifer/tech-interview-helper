@@ -7,7 +7,7 @@ import {getUserSettings, Settings} from '../service/firebase';
 import {SettingsService} from '../service/settings.service';
 
 interface EnabledTechsForm {
-  [tech: string]: FormControl;
+  [tech: string]: FormControl<boolean|null>;
 }
 
 interface SettingsForm {
@@ -22,20 +22,22 @@ interface SettingsForm {
 })
 export class SettingsPanelComponent implements OnInit, AfterViewInit {
   readonly techs = Object.values(Tech);
-  private readonly settings : Settings = JSON.parse(localStorage.getItem('settings') ?? '');
-  enabledTechs: string[] = this.settings.enabledTechs;
+  private readonly settings: Settings = JSON.parse(localStorage.getItem('settings') ?? '');
+  enabledTechs: string[] = this.settings?.enabledTechs ?? this.techs;
   
-  readonly settingsForm = new FormGroup({});
+  readonly enabledTechsForm = new FormGroup<EnabledTechsForm>({});
 
   constructor(private readonly settingsService: SettingsService) {}
 
   ngOnInit(): void {
-    this.techs.forEach(tech => this.settingsForm.addControl(tech, new FormControl()));
+    this.techs.forEach(tech => {
+      this.enabledTechsForm.addControl(tech, this.createToggleControl(tech));
+    });
   }
 
   async ngAfterViewInit() {
     const settings = await getUserSettings();
-    this.enabledTechs = settings?.enabledTechs ?? [];
+    this.enabledTechs = settings?.enabledTechs ?? this.enabledTechs;
   }
 
   close(): void {
@@ -43,7 +45,17 @@ export class SettingsPanelComponent implements OnInit, AfterViewInit {
   }
 
   saveSettings(): void {
-    const settings = {} as Settings; 
-    this.settingsService.saveSettings(settings);
+    this.settingsService.saveSettings({enabledTechs: this.getEnabledTechFields()});
+  }
+
+  private createToggleControl(tech: Tech): FormControl<boolean|null> {
+    const isChecked = this.enabledTechs.includes(tech.toString());
+    return new FormControl<boolean>(isChecked);
+  }
+
+  private getEnabledTechFields(): Tech[] {
+    return Object.entries(this.enabledTechsForm.value)
+        .filter(entry => entry[1])
+        .map(entry => entry[0]) as Tech[];
   }
 }
