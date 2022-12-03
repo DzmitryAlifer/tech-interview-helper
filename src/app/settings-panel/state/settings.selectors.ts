@@ -7,5 +7,17 @@ export const selectSettings = createFeatureSelector<Settings>('settings');
 
 export const selectEnabledTechs = createSelector(
     selectSettings,
-    ({enabledTechs}) => enabledTechs,
+    settingsState => {
+        if (settingsState.enabledTechs.length) {
+            return settingsState.enabledTechs;
+        } 
+        
+        const settingsString = localStorage.getItem('settings');
+
+        if (!settingsString) {
+            return Object.values(Tech);
+        } 
+
+        return (JSON.parse(settingsString) as Settings).enabledTechs;
+    },
 );
