@@ -28,7 +28,7 @@ html {
     transition: all ease-in-out 400ms;
 }
 
-@import '~@angular/material/theming';
+@import '@angular/material/theming';
 
 @include mat-core();
 
