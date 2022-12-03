@@ -25,8 +25,7 @@ interface SettingsForm {
 export class SettingsPanelComponent implements OnInit, AfterViewInit {
   readonly techs = Object.values(Tech);
   private readonly settings: Settings = JSON.parse(localStorage.getItem('settings') ?? '');
-  enabledTechs: string[] = this.settings?.enabledTechs ?? this.techs;
-  
+  private enabledTechs: Tech[] = this.settings?.enabledTechs ?? this.techs;
   readonly enabledTechsForm = new FormGroup<EnabledTechsForm>({});
 
   constructor(
@@ -35,9 +34,7 @@ export class SettingsPanelComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.techs.forEach(tech => {
-      this.enabledTechsForm.addControl(tech, this.createToggleControl(tech));
-    });
+    this.setToggleControls();
   }
 
   async ngAfterViewInit() {
@@ -47,6 +44,7 @@ export class SettingsPanelComponent implements OnInit, AfterViewInit {
 
   close(): void {
     this.settingsService.closeSettings();
+    this.setToggleControls();
   }
 
   saveSettings(): void {
@@ -54,8 +52,8 @@ export class SettingsPanelComponent implements OnInit, AfterViewInit {
     this.store.dispatch(updateSettings(settings));
   }
 
-  private createToggleControl(tech: Tech): FormControl<boolean|null> {
-    const isChecked = this.enabledTechs.includes(tech.toString());
+  private createToggleControl(enabledTechs: Tech[], tech: Tech): FormControl<boolean|null> {
+    const isChecked = enabledTechs.includes(tech);
     return new FormControl<boolean>(isChecked);
   }
 
@@ -63,5 +61,11 @@ export class SettingsPanelComponent implements OnInit, AfterViewInit {
     return Object.entries(this.enabledTechsForm.value)
         .filter(entry => entry[1])
         .map(entry => entry[0]) as Tech[];
+  }
+
+  private setToggleControls(): void {
+    this.techs.forEach(tech => {
+      this.enabledTechsForm.setControl(tech, this.createToggleControl(this.enabledTechs, tech));
+    });
   }
 }
