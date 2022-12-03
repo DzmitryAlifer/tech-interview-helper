@@ -1,7 +1,5 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {from, Observable} from 'rxjs';
-import {filter, map, tap} from 'rxjs/operators';
 import {Tech} from 'src/types';
 import {getUserSettings, Settings} from '../service/firebase';
 import {SettingsService} from '../service/settings.service';

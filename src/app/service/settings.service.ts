@@ -35,6 +35,7 @@ export class SettingsService {
   }
 
   saveSettings(settings: Settings) {
+    this.closeSettings();
     saveUserSettings(settings);
   }
 }

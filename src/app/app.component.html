@@ -5,7 +5,7 @@
 } as data" 
     [class.app-mat-theme-dark]="data.isDarkTheme" 
     [class.app-mat-theme-light]="!data.isDarkTheme">
-    <mat-sidenav-container>
+    <mat-sidenav-container (backdropClick)="closeSidePanel()">
         <mat-sidenav-content class="side-panel">
             <toolbar></toolbar>
             <div class="outer-container">

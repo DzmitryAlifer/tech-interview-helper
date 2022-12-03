@@ -54,4 +54,8 @@ export class AppComponent {
     this.allAnswers = [];
     this.allDictionaryAnswers$.next([]);
   }
+
+  closeSidePanel(): void {
+    this.settingsService.closeSettings();
+  }
 }
