@@ -1,5 +1,8 @@
-<div class="button-bar" *ngIf="{techStatuses: techStatuses$ | async} as data">
-    <button *ngFor="let tech of techs"
+<div class="button-bar" *ngIf="{
+    techStatuses: techStatuses$ | async,
+    techs: techs$ | async
+} as data">
+    <button *ngFor="let tech of data.techs"
         class="tech-button"
         mat-raised-button
         [color]="data.techStatuses?.get(tech) ? 'primary' : 'basic'"

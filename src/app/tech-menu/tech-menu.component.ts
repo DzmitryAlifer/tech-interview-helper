@@ -1,8 +1,9 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {Tech} from 'src/types';
 import {SelectedTechService} from '../service/selected-tech.service';
-import {SettingsService} from '../service/settings.service';
+import {selectEnabledTechs} from '../settings-panel/state/settings.selectors';
 
 
 @Component({
@@ -12,12 +13,12 @@ import {SettingsService} from '../service/settings.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TechMenu {
-  readonly techs: Tech[] = this.settingsService.getEnabledTechs();
+  readonly techs$: Observable<Tech[]> = this.store.select(selectEnabledTechs);
   readonly techStatuses$: Observable<Map<Tech, boolean>> = this.selectedTechService.getSelectedTechsMap();
 
   constructor(
     private readonly selectedTechService: SelectedTechService,
-    private readonly settingsService: SettingsService,
+    private readonly store: Store,
   ) {}
 
   toggleTechRecognition(tech: Tech): void {

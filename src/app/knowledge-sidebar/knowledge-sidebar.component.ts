@@ -1,9 +1,10 @@
 import {ChangeDetectionStrategy, Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
+import {Store} from '@ngrx/store';
 import {DictionaryAnswer, Tech} from 'src/types';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {AnswerProviderService} from '../service/answer-provider.service';
-import {SettingsService} from '../service/settings.service';
+import {selectEnabledTechs} from '../settings-panel/state/settings.selectors';
 
 
 const INITIAL_KNOWLEDGE_BASE_TECH = Tech.CSS;
@@ -18,7 +19,7 @@ const INITIAL_KNOWLEDGE_BASE_TECH = Tech.CSS;
 export class KnowledgeSidebar {
   @ViewChildren('details') detailsElements!: QueryList<ElementRef>;
   
-  readonly techs: Tech[] = this.settingsService.getEnabledTechs();
+  readonly techs$: Observable<Tech[]> = this.store.select(selectEnabledTechs);
   private readonly selectedTech$ = new BehaviorSubject<Tech>(INITIAL_KNOWLEDGE_BASE_TECH);
   private readonly allAnswers$ = this.answerProviderService.getAllAnswers();
   
@@ -35,7 +36,7 @@ export class KnowledgeSidebar {
 
   constructor(
     private readonly answerProviderService: AnswerProviderService,
-    private readonly settingsService: SettingsService,
+    private readonly store: Store,
   ) {}
 
   selectTech(tech: Tech): void {

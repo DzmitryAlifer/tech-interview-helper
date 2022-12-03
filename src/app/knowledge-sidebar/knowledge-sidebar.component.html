@@ -1,5 +1,5 @@
 <mat-button-toggle-group class="button-bar" name="tech">
-    <mat-button-toggle *ngFor="let tech of techs" (change)="selectTech(tech)">
+    <mat-button-toggle *ngFor="let tech of techs$ | async" (change)="selectTech(tech)">
         <b>{{tech}}</b>
     </mat-button-toggle>
 </mat-button-toggle-group>

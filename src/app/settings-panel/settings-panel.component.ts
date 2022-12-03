@@ -1,8 +1,11 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
+import {Store} from '@ngrx/store';
 import {Tech} from 'src/types';
 import {getUserSettings, Settings} from '../service/firebase';
 import {SettingsService} from '../service/settings.service';
+import {updateSettings} from './state/settings.actions';
+
 
 interface EnabledTechsForm {
   [tech: string]: FormControl<boolean|null>;
@@ -11,6 +14,7 @@ interface EnabledTechsForm {
 interface SettingsForm {
   enabledTechs: EnabledTechsForm;
 }
+
 
 @Component({
   selector: 'settings-panel',
@@ -25,7 +29,10 @@ export class SettingsPanelComponent implements OnInit, AfterViewInit {
   
   readonly enabledTechsForm = new FormGroup<EnabledTechsForm>({});
 
-  constructor(private readonly settingsService: SettingsService) {}
+  constructor(
+    private readonly settingsService: SettingsService,
+    private readonly store: Store,
+  ) {}
 
   ngOnInit(): void {
     this.techs.forEach(tech => {
@@ -43,7 +50,8 @@ export class SettingsPanelComponent implements OnInit, AfterViewInit {
   }
 
   saveSettings(): void {
-    this.settingsService.saveSettings({enabledTechs: this.getEnabledTechFields()});
+    const settings: Settings = {enabledTechs: this.getEnabledTechFields()};
+    this.store.dispatch(updateSettings(settings));
   }
 
   private createToggleControl(tech: Tech): FormControl<boolean|null> {
