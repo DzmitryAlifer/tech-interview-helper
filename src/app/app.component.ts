@@ -42,11 +42,11 @@ export class AppComponent {
     });
   }
 
-  startVoiceRecognition(){
+  startVoiceRecognition(): void {
     this.voiceRecognitionService.start();
   }
 
-  stopVoiceRecognition(){
+  stopVoiceRecognition(): void {
     this.voiceRecognitionService.stop();
   }
 
