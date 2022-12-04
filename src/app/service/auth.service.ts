@@ -4,7 +4,9 @@ import firebase from 'firebase/compat/app';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/compat/firestore';
 import {Router} from '@angular/router';
+import {Store} from '@ngrx/store';
 import {merge, Observable, Subject} from 'rxjs';
+import {updateSettings} from '../settings-panel/state/settings.actions';
 import {getUserSettings} from './firebase';
 
 
@@ -26,11 +28,13 @@ export class AuthService {
     private readonly fireAuth: AngularFireAuth,
     private readonly firestore: AngularFirestore,
     private readonly router: Router,
+    private readonly store: Store,
   ) {
     this.authenticatedUser$.subscribe(user => {
       localStorage.setItem('user', user ? JSON.stringify(user) : 'null');
       
       getUserSettings().then(settings => {
+        this.store.dispatch(updateSettings({enabledTechs: settings?.enabledTechs ?? []}));
         localStorage.setItem('settings', JSON.stringify(settings));
       });
     });
