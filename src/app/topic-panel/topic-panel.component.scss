@@ -1,0 +1,27 @@
+@import '../../styles.scss';
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: $topic-panel-width;
+
+    h2 {
+        margin: auto 16px;
+    }
+}
+
+form {
+    padding: 24px;
+}
+
+.footer {
+    bottom: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+
+    button {
+        margin: 16px;
+        padding: 12px 48px;
+    }
+}

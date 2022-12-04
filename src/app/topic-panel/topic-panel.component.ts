@@ -15,4 +15,8 @@ export class TopicPanelComponent {
   close(): void {
     this.rightSidePanelService.close();
   }
+
+  saveTopic(): void {
+    
+  }
 }

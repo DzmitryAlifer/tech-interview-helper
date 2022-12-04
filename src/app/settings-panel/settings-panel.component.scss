@@ -1,7 +1,9 @@
+@import '../../styles.scss';
+
 .header {
     display: flex;
     justify-content: space-between;
-    width: 300px;
+    width: $settings-panel-width;
 
     h2 {
         margin: auto 16px;
