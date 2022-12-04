@@ -8,7 +8,7 @@
         <mat-hint>Technology</mat-hint>
     </mat-form-field>
 
-    <mat-form-field *ngIf="isNewTechSelected" appearance="outline">
+    <mat-form-field *ngIf="isNewTechSelected" class="new-tech" appearance="outline">
         <mat-label>New technology</mat-label>
         <input matInput [formControl]="newTechField" required placeholder="new technology">
         <mat-hint>New technology</mat-hint>
@@ -23,7 +23,7 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Dictionary</mat-label>
-        <mat-chip-grid #keywordChips aria-label="Enter keywords" [formControl]="dictionaryField">
+        <mat-chip-grid #keywordChips [formControl]="dictionaryField" required>
             <mat-chip-row *ngFor="let keyword of keywords" (removed)="removeKeyword(keyword)">
                 {{keyword}}
                 <button matChipRemove>
@@ -34,13 +34,12 @@
         <input 
             [matChipInputFor]="keywordChips" 
             (matChipInputTokenEnd)="addKeyword($event)" 
-            placeholder="New keyword..." />
+            placeholder="new keyword..." />
         <mat-hint>Dictionary</mat-hint>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field class="answer" appearance="outline">
         <mat-label>Answer</mat-label>
-        <input matInput [formControl]="answerField" required placeholder="answer">
-        <mat-hint>Answer</mat-hint>
+        <textarea matInput [formControl]="answerField" required rows="5" placeholder="answer"></textarea>
     </mat-form-field>
 </form>
