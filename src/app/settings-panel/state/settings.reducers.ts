@@ -13,6 +13,5 @@ export const initialState: Settings = {
 
 export const settingsReducer = createReducer(
     initialState,
-    on(updateSettings, (state, {enabledTechs}) => 
-    ({...state, enabledTechs})),
+    on(updateSettings, (state, {enabledTechs}) => ({...state, enabledTechs})),
 );

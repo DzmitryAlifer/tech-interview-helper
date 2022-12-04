@@ -13,6 +13,11 @@ export enum Theme {
     DARK = 'dark',
 }
 
+export enum Panel {
+    SETTINGS = 'settings',
+    TOPIC = 'topic',
+}
+
 export interface DictionaryAnswer {
     topic: string;
     dictionary: string[];

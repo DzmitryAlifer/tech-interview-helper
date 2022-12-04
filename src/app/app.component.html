@@ -1,6 +1,6 @@
 <div *ngIf="{
+    activePanel: activePanel$ | async,
     isDarkTheme: isDarkTheme$ | async,
-    isOpenPanel: isOpenPanel$ | async,
     meetingUrl: meetingUrl$ | async
 } as data" 
     [class.app-mat-theme-dark]="data.isDarkTheme" 
@@ -17,7 +17,10 @@
             </div>
         </mat-sidenav-content>
         <mat-sidenav #rightSidePanel  mode="over" position="end">
-            <settings-panel></settings-panel>
+            <ng-container [ngSwitch]="data.activePanel">
+                <settings-panel *ngSwitchCase="Panel.SETTINGS"></settings-panel>
+                <topic-panel *ngSwitchCase="Panel.TOPIC"></topic-panel>
+            </ng-container>
         </mat-sidenav>
     </mat-sidenav-container>
 </div>

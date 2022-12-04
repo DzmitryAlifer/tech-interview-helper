@@ -1,10 +1,12 @@
 import {ChangeDetectionStrategy, Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {DictionaryAnswer, Tech} from 'src/types';
+import {DictionaryAnswer, Panel, Tech} from 'src/types';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {AnswerProviderService} from '../service/answer-provider.service';
+import {RightSidePanelService} from '../service/right-side-panel.service';
 import {selectEnabledTechs} from '../settings-panel/state/settings.selectors';
+import {setActivePanel} from '../state/app.actions';
 
 
 const INITIAL_KNOWLEDGE_BASE_TECH = Tech.CSS;
@@ -36,6 +38,7 @@ export class KnowledgeSidebar {
 
   constructor(
     private readonly answerProviderService: AnswerProviderService,
+    private readonly rightSidePanelService: RightSidePanelService,
     private readonly store: Store,
   ) {}
 
@@ -51,7 +54,8 @@ export class KnowledgeSidebar {
     this.detailsElements.forEach(details => details.nativeElement.removeAttribute('open'));
   }
 
-  addAnswer(): void {
-    
+  openTopicPanel(): void {
+    this.store.dispatch(setActivePanel({activePanel: Panel.TOPIC}));
+    this.rightSidePanelService.toggle()
   }
 }

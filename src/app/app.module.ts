@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {StoreModule} from '@ngrx/store';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TechMenuModule } from './tech-menu/tech-menu.module';
@@ -20,6 +21,8 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
 import { MeetingModule } from './meeting/meeting.module';
 import { SettingsPanelModule } from './settings-panel/settings-panel.module';
+import {appReducer} from './state/app.reducers';
+import {TopicPanelModule} from './topic-panel/topic-panel.module';
 
 
 @NgModule({
@@ -43,8 +46,11 @@ import { SettingsPanelModule } from './settings-panel/settings-panel.module';
       MeetingModule,
       RecognitionModule,
       SettingsPanelModule,
+      StoreModule.forRoot({}),
+      StoreModule.forFeature('app', appReducer),
       TechMenuModule,
       ToolbarModule,
+      TopicPanelModule,
     ],
 })
 export class AppModule {}

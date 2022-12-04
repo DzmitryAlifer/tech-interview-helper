@@ -1,10 +1,12 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormControl} from '@angular/forms';
+import {Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
-import {Theme} from 'src/types';
+import {Panel, Theme} from 'src/types';
 import {AuthService} from '../service/auth.service';
 import {RightSidePanelService} from '../service/right-side-panel.service';
 import {ThemeService} from '../service/theme.service';
+import {setActivePanel} from '../state/app.actions';
 
 
 @Component({
@@ -22,6 +24,7 @@ export class ToolbarComponent {
   constructor(
     private readonly authService: AuthService,
     private readonly rightSidePanelService: RightSidePanelService,
+    private readonly store: Store,
     private readonly themeService: ThemeService,
   ) {}
 
@@ -30,6 +33,7 @@ export class ToolbarComponent {
   }
 
   toggleSettings(): void {
+    this.store.dispatch(setActivePanel({activePanel: Panel.SETTINGS}));
     this.rightSidePanelService.toggle();
   }
 
