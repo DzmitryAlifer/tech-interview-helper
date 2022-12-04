@@ -5,7 +5,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {DictionaryAnswer, Theme} from 'src/types';
 import {DataService} from './service/data.service';
-import {SettingsService} from './service/settings.service';
+import {RightSidePanelService} from './service/right-side-panel.service';
 import {ThemeService} from './service/theme.service';
 import {VoiceRecognitionService} from './service/voice-recognition.service';
 
@@ -17,18 +17,18 @@ import {VoiceRecognitionService} from './service/voice-recognition.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  @ViewChild('settings') settings!: MatSidenav;
+  @ViewChild('rightSidePanel') rightSidePanel!: MatSidenav;
 
   private allAnswers: DictionaryAnswer[][] = [];
   readonly pronouncedText$: Observable<string> = this.voiceRecognitionService.getPronouncedText();
   readonly allDictionaryAnswers$ = new BehaviorSubject<DictionaryAnswer[][]>([]); 
   readonly isDarkTheme$ = this.themeService.theme$.pipe(map(theme => theme === Theme.DARK));
   readonly meetingUrl$: Observable<SafeResourceUrl> = this.dataService.getUrl();
-  readonly isOpenSettings$ = this.settingsService.isOpenSettings$;
+  readonly isOpenPanel$ = this.rightSidePanelService.isOpenPanel$;
   
   constructor(
     private readonly dataService: DataService,
-    private readonly settingsService: SettingsService,
+    private readonly rightSidePanelService: RightSidePanelService,
     private readonly themeService: ThemeService,
     private readonly voiceRecognitionService : VoiceRecognitionService,
   ) {
@@ -37,8 +37,8 @@ export class AppComponent {
       this.allDictionaryAnswers$.next(this.allAnswers);
     });
 
-    this.isOpenSettings$.subscribe(isOpen => {
-      isOpen ? this.settings.open() : this.settings.close();
+    this.isOpenPanel$.subscribe(isOpen => {
+      isOpen ? this.rightSidePanel.open() : this.rightSidePanel.close();
     });
   }
 
@@ -56,6 +56,6 @@ export class AppComponent {
   }
 
   closeSidePanel(): void {
-    this.settingsService.closeSettings();
+    this.rightSidePanelService.close();
   }
 }

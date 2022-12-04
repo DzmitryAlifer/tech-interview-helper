@@ -1,6 +1,6 @@
 <div *ngIf="{
     isDarkTheme: isDarkTheme$ | async,
-    isOpenSettings: isOpenSettings$ | async,
+    isOpenPanel: isOpenPanel$ | async,
     meetingUrl: meetingUrl$ | async
 } as data" 
     [class.app-mat-theme-dark]="data.isDarkTheme" 
@@ -16,7 +16,7 @@
                 </div>
             </div>
         </mat-sidenav-content>
-        <mat-sidenav #settings  mode="over" position="end">
+        <mat-sidenav #rightSidePanel  mode="over" position="end">
             <settings-panel></settings-panel>
         </mat-sidenav>
     </mat-sidenav-container>

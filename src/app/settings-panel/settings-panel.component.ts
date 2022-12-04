@@ -3,7 +3,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {Tech} from 'src/types';
 import {getUserSettings, Settings} from '../service/firebase';
-import {SettingsService} from '../service/settings.service';
+import {RightSidePanelService} from '../service/right-side-panel.service';
 import {updateSettings} from './state/settings.actions';
 
 
@@ -29,7 +29,7 @@ export class SettingsPanelComponent implements OnInit, AfterViewInit {
   readonly enabledTechsForm = new FormGroup<EnabledTechsForm>({});
 
   constructor(
-    private readonly settingsService: SettingsService,
+    private readonly rightSidePanelService: RightSidePanelService,
     private readonly store: Store,
   ) {}
 
@@ -43,13 +43,14 @@ export class SettingsPanelComponent implements OnInit, AfterViewInit {
   }
 
   close(): void {
-    this.settingsService.closeSettings();
+    this.rightSidePanelService.close();
     this.setToggleControls();
   }
 
   saveSettings(): void {
-    const settings: Settings = {enabledTechs: this.getEnabledTechFields()};
-    this.store.dispatch(updateSettings(settings));
+    const enabledTechs = this.getEnabledTechFields();
+    this.enabledTechs = enabledTechs;
+    this.store.dispatch(updateSettings({enabledTechs}));
   }
 
   private createToggleControl(enabledTechs: Tech[], tech: Tech): FormControl<boolean|null> {

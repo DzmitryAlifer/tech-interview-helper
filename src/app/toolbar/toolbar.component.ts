@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 import {map} from 'rxjs/operators';
 import {Theme} from 'src/types';
 import {AuthService} from '../service/auth.service';
-import {SettingsService} from '../service/settings.service';
+import {RightSidePanelService} from '../service/right-side-panel.service';
 import {ThemeService} from '../service/theme.service';
 
 
@@ -21,7 +21,7 @@ export class ToolbarComponent {
   
   constructor(
     private readonly authService: AuthService,
-    private readonly settingsService: SettingsService,
+    private readonly rightSidePanelService: RightSidePanelService,
     private readonly themeService: ThemeService,
   ) {}
 
@@ -30,7 +30,7 @@ export class ToolbarComponent {
   }
 
   toggleSettings(): void {
-    this.settingsService.toggleSettings();
+    this.rightSidePanelService.toggle();
   }
 
   openTechs(): void {
