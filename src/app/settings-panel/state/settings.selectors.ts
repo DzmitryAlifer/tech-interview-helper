@@ -14,7 +14,7 @@ export const selectEnabledTechs = createSelector(
         
         const settingsString = localStorage.getItem('settings');
 
-        if (!settingsString) {
+        if (!settingsString || settingsString === 'null') {
             return Object.values(Tech);
         } 
 
