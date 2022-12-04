@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {MatSelectChange} from '@angular/material/select';
 import {Observable} from 'rxjs';
-import {debounceTime, filter, map} from 'rxjs/operators';
+import {debounceTime, map} from 'rxjs/operators';
 import {DictionaryAnswer, DictionaryAnswerForm, Tech} from 'src/types';
 
 
@@ -25,9 +25,7 @@ const INPUT_DEBOUNCE_TIME = 200;
     styleUrls: ['./topic-create-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TopicCreateForm implements OnInit {
-    @Output() private dictionaryAnswer = new EventEmitter<DictionaryAnswer|null>();
-
+export class TopicCreateForm {
     isNewTechSelected = false;
     readonly techs = [ADD_NEW_TECH_SELECTION, ...Object.values(Tech)];
     readonly keywords: string[] = [];
@@ -58,7 +56,7 @@ export class TopicCreateForm implements OnInit {
         answerField: this.answerField,
     });
 
-    private readonly topicToSave$: Observable<DictionaryAnswer|null> =
+    readonly dictionaryAnswer$: Observable<DictionaryAnswer|null> =
         this.topicCreateForm.valueChanges.pipe(
             debounceTime(INPUT_DEBOUNCE_TIME),
             map(form => {
@@ -71,12 +69,6 @@ export class TopicCreateForm implements OnInit {
                     {tech, topic, dictionary, answer} :
                     null;
             }));
-
-    ngOnInit(): void {
-        this.topicToSave$.subscribe(topicToSave => {
-            this.dictionaryAnswer.emit(topicToSave);
-        });
-    }
 
     onTechSelect({value}: MatSelectChange): void {
         this.isNewTechSelected = value === ADD_NEW_TECH_SELECTION;
@@ -98,6 +90,10 @@ export class TopicCreateForm implements OnInit {
         }
 
         event.chipInput!.clear();
+    }
+
+    saveTopic(dictionaryAnswer: DictionaryAnswer): void {
+        console.log(dictionaryAnswer);
     }
 
     private getTechFieldValue(form: any): string {

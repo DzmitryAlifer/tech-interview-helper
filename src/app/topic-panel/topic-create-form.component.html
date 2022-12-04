@@ -1,45 +1,60 @@
-<form [formGroup]="topicCreateForm">
-    <div class="tech-fields">
-    <mat-form-field appearance="outline">
-        <mat-label>Technology</mat-label>
-        <mat-select [formControl]="techField" required (selectionChange)="onTechSelect($event)">
-            <mat-option *ngFor="let tech of techs" [value]="tech">{{tech}}</mat-option>
-        </mat-select>
-        <mat-hint>Technology</mat-hint>
-    </mat-form-field>
+<ng-container *ngIf="{
+    dictionaryAnswer : dictionaryAnswer$ | async
+} as data">
+    <form [formGroup]="topicCreateForm">
+        <div class="tech-fields">
+        <mat-form-field appearance="outline">
+            <mat-label>Technology</mat-label>
+            <mat-select [formControl]="techField" required (selectionChange)="onTechSelect($event)">
+                <mat-option *ngFor="let tech of techs" [value]="tech">{{tech}}</mat-option>
+            </mat-select>
+            <mat-hint>Technology</mat-hint>
+        </mat-form-field>
 
-    <mat-form-field *ngIf="isNewTechSelected" class="new-tech" appearance="outline">
-        <mat-label>New technology</mat-label>
-        <input matInput [formControl]="newTechField" required placeholder="new technology">
-        <mat-hint>New technology</mat-hint>
-    </mat-form-field>
+        <mat-form-field *ngIf="isNewTechSelected" class="new-tech" appearance="outline">
+            <mat-label>New technology</mat-label>
+            <input matInput [formControl]="newTechField" required placeholder="new technology">
+            <mat-hint>New technology</mat-hint>
+        </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Topic</mat-label>
+            <input matInput [formControl]="topicField" required placeholder="topic">
+            <mat-hint>Topic</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Dictionary</mat-label>
+            <mat-chip-grid #keywordChips [formControl]="dictionaryField" required>
+                <mat-chip-row *ngFor="let keyword of keywords" (removed)="removeKeyword(keyword)">
+                    {{keyword}}
+                    <button matChipRemove>
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-chip-row>
+            </mat-chip-grid>
+            <input 
+                [matChipInputFor]="keywordChips" 
+                (matChipInputTokenEnd)="addKeyword($event)" 
+                placeholder="new keyword..." />
+            <mat-hint>Dictionary</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field class="answer" appearance="outline">
+            <mat-label>Answer</mat-label>
+            <textarea matInput [formControl]="answerField" required rows="5" placeholder="answer"></textarea>
+        </mat-form-field>
+    </form>
+
+    <div class="footer">
+        <mat-divider></mat-divider>
+        <button 
+            mat-raised-button
+            color="primary"
+            [disabled]="!data.dictionaryAnswer || !topicCreateForm.valid"
+            (click)="saveTopic(data.dictionaryAnswer!)">
+            Save
+        </button>
     </div>
-
-    <mat-form-field appearance="outline">
-        <mat-label>Topic</mat-label>
-        <input matInput [formControl]="topicField" required placeholder="topic">
-        <mat-hint>Topic</mat-hint>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-        <mat-label>Dictionary</mat-label>
-        <mat-chip-grid #keywordChips [formControl]="dictionaryField" required>
-            <mat-chip-row *ngFor="let keyword of keywords" (removed)="removeKeyword(keyword)">
-                {{keyword}}
-                <button matChipRemove>
-                    <mat-icon>cancel</mat-icon>
-                </button>
-            </mat-chip-row>
-        </mat-chip-grid>
-        <input 
-            [matChipInputFor]="keywordChips" 
-            (matChipInputTokenEnd)="addKeyword($event)" 
-            placeholder="new keyword..." />
-        <mat-hint>Dictionary</mat-hint>
-    </mat-form-field>
-
-    <mat-form-field class="answer" appearance="outline">
-        <mat-label>Answer</mat-label>
-        <textarea matInput [formControl]="answerField" required rows="5" placeholder="answer"></textarea>
-    </mat-form-field>
-</form>
+</ng-container>
