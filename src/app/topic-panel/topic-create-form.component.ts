@@ -1,8 +1,10 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import { MatChipInputEvent } from '@angular/material/chips';
+import {MatChipInputEvent} from '@angular/material/chips';
 import {MatSelectChange} from '@angular/material/select';
-import {DictionaryAnswerForm, Tech} from 'src/types';
+import {Observable} from 'rxjs';
+import {debounceTime, filter, map} from 'rxjs/operators';
+import {DictionaryAnswer, DictionaryAnswerForm, Tech} from 'src/types';
 
 
 const ADD_NEW_TECH_SELECTION = 'add new technology...';
@@ -14,6 +16,7 @@ const MIN_ASSOCIATED_KEYWORDS = 1;
 const MAX_ASSOCIATED_KEYWORDS = 10;
 const MIN_ANSWER_LENGTH = 5;
 const MAX_ANSWER_LENGTH = 2000;
+const INPUT_DEBOUNCE_TIME = 200;
 
 
 @Component({
@@ -22,7 +25,9 @@ const MAX_ANSWER_LENGTH = 2000;
     styleUrls: ['./topic-create-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TopicCreateForm {
+export class TopicCreateForm implements OnInit {
+    @Output() private dictionaryAnswer = new EventEmitter<DictionaryAnswer|null>();
+
     isNewTechSelected = false;
     readonly techs = [ADD_NEW_TECH_SELECTION, ...Object.values(Tech)];
     readonly keywords: string[] = [];
@@ -46,12 +51,32 @@ export class TopicCreateForm {
     ]);
     
     readonly topicCreateForm = new FormGroup<DictionaryAnswerForm>({
-        tech: this.techField,
+        techField: this.techField,
         newTechField: this.newTechField,
-        topic: this.topicField,
-        dictionary: this.dictionaryField,
-        answer: this.answerField,
+        topicField: this.topicField,
+        dictionaryField: this.dictionaryField,
+        answerField: this.answerField,
     });
+
+    private readonly topicToSave$: Observable<DictionaryAnswer|null> =
+        this.topicCreateForm.valueChanges.pipe(
+            debounceTime(INPUT_DEBOUNCE_TIME),
+            map(form => {
+                const tech = this.getTechFieldValue(form);
+                const topic = form.topicField?.trim();
+                const dictionary = form.dictionaryField;
+                const answer = form.answerField?.trim();
+
+                return !!tech && !!topic && dictionary?.length && !!answer ?
+                    {tech, topic, dictionary, answer} :
+                    null;
+            }));
+
+    ngOnInit(): void {
+        this.topicToSave$.subscribe(topicToSave => {
+            this.dictionaryAnswer.emit(topicToSave);
+        });
+    }
 
     onTechSelect({value}: MatSelectChange): void {
         this.isNewTechSelected = value === ADD_NEW_TECH_SELECTION;
@@ -73,5 +98,11 @@ export class TopicCreateForm {
         }
 
         event.chipInput!.clear();
+    }
+
+    private getTechFieldValue(form: any): string {
+        return !!form.techField && form.techField !== ADD_NEW_TECH_SELECTION ?
+            form.techField :
+            form.newTechField.trim();
     }
 }

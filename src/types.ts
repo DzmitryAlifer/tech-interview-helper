@@ -22,15 +22,16 @@ export enum Panel {
 }
 
 export interface DictionaryAnswer {
+    tech?: string;
     topic: string;
     dictionary: string[];
     answer: string;
 }
 
 export interface DictionaryAnswerForm {
-    tech: FormControl<string|null>;
+    techField: FormControl<string|null>;
     newTechField: FormControl<string | null>;
-    topic: FormControl<string|null>;
-    dictionary: FormControl<string[]|null>;
-    answer: FormControl<string|null>;
+    topicField: FormControl<string|null>;
+    dictionaryField: FormControl<string[]|null>;
+    answerField: FormControl<string|null>;
 }

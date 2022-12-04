@@ -9,7 +9,7 @@
 
 <mat-tab-group mat-align-tabs="start">
     <mat-tab label="Create">
-        <topic-create-form></topic-create-form>
+        <topic-create-form (dictionaryAnswer)="onFormChange($event)"></topic-create-form>
     </mat-tab>
     <mat-tab label="Update">Update</mat-tab>
     <mat-tab label="Delete">Delete</mat-tab>
@@ -17,5 +17,11 @@
 
 <div class="footer">
     <mat-divider></mat-divider>
-    <button mat-raised-button color="primary" (click)="saveTopic()">Save</button>
+    <button 
+        mat-raised-button 
+        color="primary"
+        [disabled]="!dictionaryAnswer"
+        (click)="saveTopic()">
+        Save
+    </button>
 </div>
