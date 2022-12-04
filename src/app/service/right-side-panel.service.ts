@@ -9,12 +9,15 @@ export class RightSidePanelService {
   readonly isOpenPanel$ = this.isOpenSubject$.asObservable();
   
   toggle(): void {
-    this.isOpen = !this.isOpen;
-    this.isOpenSubject$.next(this.isOpen);
+    this.setToggleState(!this.isOpen);
   }
 
   close(): void {
-    this.isOpen = false;
-    this.isOpenSubject$.next(false);
+    this.setToggleState(false);
+  }
+
+  setToggleState(isOpen: boolean): void {
+    this.isOpen = isOpen;
+    this.isOpenSubject$.next(isOpen);
   }
 }
