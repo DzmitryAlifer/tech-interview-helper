@@ -1,5 +1,5 @@
 import {initializeApp} from 'firebase/app';
-import {GoogleAuthProvider, getAuth, signInWithPopup} from 'firebase/auth';
+import {getAuth} from 'firebase/auth';
 import {
   DocumentReference,
   collection,
@@ -12,7 +12,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
-import { Tech } from 'src/types';
+import { DictionaryAnswer, Tech } from 'src/types';
 
 export interface User {
   uid?: string;
@@ -63,7 +63,7 @@ export async function getUserSettings(): Promise<Settings|null> {
   return snapshot.exists() ? snapshot.data() as Settings : null;
 }
 
-export function saveUserSettings(settings: Settings) {
+export function saveUserSettings(settings: Settings): void {
   if (!authentication.currentUser?.uid) return;
   
   const documentRef = doc(database, 'settings', authentication.currentUser.uid);
@@ -71,4 +71,11 @@ export function saveUserSettings(settings: Settings) {
   setDoc(documentRef, settings).then(() => {
     localStorage.setItem('settings', JSON.stringify(settings));
   });
+}
+
+export function saveDictionaryAnswer(dictionaryAnswer: DictionaryAnswer): void {
+  if (!authentication.currentUser?.uid) return;
+
+  const documentRef = doc(database, 'dictionaryAnswers', authentication.currentUser.uid);
+  setDoc(documentRef, dictionaryAnswer);
 }

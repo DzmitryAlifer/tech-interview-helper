@@ -5,6 +5,7 @@ import {MatSelectChange} from '@angular/material/select';
 import {Observable} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {DictionaryAnswer, DictionaryAnswerForm, Tech} from 'src/types';
+import {saveDictionaryAnswer} from '../service/firebase';
 
 
 const ADD_NEW_TECH_SELECTION = 'add new technology...';
@@ -93,7 +94,7 @@ export class TopicCreateForm {
     }
 
     saveTopic(dictionaryAnswer: DictionaryAnswer): void {
-        console.log(dictionaryAnswer);
+        saveDictionaryAnswer(dictionaryAnswer);
     }
 
     private getTechFieldValue(form: any): string {
