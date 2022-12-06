@@ -8,7 +8,7 @@ service cloud.firestore {
             match /settings/{userId} {
                 allow read, write;
             }
-            match /{path=**}/topic/{topicName} {
+            match /{prefix=**}/topic/{topicName} {
                 allow read;
             }
             match /tech/{techName}/topic/{topicName} {
