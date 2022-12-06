@@ -8,12 +8,12 @@ service cloud.firestore {
             match /settings/{userId} {
                 allow read, write;
             }
-            match /{name=**}/topic/{topicName} {
-                allow read;
-            }
             match /tech/{techName}/topic/{topicName} {
                 allow write;
             }
+        }
+        match /{prefix=**}/topic/{topicName} {
+            allow read;
         }
     }
 }
