@@ -74,9 +74,6 @@ export function saveUserSettings(settings: Settings): void {
 }
 
 export function saveDictionaryAnswer(dictionaryAnswer: DictionaryAnswer): void {
-  if (!authentication.currentUser?.uid) return;
-
-  // const documentRef = doc(database, 'dictionaryAnswers', authentication.currentUser.uid);
-  const documentRef = doc(database, `dictionaryAnswers/${authentication.currentUser.uid}`, `test/${dictionaryAnswer.tech!}`);
+  const documentRef = doc(database, `tech/${dictionaryAnswer.tech}`, `topic/${dictionaryAnswer.topic}`);
   setDoc(documentRef, dictionaryAnswer);
 }

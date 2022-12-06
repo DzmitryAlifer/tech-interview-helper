@@ -22,7 +22,7 @@ export enum Panel {
 }
 
 export interface DictionaryAnswer {
-    tech?: string;
+    tech: string;
     topic: string;
     dictionary: string[];
     answer: string;

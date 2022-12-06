@@ -46,7 +46,7 @@ function csvDataToDictionaryAnswers(tech: Tech |string, csvData: string): Map<st
     const topic = row[0];
     const dictionary = row[1].split(' ');
     const answer = row[2];
-    dictionaryAnswers.set(`${tech}:${topic}`, { topic, dictionary, answer });
+    dictionaryAnswers.set(`${tech}:${topic}`, {tech, topic, dictionary, answer});
   }
 
   return dictionaryAnswers;
