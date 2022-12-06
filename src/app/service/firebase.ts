@@ -73,7 +73,13 @@ export function saveUserSettings(settings: Settings): void {
   });
 }
 
-export function saveDictionaryAnswer(dictionaryAnswer: DictionaryAnswer): void {
+export function saveDictionaryAnswer(dictionaryAnswer: DictionaryAnswer): Promise<void> {
   const documentRef = doc(database, `tech/${dictionaryAnswer.tech}`, `topic/${dictionaryAnswer.topic}`);
-  setDoc(documentRef, dictionaryAnswer);
+  return setDoc(documentRef, dictionaryAnswer);
+}
+
+export function getDictionaryAnswers(tech: Tech | string): Promise<DictionaryAnswer|null> {
+  const reference = doc(database, 'tech', tech);
+  return getDoc(reference).then(snapshot => 
+      snapshot.exists() ? snapshot.data() as DictionaryAnswer : null);
 }

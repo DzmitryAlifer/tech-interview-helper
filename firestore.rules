@@ -8,11 +8,11 @@ service cloud.firestore {
             match /settings/{userId} {
                 allow read, write;
             }
-            match /dictionaryAnswers/{userId} {
-                allow read, write;
+            match /tech/{techName} {
+                allow read;
             }
             match /tech/{techName}/topic/{topicName} {
-                allow read, write;
+                allow write;
             }
         }
     }

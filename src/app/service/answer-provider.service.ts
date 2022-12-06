@@ -1,11 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { forkJoin, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { DictionaryAnswer, Tech } from 'src/types';
-import { SelectedTechService } from './selected-tech.service';
-
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {forkJoin, Observable, of} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
+import {DictionaryAnswer, Tech} from 'src/types';
+import {SelectedTechService} from './selected-tech.service';
+import {getDictionaryAnswers} from '../service/firebase';
 
 
 @Injectable({providedIn: 'root'})
@@ -31,7 +30,10 @@ export class AnswerProviderService {
   }
 
   private getAllDictionaryAnswersForTech(tech: Tech|string): Observable<Map<string, DictionaryAnswer>> {
-    return this.http.get(`assets/${tech}.csv`, {responseType: 'text'}).pipe(
+    const staticAnswers = this.http.get(`assets/${tech}.csv`, { responseType: 'text' });
+    const datastoreAnswers = getDictionaryAnswers(tech);
+
+    return staticAnswers.pipe(
       map(data => csvDataToDictionaryAnswers(tech, data)),
     );
   }
