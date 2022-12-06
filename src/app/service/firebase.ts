@@ -80,7 +80,7 @@ export function saveDictionaryAnswer(dictionaryAnswer: DictionaryAnswer): Promis
 }
 
 export function getDictionaryAnswers(tech: Tech | string) {
-  const reference = collectionGroup(database, 'tech');
+  const reference = collectionGroup(database, 'topic');
   const q = query(reference);
   
   getDocs(q).then(snapshot => {
