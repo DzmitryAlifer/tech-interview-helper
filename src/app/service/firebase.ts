@@ -79,7 +79,7 @@ export function saveDictionaryAnswer(dictionaryAnswer: DictionaryAnswer): Promis
 }
 
 export function getDictionaryAnswers(tech: Tech | string): Promise<DictionaryAnswer|null> {
-  const reference = doc(database, 'tech', tech);
+  const reference = doc(database, 'tech', tech, 'topic');
   return getDoc(reference).then(snapshot => 
       snapshot.exists() ? snapshot.data() as DictionaryAnswer : null);
 }

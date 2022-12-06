@@ -31,7 +31,7 @@ export class AnswerProviderService {
 
   private getAllDictionaryAnswersForTech(tech: Tech|string): Observable<Map<string, DictionaryAnswer>> {
     const staticAnswers = this.http.get(`assets/${tech}.csv`, { responseType: 'text' });
-    const datastoreAnswers = getDictionaryAnswers(tech);
+    const datastoreAnswers = getDictionaryAnswers(tech).then(r => console.log(r));
 
     return staticAnswers.pipe(
       map(data => csvDataToDictionaryAnswers(tech, data)),
