@@ -8,6 +8,9 @@ service cloud.firestore {
             match /settings/{userId} {
                 allow read, write;
             }
+             match /tech {
+                allow read;
+            }
             match /tech/{techName} {
                 allow read;
             }

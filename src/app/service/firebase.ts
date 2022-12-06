@@ -3,6 +3,7 @@ import {getAuth} from 'firebase/auth';
 import {
   DocumentReference,
   collection,
+  collectionGroup,
   doc,
   getDoc,
   getDocs,
@@ -78,8 +79,13 @@ export function saveDictionaryAnswer(dictionaryAnswer: DictionaryAnswer): Promis
   return setDoc(documentRef, dictionaryAnswer);
 }
 
-export function getDictionaryAnswers(tech: Tech | string): Promise<DictionaryAnswer|null> {
-  const reference = doc(database, 'tech', tech);
-  return getDoc(reference).then(snapshot => 
-      snapshot.exists() ? snapshot.data() as DictionaryAnswer : null);
+export function getDictionaryAnswers(tech: Tech | string) {
+  const reference = collectionGroup(database, 'tech');
+  const q = query(reference);
+  
+  getDocs(q).then(snapshot => {
+    snapshot.forEach((doc) => {
+      console.log(doc.id, ' => ', doc.data());
+    });
+  });
 }
