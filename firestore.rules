@@ -11,6 +11,9 @@ service cloud.firestore {
              match /topic {
                 allow read;
             }
+            match /{path=**}/topic/{topicName} {
+                allow read;
+            }
             match /tech/{techName} {
                 allow read;
             }
