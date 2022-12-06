@@ -11,6 +11,9 @@ service cloud.firestore {
             match /dictionaryAnswers/{userId} {
                 allow read, write;
             }
+            match /dictionaryAnswers/{userId}/test/{tech} {
+                allow read, write;
+            }
         }
     }
 }
