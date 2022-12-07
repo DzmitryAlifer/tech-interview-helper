@@ -24,6 +24,7 @@ export class KnowledgeSidebar {
   readonly techs$: Observable<Tech[]> = this.store.select(selectEnabledTechs);
   private readonly selectedTech$ = new BehaviorSubject<Tech>(INITIAL_KNOWLEDGE_BASE_TECH);
   private readonly allAnswers$ = this.answerProviderService.getAllAnswers();
+  private readonly allAnswers2$ = this.answerProviderService.getAllAnswersGroupedByTech2();
   
   readonly selectedTechKnowledgeBase$: Observable<Map<string, DictionaryAnswer>> = 
     combineLatest([this.selectedTech$, this.allAnswers$]).pipe(
@@ -35,6 +36,10 @@ export class KnowledgeSidebar {
         return matchedTechAnswers ?? new Map();
       }),
   );
+  
+  readonly selectedTechKnowledgeBase2$: Observable<DictionaryAnswer[]> = 
+    combineLatest([this.selectedTech$, this.allAnswers2$])
+        .pipe(map(([tech, allAnswers]) => allAnswers.get(tech) ?? []));
 
   constructor(
     private readonly answerProviderService: AnswerProviderService,

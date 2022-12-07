@@ -12,7 +12,10 @@ import {
   Firestore,
   query,
   where,
+  DocumentData,
 } from 'firebase/firestore';
+import {from, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import { DictionaryAnswer, Tech } from 'src/types';
 
 export interface User {
@@ -79,13 +82,11 @@ export function saveDictionaryAnswer(dictionaryAnswer: DictionaryAnswer): Promis
   return setDoc(documentRef, dictionaryAnswer);
 }
 
-export function getDictionaryAnswers(tech: Tech | string) {
-  const reference = collectionGroup(database, 'topic');
-  const q = query(reference);
+export function getDictionaryAnswers(): Observable<DictionaryAnswer[]> {
+  const collectionRef = collectionGroup(database, 'topic');
+  const queryRef = query(collectionRef);
+  const result = getDocs(queryRef);
   
-  getDocs(q).then(snapshot => {
-    snapshot.forEach((doc) => {
-      console.log(doc.id, ' => ', doc.data());
-    });
-  });
+  return from(result).pipe(
+    map(snapshot => snapshot.docs.map(doc => doc.data()))) as Observable<DictionaryAnswer[]>;
 }

@@ -17,8 +17,13 @@
         </button>
     </div>
 
-    <details #details *ngFor="let topicAnswer of (selectedTechKnowledgeBase$ | async) | keyvalue">
+    <!-- <details #details *ngFor="let topicAnswer of (selectedTechKnowledgeBase$ | async) | keyvalue">
         <summary><b>{{topicAnswer.key.split(':')[1]}}</b></summary>
         <p class="answer" [innerHtml]="topicAnswer.value.answer"></p>
+    </details> -->
+
+    <details #details *ngFor="let dictionaryAnswer of selectedTechKnowledgeBase2$ | async">
+        <summary><b>{{dictionaryAnswer.topic}}</b></summary>
+        <p class="answer" [innerHtml]="dictionaryAnswer.answer"></p>
     </details>
 </div>
