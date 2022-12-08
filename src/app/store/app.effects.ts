@@ -5,9 +5,9 @@ import {catchError, map, switchMap} from 'rxjs/operators';
 import * as appActions from './app.actions';
 import {AnswerProviderService} from '../service/answer-provider.service';
 
+
 @Injectable()
 export class AppEffects {
-
     loadKnowledgeBase = createEffect(() => this.actions.pipe(
         ofType(appActions.loadKnowledgeBase),
         switchMap(() => this.answerProviderService.getAllAnswers2()),

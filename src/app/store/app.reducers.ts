@@ -1,23 +1,33 @@
 import {createReducer, on} from '@ngrx/store';
 import {DictionaryAnswer, Panel} from 'src/types';
-import {loadKnowledgeBaseSuccess, setActivePanel} from './app.actions';
+import * as appActions from './app.actions';
 
 
-export interface State {
+export interface AppState {
     activePanel: Panel|null;
     groupedAnswers: Map<string, DictionaryAnswer[]>;
 }
 
-export const initialState: State = {
+export const initialState: AppState = {
     activePanel: null,
     groupedAnswers: new Map(),
 };
 
 export const appReducer = createReducer(
     initialState,
-    on(setActivePanel, (state, {activePanel}) => ({...state, activePanel})),
-    on(loadKnowledgeBaseSuccess, (state, {dictionaryAnswers}) => 
+    on(appActions.setActivePanel, (state, {activePanel}) => 
+        ({...state, activePanel})),
+    on(appActions.loadKnowledgeBaseSuccess, (state, {dictionaryAnswers}) => 
         ({...state, groupedAnswers: groupAnswersByTech(dictionaryAnswers)})),
+    on(appActions.addDictionaryAnswer, (state, {dictionaryAnswer}) => {
+        const groupedAnswers = new Map(state.groupedAnswers);
+        let dictionaryAnswers = groupedAnswers.get(dictionaryAnswer.tech);
+        dictionaryAnswers = dictionaryAnswers ? 
+            [...dictionaryAnswers, dictionaryAnswer] : 
+            [dictionaryAnswer];
+        groupedAnswers.set(dictionaryAnswer.tech, dictionaryAnswers);
+        return {...state, groupedAnswers};
+    }),
 );
 
 function groupAnswersByTech(dictionaryAnswers: DictionaryAnswer[]) {

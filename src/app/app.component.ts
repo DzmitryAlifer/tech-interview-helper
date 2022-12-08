@@ -29,7 +29,6 @@ export class AppComponent {
   readonly meetingUrl$: Observable<SafeResourceUrl> = this.dataService.getUrl();
   readonly isOpenPanel$ = this.rightSidePanelService.isOpenPanel$;
   readonly activePanel$: Observable<Panel | null> = this.store.select(selectActivePanel);
-  // readonly activePanel$: Observable<Panel|null> = of(Panel.SETTINGS);
 
   constructor(
     private readonly dataService: DataService,

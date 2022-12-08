@@ -11,3 +11,8 @@ export const loadKnowledgeBaseSuccess = createAction(
     '[App] Load knowledge base - success',
     props <{dictionaryAnswers: DictionaryAnswer[]}>(),
 );
+
+export const addDictionaryAnswer = createAction(
+    '[App] Add dictionary answer',
+    props<{dictionaryAnswer: DictionaryAnswer}>(),
+);

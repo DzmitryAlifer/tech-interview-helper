@@ -1,8 +1,8 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {State} from './app.reducers';
+import {AppState} from './app.reducers';
 
 
-const selectAppState = createFeatureSelector<State>('app');
+const selectAppState = createFeatureSelector<AppState>('app');
 
 export const selectActivePanel = 
     createSelector(selectAppState, ({activePanel}) => activePanel);

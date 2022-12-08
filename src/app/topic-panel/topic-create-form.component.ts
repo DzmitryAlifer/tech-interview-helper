@@ -2,10 +2,13 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {MatSelectChange} from '@angular/material/select';
+import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {DictionaryAnswer, DictionaryAnswerForm, Tech} from 'src/types';
 import {saveDictionaryAnswer} from '../service/firebase';
+import {RightSidePanelService} from '../service/right-side-panel.service';
+import * as topicPanelActions from './store/topic-panel.actions';
 
 
 const ADD_NEW_TECH_SELECTION = 'add new technology...';
@@ -71,6 +74,11 @@ export class TopicCreateForm {
                     null;
             }));
 
+    constructor(
+        private readonly rightSidePanelService: RightSidePanelService,
+        private readonly store: Store,
+    ) {}
+
     onTechSelect({value}: MatSelectChange): void {
         this.isNewTechSelected = value === ADD_NEW_TECH_SELECTION;
     }
@@ -93,8 +101,10 @@ export class TopicCreateForm {
         event.chipInput!.clear();
     }
 
-    saveTopic(dictionaryAnswer: DictionaryAnswer): void {
-        saveDictionaryAnswer(dictionaryAnswer);
+    async saveTopic(dictionaryAnswer: DictionaryAnswer): Promise<void> {
+        this.rightSidePanelService.close();
+        await saveDictionaryAnswer(dictionaryAnswer);
+        this.store.dispatch(topicPanelActions.addDictionaryAnswer({dictionaryAnswer}));
     }
 
     private getTechFieldValue(form: any): string {

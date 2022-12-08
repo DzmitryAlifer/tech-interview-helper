@@ -15,6 +15,14 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {TopicCreateForm} from './topic-create-form.component';
 import {TopicPanelComponent} from './topic-panel.component';
+import {TopicPanelEffects} from './store/topic-panel.effects';
+
+
+const TOPIC_PANEL_STORE_MODULES = [
+  StoreModule.forRoot({}),
+  EffectsModule.forRoot([]),
+  EffectsModule.forFeature([TopicPanelEffects]),
+];
 
 
 @NgModule({
@@ -31,6 +39,7 @@ import {TopicPanelComponent} from './topic-panel.component';
     MatSlideToggleModule,
     MatTabsModule,
     ReactiveFormsModule,
+    TOPIC_PANEL_STORE_MODULES,
   ],
   declarations: [TopicCreateForm, TopicPanelComponent],
   exports: [TopicPanelComponent],
