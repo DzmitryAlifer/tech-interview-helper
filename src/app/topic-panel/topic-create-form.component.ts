@@ -9,6 +9,7 @@ import {DictionaryAnswer, DictionaryAnswerForm, Tech} from 'src/types';
 import {saveDictionaryAnswer} from '../service/firebase';
 import {RightSidePanelService} from '../service/right-side-panel.service';
 import * as topicPanelActions from './store/topic-panel.actions';
+import * as settingsSelectors from '../settings-panel/state/settings.selectors';
 
 
 const ADD_NEW_TECH_SELECTION = 'add new technology...';
@@ -33,6 +34,9 @@ export class TopicCreateForm {
     isNewTechSelected = false;
     readonly techs = [ADD_NEW_TECH_SELECTION, ...Object.values(Tech)];
     readonly keywords: string[] = [];
+    readonly techs$: Observable<string[]> =
+        this.store.select(settingsSelectors.selectEnabledTechs)
+            .pipe(map(techs => [ADD_NEW_TECH_SELECTION, ...techs]));
 
     readonly techField = new FormControl('');
     readonly newTechField = new FormControl('', [
