@@ -5,7 +5,7 @@ import {MatSelectChange} from '@angular/material/select';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
-import {DictionaryAnswer, DictionaryAnswerForm, Tech} from 'src/types';
+import {DictionaryAnswer, DictionaryAnswerForm} from 'src/types';
 import {saveDictionaryAnswer} from '../service/firebase';
 import {RightSidePanelService} from '../service/right-side-panel.service';
 import * as topicPanelActions from './store/topic-panel.actions';
@@ -32,7 +32,6 @@ const INPUT_DEBOUNCE_TIME = 200;
 })
 export class TopicCreateForm {
     isNewTechSelected = false;
-    readonly techs = [ADD_NEW_TECH_SELECTION, ...Object.values(Tech)];
     readonly keywords: string[] = [];
     readonly techs$: Observable<string[]> =
         this.store.select(settingsSelectors.selectEnabledTechs)

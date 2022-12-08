@@ -1,0 +1,18 @@
+<ng-container *ngIf="{
+    dictionaryAnswers: dictionaryAnswers$ | async,
+    techs: techs$ | async
+} as data">
+    <form [formGroup]="topicDeleteForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Technology</mat-label>
+            <mat-select [formControl]="techField" required (selectionChange)="onTechSelect($event)">
+                <mat-option *ngFor="let tech of data.techs" [value]="tech">{{tech}}</mat-option>
+            </mat-select>
+            <mat-hint>Technology</mat-hint>
+        </mat-form-field>
+
+        <div *ngFor="let dictionaryAnswer of data.dictionaryAnswers" class="topic">
+            {{dictionaryAnswer.topic}}
+        </div>
+    </form>
+</ng-container>

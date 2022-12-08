@@ -1,0 +1,6 @@
+@import '../../styles.scss';
+
+form {
+  height: calc(100vh - calc(3 * $header-height + 118px));
+  padding: 24px;
+}

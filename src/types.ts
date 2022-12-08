@@ -35,3 +35,8 @@ export interface DictionaryAnswerForm {
     dictionaryField: FormControl<string[]|null>;
     answerField: FormControl<string|null>;
 }
+
+export interface TopicDeleteForm {
+    techField: FormControl<string|null>;
+    topicField: FormControl<string|null>;
+}

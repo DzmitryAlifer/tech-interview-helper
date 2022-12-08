@@ -16,6 +16,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {TopicCreateForm} from './topic-create-form.component';
 import {TopicPanelComponent} from './topic-panel.component';
 import {TopicPanelEffects} from './store/topic-panel.effects';
+import {TopicDeleteFormComponent} from './topic-delete-form.component';
 
 
 const TOPIC_PANEL_STORE_MODULES = [
@@ -41,7 +42,7 @@ const TOPIC_PANEL_STORE_MODULES = [
     ReactiveFormsModule,
     TOPIC_PANEL_STORE_MODULES,
   ],
-  declarations: [TopicCreateForm, TopicPanelComponent],
+  declarations: [TopicCreateForm, TopicDeleteFormComponent, TopicPanelComponent],
   exports: [TopicPanelComponent],
 })
 export class TopicPanelModule {}
