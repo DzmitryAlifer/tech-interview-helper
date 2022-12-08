@@ -1,5 +1,5 @@
 <mat-button-toggle-group class="vertical-button-bar" name="tech">
-    <mat-button-toggle *ngFor="let tech of techs$ | async" (change)="selectTech(tech)">
+    <mat-button-toggle *ngFor="let tech of enabledTechs$ | async" (change)="selectTech(tech)">
         <b>{{tech}}</b>
     </mat-button-toggle>
 </mat-button-toggle-group>
@@ -17,12 +17,7 @@
         </button>
     </div>
 
-    <!-- <details #details *ngFor="let topicAnswer of (selectedTechKnowledgeBase$ | async) | keyvalue">
-        <summary><b>{{topicAnswer.key.split(':')[1]}}</b></summary>
-        <p class="answer" [innerHtml]="topicAnswer.value.answer"></p>
-    </details> -->
-
-    <details #details *ngFor="let dictionaryAnswer of selectedTechKnowledgeBase2$ | async">
+    <details #details *ngFor="let dictionaryAnswer of selectedTechDictionaryAnswers$ | async">
         <summary><b>{{dictionaryAnswer.topic}}</b></summary>
         <p class="answer" [innerHtml]="dictionaryAnswer.answer"></p>
     </details>

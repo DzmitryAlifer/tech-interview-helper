@@ -6,7 +6,7 @@ import {Panel, Theme} from 'src/types';
 import {AuthService} from '../service/auth.service';
 import {RightSidePanelService} from '../service/right-side-panel.service';
 import {ThemeService} from '../service/theme.service';
-import {setActivePanel} from '../state/app.actions';
+import {setActivePanel} from '../store/app.actions';
 
 
 @Component({

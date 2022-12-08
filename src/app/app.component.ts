@@ -9,8 +9,8 @@ import {DataService} from './service/data.service';
 import {RightSidePanelService} from './service/right-side-panel.service';
 import {ThemeService} from './service/theme.service';
 import {VoiceRecognitionService} from './service/voice-recognition.service';
-import {selectActivePanel} from './state/app.selectors';
-
+import {selectActivePanel} from './store/app.selectors';
+import * as appActions from './store/app.actions';
 
 @Component({
   selector: 'app-root',
@@ -38,6 +38,8 @@ export class AppComponent {
     private readonly themeService: ThemeService,
     private readonly voiceRecognitionService : VoiceRecognitionService,
   ) {
+    this.store.dispatch(appActions.loadKnowledgeBase());
+
     this.voiceRecognitionService.getAnswers().subscribe(answers => {
       this.allAnswers.unshift(...answers);
       this.allDictionaryAnswers$.next(this.allAnswers);

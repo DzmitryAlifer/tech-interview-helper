@@ -13,15 +13,15 @@ import {selectEnabledTechs} from '../settings-panel/state/settings.selectors';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TechMenu {
-  readonly techs$: Observable<Tech[]> = this.store.select(selectEnabledTechs);
-  readonly techStatuses$: Observable<Map<Tech, boolean>> = this.selectedTechService.getSelectedTechsMap();
+  readonly techs$: Observable<string[]> = this.store.select(selectEnabledTechs);
+  readonly techStatuses$: Observable<Map<string, boolean>> = this.selectedTechService.getSelectedTechsMap();
 
   constructor(
     private readonly selectedTechService: SelectedTechService,
     private readonly store: Store,
   ) {}
 
-  toggleTechRecognition(tech: Tech): void {
+  toggleTechRecognition(tech: string): void {
     this.selectedTechService.toggleTechRecognition(tech);
   }
 }

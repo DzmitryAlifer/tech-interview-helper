@@ -11,6 +11,15 @@ import {getDictionaryAnswers} from '../service/firebase';
 export class AnswerProviderService {
   private readonly allTechs: Tech[] = Object.values(Tech);
 
+  private allAnswers$: Observable<DictionaryAnswer[]> = 
+    combineLatest([this.getAllStaticAnswers2(), getDictionaryAnswers()])
+      .pipe(map(allAnswers => allAnswers.flat()));
+
+  private allTechs$: Observable<string[]> = this.allAnswers$.pipe(
+    map(dictionaryAnswers => dictionaryAnswers.map(({ tech }) => tech)),
+    map(techs => [... new Set(techs)]),
+  ); 
+
   constructor(
     private readonly http: HttpClient,
     private readonly selectedTechService: SelectedTechService,
@@ -46,8 +55,11 @@ export class AnswerProviderService {
   }
 
   getAllAnswers2(): Observable<DictionaryAnswer[]> {
-    return combineLatest([this.getAllStaticAnswers2(), getDictionaryAnswers()])
-        .pipe(map(allAnswers => allAnswers.flat()));
+    return this.allAnswers$;
+  }
+
+  getAllTechs2(): Observable<string[]> {
+    return this.allTechs$;
   }
 
   getAllAnswersGroupedByTech2(): Observable<Map<string, DictionaryAnswer[]>> {

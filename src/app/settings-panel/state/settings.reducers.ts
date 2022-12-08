@@ -4,7 +4,7 @@ import {updateSettings} from './settings.actions';
 
 
 export interface Settings {
-    enabledTechs: Tech[];
+    enabledTechs: string[];
 }
 
 export const initialState: Settings = {

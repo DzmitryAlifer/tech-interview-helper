@@ -1,15 +1,15 @@
 import {ChangeDetectionStrategy, Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {DictionaryAnswer, Panel, Tech} from 'src/types';
+import {DictionaryAnswer, Panel} from 'src/types';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {AnswerProviderService} from '../service/answer-provider.service';
 import {RightSidePanelService} from '../service/right-side-panel.service';
-import {selectEnabledTechs} from '../settings-panel/state/settings.selectors';
-import {setActivePanel} from '../state/app.actions';
+import * as settingsSelectors from '../settings-panel/state/settings.selectors';
+import * as appActions from '../store/app.actions';
+import * as appSelectors from '../store/app.selectors';
 
 
-const INITIAL_KNOWLEDGE_BASE_TECH = Tech.CSS;
+const INITIAL_KNOWLEDGE_BASE_TECH = 'General';
 
 
 @Component({
@@ -21,33 +21,22 @@ const INITIAL_KNOWLEDGE_BASE_TECH = Tech.CSS;
 export class KnowledgeSidebar {
   @ViewChildren('details') detailsElements!: QueryList<ElementRef>;
   
-  readonly techs$: Observable<Tech[]> = this.store.select(selectEnabledTechs);
-  private readonly selectedTech$ = new BehaviorSubject<Tech>(INITIAL_KNOWLEDGE_BASE_TECH);
-  private readonly allAnswers$ = this.answerProviderService.getAllAnswers();
-  private readonly allAnswers2$ = this.answerProviderService.getAllAnswersGroupedByTech2();
-  
-  readonly selectedTechKnowledgeBase$: Observable<Map<string, DictionaryAnswer>> = 
-    combineLatest([this.selectedTech$, this.allAnswers$]).pipe(
-      map(([selectedTech, allAnswers]) => {
-        const matchedTechAnswers = allAnswers.find(answers => {
-          const techTopics = Array.from(answers.keys());
-          return !!techTopics.length && techTopics[0].split(':')[0] === selectedTech;
-        })
-        return matchedTechAnswers ?? new Map();
-      }),
-  );
-  
-  readonly selectedTechKnowledgeBase2$: Observable<DictionaryAnswer[]> = 
-    combineLatest([this.selectedTech$, this.allAnswers2$])
+  readonly enabledTechs$: Observable<string[]> = 
+      this.store.select(settingsSelectors.selectEnabledTechs);
+  private readonly selectedTech$ = new BehaviorSubject<string>(INITIAL_KNOWLEDGE_BASE_TECH);
+  private readonly allAnswers$: Observable<Map<string, DictionaryAnswer[]>> = 
+      this.store.select(appSelectors.selectGroupedAnswers);
+
+  readonly selectedTechDictionaryAnswers$: Observable<DictionaryAnswer[]> = 
+    combineLatest([this.selectedTech$, this.allAnswers$])
         .pipe(map(([tech, allAnswers]) => allAnswers.get(tech) ?? []));
 
   constructor(
-    private readonly answerProviderService: AnswerProviderService,
     private readonly rightSidePanelService: RightSidePanelService,
     private readonly store: Store,
   ) {}
 
-  selectTech(tech: Tech): void {
+  selectTech(tech: string): void {
     this.selectedTech$.next(tech);
   }
 
@@ -60,7 +49,7 @@ export class KnowledgeSidebar {
   }
 
   openTopicPanel(): void {
-    this.store.dispatch(setActivePanel({activePanel: Panel.TOPIC}));
+    this.store.dispatch(appActions.setActivePanel({activePanel: Panel.TOPIC}));
     this.rightSidePanelService.toggle()
   }
 }

@@ -18,17 +18,27 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import {EffectsModule} from '@ngrx/effects';
 import { environment } from '../environments/environment';
 import { MeetingModule } from './meeting/meeting.module';
 import { SettingsPanelModule } from './settings-panel/settings-panel.module';
-import {appReducer} from './state/app.reducers';
+import {AppEffects} from './store/app.effects';
+import {appReducer} from './store/app.reducers';
 import {TopicPanelModule} from './topic-panel/topic-panel.module';
 
+
+const APP_STORE_MODULES = [
+  EffectsModule.forRoot([]),
+  EffectsModule.forFeature([AppEffects]),
+  StoreModule.forRoot({}),
+  StoreModule.forFeature('app', appReducer),
+];
 
 @NgModule({
     declarations: [AppComponent],
     bootstrap: [AppComponent],
     imports: [
+      APP_STORE_MODULES,
       AngularFireModule.initializeApp(environment.firebase),
       AngularFireAuthModule,
       AngularFirestoreModule,
@@ -46,8 +56,6 @@ import {TopicPanelModule} from './topic-panel/topic-panel.module';
       MeetingModule,
       RecognitionModule,
       SettingsPanelModule,
-      StoreModule.forRoot({}),
-      StoreModule.forFeature('app', appReducer),
       TechMenuModule,
       ToolbarModule,
       TopicPanelModule,
