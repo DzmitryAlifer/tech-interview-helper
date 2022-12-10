@@ -40,6 +40,10 @@ export class KnowledgeSidebar {
     this.selectedTech$.next(tech);
   }
 
+  toggleSorting(): void {
+    
+  }
+
   expandAll(): void {
     this.detailsElements.forEach(details => details.nativeElement.setAttribute('open', ''));
   }
