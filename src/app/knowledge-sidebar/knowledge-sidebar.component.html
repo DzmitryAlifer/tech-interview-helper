@@ -20,7 +20,7 @@
         </button>
     </div>
 
-    <details #details *ngFor="let dictionaryAnswer of selectedTechDictionaryAnswers$ | async">
+    <details #details *ngFor="let dictionaryAnswer of sortedDictionaryAnswers$ | async">
         <summary><b>{{dictionaryAnswer.topic}}</b></summary>
         <p class="answer" [innerHtml]="dictionaryAnswer.answer"></p>
     </details>
