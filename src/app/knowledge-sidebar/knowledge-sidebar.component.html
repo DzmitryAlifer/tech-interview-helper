@@ -1,27 +1,37 @@
-<mat-button-toggle-group class="vertical-button-bar" name="tech">
-    <mat-button-toggle *ngFor="let tech of enabledTechs$ | async" (change)="selectTech(tech)">
-        <b>{{tech}}</b>
-    </mat-button-toggle>
-</mat-button-toggle-group>
+<ng-container *ngIf="{
+    enabledTechs: enabledTechs$ | async,
+    isAlphabeticallySorted: isAlphabeticallySorted$ | async,
+    sortedDictionaryAnswers: sortedDictionaryAnswers$ | async
+} as data">
+    <mat-button-toggle-group class="vertical-button-bar" name="tech">
+        <mat-button-toggle *ngFor="let tech of data.enabledTechs" (change)="selectTech(tech)">
+            <b>{{tech}}</b>
+        </mat-button-toggle>
+    </mat-button-toggle-group>
 
-<div class="knowledge">
-    <div class="horizontal-button-bar">
-        <button mat-fab color="primary" (click)="toggleSorting()">
-            <mat-icon class="sort">sort_by_alpha</mat-icon>
-        </button>
-        <button mat-fab color="primary" (click)="expandAll()">
-            <mat-icon class="expand">keyboard_arrow_down</mat-icon>
-        </button>
-        <button mat-fab color="primary" (click)="collapseAll()">
-            <mat-icon class="collapse">keyboard_arrow_up</mat-icon>
-        </button>
-        <button mat-fab color="primary" (click)="openTopicPanel()">
-            <mat-icon class="new-answer">assignment_add</mat-icon>
-        </button>
+    <div class="knowledge">
+        <div class="horizontal-button-bar">
+            <button mat-fab color="primary" (click)="toggleSorting()">
+                <mat-icon 
+                    class="sort" 
+                    [style.color]="data.isAlphabeticallySorted ? 'white' : 'grey'">
+                    sort_by_alpha
+                </mat-icon>
+            </button>
+            <button mat-fab color="primary" (click)="expandAll()">
+                <mat-icon class="expand">keyboard_arrow_down</mat-icon>
+            </button>
+            <button mat-fab color="primary" (click)="collapseAll()">
+                <mat-icon class="collapse">keyboard_arrow_up</mat-icon>
+            </button>
+            <button mat-fab color="primary" (click)="openTopicPanel()">
+                <mat-icon class="new-answer">assignment_add</mat-icon>
+            </button>
+        </div>
+
+        <details #details *ngFor="let dictionaryAnswer of data.sortedDictionaryAnswers">
+            <summary><b>{{dictionaryAnswer.topic}}</b></summary>
+            <p class="answer" [innerHtml]="dictionaryAnswer.answer"></p>
+        </details>
     </div>
-
-    <details #details *ngFor="let dictionaryAnswer of sortedDictionaryAnswers$ | async">
-        <summary><b>{{dictionaryAnswer.topic}}</b></summary>
-        <p class="answer" [innerHtml]="dictionaryAnswer.answer"></p>
-    </details>
-</div>
+</ng-container>
