@@ -37,53 +37,20 @@
             class="answer"
             [style.font-size.px]="fontSizePx"
             [style.width.px]="answerCardWidthPx">
-            <p class="topic"><b>{{dictionaryAnswer.topic}}</b></p>
+            <p class="topic">
+                <mat-chip>{{dictionaryAnswer.tech}}</mat-chip>
+                <b>{{dictionaryAnswer.topic}}</b>
+            </p>
             <p innerHTML="{{dictionaryAnswer.answer}}"></p>
         </mat-card>
     </ng-container>
-    <!-- <mat-card class="answer" [style.font-size.px]="fontSizePx" [style.width.px]="answerCardWidthPx">
-        ;dlfks;df sl;dfk sd ;sdkf;lsd f;sdk f;lsd f;sd fs dfks;d ld;sfsdlkfgkdfghdkhgkd dfhg dfg
+    <!-- <mat-card *ngFor="let i of [1,2,3,4,5]" class="answer" [style.font-size.px]="fontSizePx" [style.width.px]="answerCardWidthPx">
+        <p class="topic">
+            <mat-chip>JavaScript</mat-chip>
+            <b>Test topic name {{i}}</b>
+        </p>
+        <p>;dlfks;df sl;dfk sd ;sdkf;lsd f;sdk f;lsd f;sd fs dfks;d ld;sfsdlkfgkdfghdkhgkd dfhg dfg
         dkghdkghkdghkdhgkdjhgdkjfg dkghdkjghdkjfghkdfgh dk fgdkghkdhgjkdgh dfghdfgkdhg dsfsdsdfsdf
-        sdfsdfsdf kfjdlfgjldgjdgj sdfkjdlgj dfjgldsfkjglfdkg lfjgldskfjgldkf dfjg lkdf gkl
-    </mat-card>
-    <mat-card class="answer" [style.font-size.px]="fontSizePx" [style.width.px]="answerCardWidthPx">
-        ;dlfks;df sl;dfk sd ;sdkf;lsd f;sdk f;lsd f;sd fs dfks;d ld;sfsdlkfgkdfghdkhgkd dfhg dfg
-        dkghdkghkdghkdhgkdjhgdkjfg dkghdkjghdkjfghkdfgh dk fgdkghkdhgjkdgh dfghdfgkdhg dsfsdsdfsdf
-        sdfsdfsdf kfjdlfgjldgjdgj sdfkjdlgj dfjgldsfkjglfdkg lfjgldskfjgldkf dfjg lkdf gkl
-    </mat-card>
-    <mat-card class="answer" [style.font-size.px]="fontSizePx" [style.width.px]="answerCardWidthPx">
-        ;dlfks;df sl;dfk sd ;sdkf;lsd f;sdk f;lsd f;sd fs dfks;d ld;sfsdlkfgkdfghdkhgkd dfhg dfg
-        dkghdkghkdghkdhgkdjhgdkjfg dkghdkjghdkjfghkdfgh dk fgdkghkdhgjkdgh dfghdfgkdhg dsfsdsdfsdf
-        sdfsdfsdf kfjdlfgjldgjdgj sdfkjdlgj dfjgldsfkjglfdkg lfjgldskfjgldkf dfjg lkdf gkl
-    </mat-card>
-    <mat-card class="answer" [style.font-size.px]="fontSizePx" [style.width.px]="answerCardWidthPx">
-        ;dlfks;df sl;dfk sd ;sdkf;lsd f;sdk f;lsd f;sd fs dfks;d ld;sfsdlkfgkdfghdkhgkd dfhg dfg
-        dkghdkghkdghkdhgkdjhgdkjfg dkghdkjghdkjfghkdfgh dk fgdkghkdhgjkdgh dfghdfgkdhg dsfsdsdfsdf
-        sdfsdfsdf kfjdlfgjldgjdgj sdfkjdlgj dfjgldsfkjglfdkg lfjgldskfjgldkf dfjg lkdf gkl
-    </mat-card>
-    <mat-card class="answer" [style.font-size.px]="fontSizePx" [style.width.px]="answerCardWidthPx">
-        ;dlfks;df sl;dfk sd ;sdkf;lsd f;sdk f;lsd f;sd fs dfks;d ld;sfsdlkfgkdfghdkhgkd dfhg dfg
-        dkghdkghkdghkdhgkdjhgdkjfg dkghdkjghdkjfghkdfgh dk fgdkghkdhgjkdgh dfghdfgkdhg dsfsdsdfsdf
-        sdfsdfsdf kfjdlfgjldgjdgj sdfkjdlgj dfjgldsfkjglfdkg lfjgldskfjgldkf dfjg lkdf gkl
-    </mat-card>
-    <mat-card class="answer" [style.font-size.px]="fontSizePx" [style.width.px]="answerCardWidthPx">
-        ;dlfks;df sl;dfk sd ;sdkf;lsd f;sdk f;lsd f;sd fs dfks;d ld;sfsdlkfgkdfghdkhgkd dfhg dfg
-        dkghdkghkdghkdhgkdjhgdkjfg dkghdkjghdkjfghkdfgh dk fgdkghkdhgjkdgh dfghdfgkdhg dsfsdsdfsdf
-        sdfsdfsdf kfjdlfgjldgjdgj sdfkjdlgj dfjgldsfkjglfdkg lfjgldskfjgldkf dfjg lkdf gkl
-    </mat-card>
-    <mat-card class="answer" [style.font-size.px]="fontSizePx" [style.width.px]="answerCardWidthPx">
-        ;dlfks;df sl;dfk sd ;sdkf;lsd f;sdk f;lsd f;sd fs dfks;d ld;sfsdlkfgkdfghdkhgkd dfhg dfg
-        dkghdkghkdghkdhgkdjhgdkjfg dkghdkjghdkjfghkdfgh dk fgdkghkdhgjkdgh dfghdfgkdhg dsfsdsdfsdf
-        sdfsdfsdf kfjdlfgjldgjdgj sdfkjdlgj dfjgldsfkjglfdkg lfjgldskfjgldkf dfjg lkdf gkl
-    </mat-card>
-    <mat-card class="answer" [style.font-size.px]="fontSizePx" [style.width.px]="answerCardWidthPx">
-        ;dlfks;df sl;dfk sd ;sdkf;lsd f;sdk f;lsd f;sd fs dfks;d ld;sfsdlkfgkdfghdkhgkd dfhg dfg
-        dkghdkghkdghkdhgkdjhgdkjfg dkghdkjghdkjfghkdfgh dk fgdkghkdhgjkdgh dfghdfgkdhg dsfsdsdfsdf
-        sdfsdfsdf kfjdlfgjldgjdgj sdfkjdlgj dfjgldsfkjglfdkg lfjgldskfjgldkf dfjg lkdf gkl
-    </mat-card>
-    <mat-card class="answer" [style.font-size.px]="fontSizePx" [style.width.px]="answerCardWidthPx">
-        ;dlfks;df sl;dfk sd ;sdkf;lsd f;sdk f;lsd f;sd fs dfks;d ld;sfsdlkfgkdfghdkhgkd dfhg dfg
-        dkghdkghkdghkdhgkdjhgdkjfg dkghdkjghdkjfghkdfgh dk fgdkghkdhgjkdgh dfghdfgkdhg dsfsdsdfsdf
-        sdfsdfsdf kfjdlfgjldgjdgj sdfkjdlgj dfjgldsfkjglfdkg lfjgldskfjgldkf dfjg lkdf gkl
+        sdfsdfsdf kfjdlfgjldgjdgj sdfkjdlgj dfjgldsfkjglfdkg lfjgldskfjgldkf dfjg lkdf gkl</p>
     </mat-card> -->
 </ng-container>

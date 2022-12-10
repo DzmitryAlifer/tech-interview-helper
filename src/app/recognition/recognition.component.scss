@@ -55,5 +55,10 @@
 
 .answer {
     margin: 12px;
+    padding: 12px 12px 0 12px;
     width: 400px;
+
+    mat-chip {
+        margin-right: 8px;
+    }
 }
