@@ -3,6 +3,7 @@ import {FormControl} from '@angular/forms';
 
 export enum Tech {
     GENERAL = 'General',
+    BROWSER = 'Browser',
     CSS = 'CSS',
     JAVASCRIPT = 'JavaScript',
     ANGULAR = 'Angular',

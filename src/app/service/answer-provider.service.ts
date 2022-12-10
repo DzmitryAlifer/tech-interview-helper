@@ -38,7 +38,7 @@ export class AnswerProviderService {
         forkJoin(selectedTechs.map(tech => this.getAllDictionaryAnswersForTech(tech)))));
   }
 
-  private getAllDictionaryAnswersForTech(tech: Tech|string): Observable<Map<string, DictionaryAnswer>> {
+  private getAllDictionaryAnswersForTech(tech: string): Observable<Map<string, DictionaryAnswer>> {
     const staticAnswers = this.http.get(`assets/${tech}.csv`, { responseType: 'text' });
 
     return staticAnswers.pipe(
@@ -73,13 +73,13 @@ export class AnswerProviderService {
     );
   }
 
-  private getAllAnswersForTech2(tech: Tech|string): Observable<DictionaryAnswer[]> {
+  private getAllAnswersForTech2(tech: string): Observable<DictionaryAnswer[]> {
     return this.http.get(`assets/${tech}.csv`, {responseType: 'text'})
         .pipe(map(data => csvDataToDictionaryAnswers2(tech, data)));
   }
 }
 
-function csvDataToDictionaryAnswers(tech: Tech |string, csvData: string): Map<string, DictionaryAnswer> {
+function csvDataToDictionaryAnswers(tech: string, csvData: string): Map<string, DictionaryAnswer> {
   const dictionaryAnswers = new Map<string, DictionaryAnswer>();
   const csvToRowArray = csvData.split('\n').filter(Boolean);
 
@@ -94,7 +94,7 @@ function csvDataToDictionaryAnswers(tech: Tech |string, csvData: string): Map<st
   return dictionaryAnswers;
 }
 
-function csvDataToDictionaryAnswers2(tech: Tech|string, csvData: string): DictionaryAnswer[] {
+function csvDataToDictionaryAnswers2(tech: string, csvData: string): DictionaryAnswer[] {
   const dictionaryAnswers: DictionaryAnswer[] = [];
   const csvToRowArray = csvData.split('\n').filter(Boolean);
 
