@@ -27,7 +27,7 @@ export interface User {
 
 export interface Settings {
   userUid?: string;
-  enabledTechs: Tech[];
+  enabledTechs: string[];
 }
 
 const config = {

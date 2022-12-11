@@ -15,7 +15,7 @@ export class SettingsService {
     return JSON.parse(settingsString) as Settings;
   }
 
-  getEnabledTechs(): Tech[] {
+  getEnabledTechs(): string[] {
     return this.getSettings()?.enabledTechs ?? Object.values(Tech);
   }
 

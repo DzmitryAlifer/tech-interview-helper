@@ -9,6 +9,7 @@ import {DictionaryAnswer, DictionaryAnswerForm} from 'src/types';
 import {saveDictionaryAnswer} from '../service/firebase';
 import {RightSidePanelService} from '../service/right-side-panel.service';
 import * as topicPanelActions from './store/topic-panel.actions';
+import * as settingsActions from '../settings-panel/state/settings.actions';
 import * as settingsSelectors from '../settings-panel/state/settings.selectors';
 
 
@@ -108,6 +109,10 @@ export class TopicCreateForm {
         this.rightSidePanelService.close();
         await saveDictionaryAnswer(dictionaryAnswer);
         this.store.dispatch(topicPanelActions.addDictionaryAnswer({dictionaryAnswer}));
+
+        if (this.isNewTechSelected) {
+            this.store.dispatch(settingsActions.enableTech({tech: dictionaryAnswer.tech}));
+        }
     }
 
     private getTechFieldValue(form: any): string {
