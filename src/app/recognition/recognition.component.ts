@@ -60,7 +60,7 @@ export class Recognition {
 
   removeAnswer(dictionaryAnswers: DictionaryAnswer[], answerToRemove: DictionaryAnswer): void {
     const updatedDictionaryAnswers = dictionaryAnswers.filter(({tech, topic}) => 
-        tech !== answerToRemove.tech && topic !== answerToRemove.topic);
+        tech !== answerToRemove.tech || topic !== answerToRemove.topic);
     this.allDictionaryAnswers$.next(updatedDictionaryAnswers);
   }
 }
