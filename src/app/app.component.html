@@ -1,7 +1,6 @@
 <div *ngIf="{
     activePanel: activePanel$ | async,
-    isDarkTheme: isDarkTheme$ | async,
-    meetingUrl: meetingUrl$ | async
+    isDarkTheme: isDarkTheme$ | async
 } as data" 
     [class.app-mat-theme-dark]="data.isDarkTheme" 
     [class.app-mat-theme-light]="!data.isDarkTheme">
