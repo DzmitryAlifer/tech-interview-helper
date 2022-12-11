@@ -34,11 +34,7 @@ export class VoiceRecognitionService {
     return this.pronouncedWords$.pipe(map(words => words.join(' ').toLocaleLowerCase()));
   }
 
-  getAnswers(): Observable<DictionaryAnswer[][]> {
-    return this.answers$;
-  }
-
-  getAnswers2(): Observable<DictionaryAnswer[]> {
+  getAnswers(): Observable<DictionaryAnswer[]> {
     return this.answers$.pipe(mergeMap(answers => answers));
   }
 

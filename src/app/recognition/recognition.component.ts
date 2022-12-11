@@ -18,20 +18,14 @@ const INITIAL_FONT_SIZE_PX = 16;
 export class Recognition {
   fontSizePx = INITIAL_FONT_SIZE_PX;
   answerCardWidthPx = INITIAL_ANSWER_CARD_WIDTH_PX;
-  private allAnswers: DictionaryAnswer[][] = [];
-  private allAnswers2: DictionaryAnswer[] = [];
+  private allAnswers: DictionaryAnswer[] = [];
   readonly pronouncedText$: Observable<string> = this.voiceRecognitionService.getPronouncedText();
-  readonly allDictionaryAnswers$ = new BehaviorSubject<DictionaryAnswer[][]>([]);
-  readonly allDictionaryAnswers2$ = new BehaviorSubject<DictionaryAnswer[]>([]);
+  readonly allDictionaryAnswers$ = new BehaviorSubject<DictionaryAnswer[]>([]);
 
   constructor(private readonly voiceRecognitionService: VoiceRecognitionService) {
-    this.voiceRecognitionService.getAnswers().subscribe(answers => {
+    this.voiceRecognitionService.getAnswers2().subscribe(answers => {
       this.allAnswers.unshift(...answers);
       this.allDictionaryAnswers$.next(this.allAnswers);
-    });
-    this.voiceRecognitionService.getAnswers2().subscribe(answers => {
-      this.allAnswers2.unshift(...answers);
-      this.allDictionaryAnswers2$.next(this.allAnswers2);
     });
   }
 
@@ -46,8 +40,6 @@ export class Recognition {
   cleanup(): void {
     this.allAnswers = [];
     this.allDictionaryAnswers$.next([]);
-    this.allAnswers2 = [];
-    this.allDictionaryAnswers2$.next([]);
   }
 
   decreaseText(): void {
@@ -71,8 +63,4 @@ export class Recognition {
     dictionaryAnswers.splice(0, dictionaryAnswers.length, dictionaryAnswer);
     console.log(2, dictionaryAnswers);
   }
-}
-
-function answersComparator(left: DictionaryAnswer, right: DictionaryAnswer): boolean {
-  return left.tech === right.tech && left.topic === right.topic;
 }

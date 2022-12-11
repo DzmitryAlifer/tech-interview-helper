@@ -1,6 +1,5 @@
 <ng-container *ngIf="{
     allDictionaryAnswers: allDictionaryAnswers$ | async,
-    allDictionaryAnswers2: allDictionaryAnswers2$ | async,
     pronouncedText: pronouncedText$ | async
 } as data">
     <div class="button-bar">
@@ -32,29 +31,12 @@
         <span class="speech"><b><i>{{data.pronouncedText}}</i></b></span>
     </div>
 
-    <!-- <ng-container *ngFor="let oneTechDictionaryAnswers of data.allDictionaryAnswers">
-        <mat-card 
-            *ngFor="let dictionaryAnswer of oneTechDictionaryAnswers; let index = index"
-            class="answer"
-            [style.font-size.px]="fontSizePx"
-            [style.width.px]="answerCardWidthPx">
-            <button class="close" mat-icon-button (click)="removeAnswer(oneTechDictionaryAnswers, dictionaryAnswer)">
-                <mat-icon>close</mat-icon>
-            </button>
-            <p class="topic">
-                <mat-chip>{{dictionaryAnswer.tech}}</mat-chip>
-                <b>{{dictionaryAnswer.topic}}</b>
-            </p>
-            <p innerHTML="{{dictionaryAnswer.answer}}"></p>
-        </mat-card>
-    </ng-container> -->
-
     <mat-card 
-        *ngFor="let dictionaryAnswer of data.allDictionaryAnswers2; let index = index" 
+        *ngFor="let dictionaryAnswer of data.allDictionaryAnswers; let index = index" 
         class="answer"
         [style.font-size.px]="fontSizePx"
         [style.width.px]="answerCardWidthPx">
-        <button class="close" mat-icon-button (click)="removeAnswer(data.allDictionaryAnswers2 ?? [], dictionaryAnswer)">
+        <button class="close" mat-icon-button (click)="removeAnswer(data.allDictionaryAnswers ?? [], dictionaryAnswer)">
             <mat-icon>close</mat-icon>
         </button>
         <p class="topic">
