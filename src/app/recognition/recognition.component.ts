@@ -19,13 +19,19 @@ export class Recognition {
   fontSizePx = INITIAL_FONT_SIZE_PX;
   answerCardWidthPx = INITIAL_ANSWER_CARD_WIDTH_PX;
   private allAnswers: DictionaryAnswer[][] = [];
+  private allAnswers2: DictionaryAnswer[] = [];
   readonly pronouncedText$: Observable<string> = this.voiceRecognitionService.getPronouncedText();
   readonly allDictionaryAnswers$ = new BehaviorSubject<DictionaryAnswer[][]>([]);
+  readonly allDictionaryAnswers2$ = new BehaviorSubject<DictionaryAnswer[]>([]);
 
   constructor(private readonly voiceRecognitionService: VoiceRecognitionService) {
     this.voiceRecognitionService.getAnswers().subscribe(answers => {
       this.allAnswers.unshift(...answers);
       this.allDictionaryAnswers$.next(this.allAnswers);
+    });
+    this.voiceRecognitionService.getAnswers2().subscribe(answers => {
+      this.allAnswers2.unshift(...answers);
+      this.allDictionaryAnswers2$.next(this.allAnswers2);
     });
   }
 
@@ -40,6 +46,8 @@ export class Recognition {
   cleanup(): void {
     this.allAnswers = [];
     this.allDictionaryAnswers$.next([]);
+    this.allAnswers2 = [];
+    this.allDictionaryAnswers2$.next([]);
   }
 
   decreaseText(): void {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { fromEvent, Observable } from 'rxjs';
-import { filter, map, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, mergeMap, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
 import { AnswerProviderService } from './answer-provider.service';
 import { DictionaryAnswer } from 'src/types';
 
@@ -23,7 +23,6 @@ export class VoiceRecognitionService {
   );
 
   private readonly answers$: Observable<DictionaryAnswer[][]> = this.pronouncedWords$.pipe(
-    tap(console.log),
     withLatestFrom(this.allDictionaryAnswers$),
     map(([pronouncedWords, allDictionaryAnswers]) => 
         allDictionaryAnswers.map(dictionaryAnswers => getRecognizedDictionaryAnswers(pronouncedWords, dictionaryAnswers))),
@@ -37,6 +36,10 @@ export class VoiceRecognitionService {
 
   getAnswers(): Observable<DictionaryAnswer[][]> {
     return this.answers$;
+  }
+
+  getAnswers2(): Observable<DictionaryAnswer[]> {
+    return this.answers$.pipe(mergeMap(answers => answers));
   }
 
   start() {
