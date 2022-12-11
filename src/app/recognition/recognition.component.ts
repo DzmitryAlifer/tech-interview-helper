@@ -23,7 +23,7 @@ export class Recognition {
   readonly allDictionaryAnswers$ = new BehaviorSubject<DictionaryAnswer[]>([]);
 
   constructor(private readonly voiceRecognitionService: VoiceRecognitionService) {
-    this.voiceRecognitionService.getAnswers2().subscribe(answers => {
+    this.voiceRecognitionService.getAnswers().subscribe(answers => {
       this.allAnswers.unshift(...answers);
       this.allDictionaryAnswers$.next(this.allAnswers);
     });
