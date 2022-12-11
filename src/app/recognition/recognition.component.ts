@@ -57,4 +57,14 @@ export class Recognition {
   widenCard(): void {
     this.answerCardWidthPx += ANSWER_CARD_WIDTH_STEP_PX;
   }
+
+  removeAnswer(dictionaryAnswers: DictionaryAnswer[], dictionaryAnswer: DictionaryAnswer): void {
+    console.log(dictionaryAnswers);
+    dictionaryAnswers.splice(0, dictionaryAnswers.length, dictionaryAnswer);
+    console.log(dictionaryAnswers);
+  }
+}
+
+function answersComparator(left: DictionaryAnswer, right: DictionaryAnswer): boolean {
+  return left.tech === right.tech && left.topic === right.topic;
 }

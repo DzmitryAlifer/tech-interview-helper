@@ -33,10 +33,13 @@
 
     <ng-container *ngFor="let oneTechDictionaryAnswers of data.allDictionaryAnswers">
         <mat-card 
-            *ngFor="let dictionaryAnswer of oneTechDictionaryAnswers"
+            *ngFor="let dictionaryAnswer of oneTechDictionaryAnswers; let index = index"
             class="answer"
             [style.font-size.px]="fontSizePx"
             [style.width.px]="answerCardWidthPx">
+            <button (close)="removeAnswer(oneTechDictionaryAnswers, dictionaryAnswer)">
+                <mat-icon>close</mat-icon>
+            </button>
             <p class="topic">
                 <mat-chip>{{dictionaryAnswer.tech}}</mat-chip>
                 <b>{{dictionaryAnswer.topic}}</b>
