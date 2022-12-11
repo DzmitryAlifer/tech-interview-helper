@@ -37,7 +37,7 @@
             class="answer"
             [style.font-size.px]="fontSizePx"
             [style.width.px]="answerCardWidthPx">
-            <button (close)="removeAnswer(oneTechDictionaryAnswers, dictionaryAnswer)">
+            <button class="close" mat-icon-button (click)="removeAnswer(oneTechDictionaryAnswers, dictionaryAnswer)">
                 <mat-icon>close</mat-icon>
             </button>
             <p class="topic">

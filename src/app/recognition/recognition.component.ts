@@ -59,9 +59,9 @@ export class Recognition {
   }
 
   removeAnswer(dictionaryAnswers: DictionaryAnswer[], dictionaryAnswer: DictionaryAnswer): void {
-    console.log(dictionaryAnswers);
+    console.log(1, dictionaryAnswers);
     dictionaryAnswers.splice(0, dictionaryAnswers.length, dictionaryAnswer);
-    console.log(dictionaryAnswers);
+    console.log(2, dictionaryAnswers);
   }
 }
 
