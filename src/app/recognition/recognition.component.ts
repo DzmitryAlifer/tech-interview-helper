@@ -58,9 +58,9 @@ export class Recognition {
     this.answerCardWidthPx += ANSWER_CARD_WIDTH_STEP_PX;
   }
 
-  removeAnswer(dictionaryAnswers: DictionaryAnswer[], dictionaryAnswer: DictionaryAnswer): void {
-    console.log(1, dictionaryAnswers);
-    dictionaryAnswers.splice(0, dictionaryAnswers.length, dictionaryAnswer);
-    console.log(2, dictionaryAnswers);
+  removeAnswer(dictionaryAnswers: DictionaryAnswer[], answerToRemove: DictionaryAnswer): void {
+    dictionaryAnswers.splice(0, dictionaryAnswers.length, answerToRemove);
+    dictionaryAnswers = dictionaryAnswers
+        .filter(({tech, topic}) => tech !== answerToRemove.tech && topic !== answerToRemove.topic);
   }
 }
