@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { fromEvent, Observable } from 'rxjs';
-import { filter, map, mergeMap, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
-import { AnswerProviderService } from './answer-provider.service';
-import { DictionaryAnswer } from 'src/types';
+import {Injectable} from '@angular/core';
+import {fromEvent, Observable} from 'rxjs';
+import {filter, map, mergeMap, shareReplay, withLatestFrom} from 'rxjs/operators';
+import {AnswerProviderService} from './answer-provider.service';
+import {DictionaryAnswer } from 'src/types';
 
 
 declare var webkitSpeechRecognition: any;
