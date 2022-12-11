@@ -59,8 +59,8 @@ export class Recognition {
   }
 
   removeAnswer(dictionaryAnswers: DictionaryAnswer[], answerToRemove: DictionaryAnswer): void {
-    dictionaryAnswers.splice(0, dictionaryAnswers.length, answerToRemove);
-    dictionaryAnswers = dictionaryAnswers
-        .filter(({tech, topic}) => tech !== answerToRemove.tech && topic !== answerToRemove.topic);
+    const updatedDictionaryAnswers = dictionaryAnswers.filter(({tech, topic}) => 
+        tech !== answerToRemove.tech && topic !== answerToRemove.topic);
+    this.allDictionaryAnswers$.next(updatedDictionaryAnswers);
   }
 }
