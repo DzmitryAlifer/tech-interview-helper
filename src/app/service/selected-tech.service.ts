@@ -4,7 +4,7 @@ import { Tech } from 'src/types';
 import { map } from 'rxjs';
 
 const INITIAL_KNOWLEDGE_BASE_TECH = 'Angular';
-const ENABLED_TECHS_BY_DEFAULT: string[] = ['Angular'];
+const ENABLED_TECHS_BY_DEFAULT: string[] = Object.values(Tech);
 
 
 @Injectable({providedIn: 'root'})
