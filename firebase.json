@@ -4,7 +4,8 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "public": "dist/tech-interview-helper1",
+    "site": "interviewhelper",
+    "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
