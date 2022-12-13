@@ -3,11 +3,12 @@
 :host {
     display: flex;
     height: calc(100vh - $header-height);
-    width: 550px;
+    width: 520px;
     overflow: auto;
 }
 
 .knowledge {
+    margin-left: 24px;
     padding: 12px 12px 12px $button-bar-width + 12px;
     width: calc(100% - $button-bar-width);
 }
