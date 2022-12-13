@@ -13,6 +13,9 @@ export enum Tech {
     CODING = 'Coding',
 }
 
+export const TECHS_WITH_ICONS: string[] =
+    Object.values(Tech).slice(1, Object.values(Tech).length - 1);
+
 export enum Theme {
     LIGHT = 'light',
     DARK = 'dark',

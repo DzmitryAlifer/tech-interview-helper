@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {DictionaryAnswer, Panel} from 'src/types';
+import {DictionaryAnswer, Panel, TECHS_WITH_ICONS} from 'src/types';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {RightSidePanelService} from '../service/right-side-panel.service';
@@ -21,6 +21,7 @@ const INITIAL_KNOWLEDGE_BASE_TECH = 'General';
 export class KnowledgeSidebar {
   @ViewChildren('details') detailsElements!: QueryList<ElementRef>;
   
+  readonly TECHS_WITH_ICONS = TECHS_WITH_ICONS;
   readonly isAlphabeticallySorted$ = new BehaviorSubject<boolean>(false);
   readonly enabledTechs$: Observable<string[]> = 
       this.store.select(settingsSelectors.selectEnabledTechs);

@@ -6,6 +6,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatIconModule} from '@angular/material/icon'; 
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {KnowledgeSidebar} from './knowledge-sidebar.component';
+import {PipesModule} from '../shared/pipes/pipes.module';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import {KnowledgeSidebar} from './knowledge-sidebar.component';
     MatButtonToggleModule,
     MatIconModule,
     MatSidenavModule,
+    PipesModule,
     ReactiveFormsModule,
   ]
 })

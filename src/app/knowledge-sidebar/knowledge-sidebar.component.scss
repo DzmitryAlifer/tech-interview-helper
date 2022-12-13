@@ -3,7 +3,7 @@
 :host {
     display: flex;
     height: calc(100vh - $header-height);
-    width: 500px;
+    width: 550px;
     overflow: auto;
 }
 
@@ -44,6 +44,12 @@
     padding-bottom: 24px;
 }
 
+.img-icon {
+    height: 16px;
+    padding-right: 8px;
+    vertical-align: middle;
+}
+
 .vertical-button-bar {
     display: grid;
     height: calc(100vh - $header-height);
@@ -53,12 +59,12 @@
     ::ng-deep {
         .mat-button-toggle-button {
             height: 100%;
-            width: $button-bar-width;
+            width: calc($button-bar-width + 18px);
         }
 
         .mat-button-toggle-label-content {
             padding: 0;
-            transform: rotate(270deg);
+            transform: rotate(315deg);
         }
     }
 }

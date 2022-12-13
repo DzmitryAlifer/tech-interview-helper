@@ -7,6 +7,7 @@
         mat-raised-button
         [color]="data.techStatuses?.get(tech) ? 'primary' : 'basic'"
         (click)="toggleTechRecognition(tech)">
-        {{tech}}
+        <img *ngIf="TECHS_WITH_ICONS.includes(tech)" class="img-icon" [src]="tech | icon">
+        <span>{{tech}}</span>
     </button>
 </div>
