@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import * as auth from 'firebase/auth';
+import {GoogleAuthProvider} from 'firebase/auth';
 import firebase from 'firebase/compat/app';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/compat/firestore';
@@ -83,7 +83,7 @@ export class AuthService {
   }
 
   googleAuth(): Promise<any> {
-    return this.fireAuth.signInWithPopup(new auth.GoogleAuthProvider())
+    return this.fireAuth.signInWithPopup(new GoogleAuthProvider())
         .then(({user}) => {
           this.setUserData(user);
           this.userSubject$.next(user);
