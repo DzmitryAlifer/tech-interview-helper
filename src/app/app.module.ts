@@ -20,7 +20,6 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import {EffectsModule} from '@ngrx/effects';
 import { environment } from '../environments/environment';
-import { MeetingModule } from './meeting/meeting.module';
 import { SettingsPanelModule } from './settings-panel/settings-panel.module';
 import {AppEffects} from './store/app.effects';
 import {appReducer} from './store/app.reducers';
@@ -53,7 +52,6 @@ const APP_STORE_MODULES = [
       MatCardModule,
       MatIconModule,
       MatSidenavModule,
-      MeetingModule,
       RecognitionModule,
       SettingsPanelModule,
       TechMenuModule,
