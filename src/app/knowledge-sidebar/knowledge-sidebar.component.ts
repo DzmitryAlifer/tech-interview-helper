@@ -1,15 +1,18 @@
-import {ChangeDetectionStrategy, Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {DictionaryAnswer, Panel, TECHS_WITH_ICONS} from 'src/types';
+import {DictionaryAnswer, Panel, TECHS_WITH_ICONS, Theme} from 'src/types';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 import {RightSidePanelService} from '../service/right-side-panel.service';
+import {ThemeService} from '../service/theme.service';
 import * as settingsSelectors from '../settings-panel/state/settings.selectors';
 import * as appActions from '../store/app.actions';
 import * as appSelectors from '../store/app.selectors';
 
 
 const INITIAL_KNOWLEDGE_BASE_TECH = 'General';
+const LIGHT_THEME_HIGHLIGHT_COLOR = 'yellow';
+const DARK_THEME_HIGHLIGHT_COLOR = '#666600';
 
 
 @Component({
@@ -18,18 +21,19 @@ const INITIAL_KNOWLEDGE_BASE_TECH = 'General';
   styleUrls: ['./knowledge-sidebar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class KnowledgeSidebar {
+export class KnowledgeSidebar implements AfterViewInit {
   @ViewChildren('details') detailsElements!: QueryList<ElementRef>;
   
   readonly TECHS_WITH_ICONS = TECHS_WITH_ICONS;
   readonly isAlphabeticallySorted$ = new BehaviorSubject<boolean>(false);
+  readonly isDarkTheme$ = this.themeService.theme$.pipe(map(theme => theme === Theme.DARK));
   readonly enabledTechs$: Observable<string[]> = 
       this.store.select(settingsSelectors.selectEnabledTechs);
   private readonly selectedTech$ = new BehaviorSubject<string>(INITIAL_KNOWLEDGE_BASE_TECH);
   private readonly allAnswers$: Observable<Map<string, DictionaryAnswer[]>> = 
       this.store.select(appSelectors.selectGroupedAnswers);
 
-  readonly selectedTechDictionaryAnswers$: Observable<DictionaryAnswer[]> = 
+  private readonly selectedTechDictionaryAnswers$: Observable<DictionaryAnswer[]> = 
     combineLatest([this.selectedTech$, this.allAnswers$])
         .pipe(map(([tech, allAnswers]) => allAnswers.get(tech) ?? []));
 
@@ -42,10 +46,29 @@ export class KnowledgeSidebar {
           dictionaryAnswers),
     );
 
+  private readonly onNonEmptyAnswersWithTheme$: Observable<[DictionaryAnswer[], boolean]> = 
+      combineLatest([this.sortedDictionaryAnswers$, this.isDarkTheme$])
+        .pipe(filter(([answers,]) => !!answers.length));
+
   constructor(
+    private readonly elementRef: ElementRef,
     private readonly rightSidePanelService: RightSidePanelService,
     private readonly store: Store,
+    private readonly themeService: ThemeService,
   ) {}
+
+  ngAfterViewInit(): void {
+    this.onNonEmptyAnswersWithTheme$.subscribe(([, isDarkTheme]) => {
+      setTimeout(() => {
+        this.elementRef.nativeElement.querySelectorAll('.answer i')
+          .forEach((element: HTMLElement) => {
+            element.style.backgroundColor = isDarkTheme ? 
+                DARK_THEME_HIGHLIGHT_COLOR : 
+                LIGHT_THEME_HIGHLIGHT_COLOR;
+          });
+      });
+    });
+  }
 
   selectTech(tech: string): void {
     this.selectedTech$.next(tech);
