@@ -3,7 +3,7 @@
 :host {
     display: flex;
     height: calc(100vh - $header-height);
-    width: 520px;
+    width: 550px;
     overflow: auto;
 }
 
@@ -41,7 +41,7 @@
 }
 
 .answer {
-    font-size: 12px;
+    font-size: 14px;
     padding-bottom: 24px;
 }
 
