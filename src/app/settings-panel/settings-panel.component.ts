@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {combineLatest, Observable} from 'rxjs';
@@ -9,6 +9,7 @@ import {RightSidePanelService} from '../service/right-side-panel.service';
 import {updateSettings} from './state/settings.actions';
 import * as appSelectors from '../store/app.selectors';
 import * as settingsSelectors from '../settings-panel/state/settings.selectors';
+import { highlight } from '../common';
 
 
 interface EnabledTechs {
@@ -55,6 +56,7 @@ export class SettingsPanelComponent implements AfterViewInit {
   );
 
   constructor(
+    private readonly elementRef: ElementRef,
     private readonly rightSidePanelService: RightSidePanelService,
     private readonly store: Store,
   ) {}
@@ -62,6 +64,10 @@ export class SettingsPanelComponent implements AfterViewInit {
   async ngAfterViewInit() {
     const settings = await getUserSettings();
     this.enabledTechs = settings?.enabledTechs ?? this.enabledTechs;
+    
+    this.highlightColors$.subscribe(highlightColors => {
+      highlight(this.elementRef, '.highlight-example', highlightColors);
+    });
   }
 
   close(form: FormGroup<SettingsForm>): void {

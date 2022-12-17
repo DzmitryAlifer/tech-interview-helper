@@ -9,6 +9,7 @@ import {Settings} from '../settings-panel/state/settings.reducers';
 import * as settingsSelectors from '../settings-panel/state/settings.selectors';
 import * as appActions from '../store/app.actions';
 import * as appSelectors from '../store/app.selectors';
+import { highlight } from '../common';
 
 
 const INITIAL_KNOWLEDGE_BASE_TECH = 'General';
@@ -63,16 +64,8 @@ export class KnowledgeSidebar implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.onNonEmptyAnswers$.subscribe(([, isDarkTheme, highlightColors]) => {
-      setTimeout(() => {
-        this.elementRef.nativeElement.querySelectorAll('.answer i')
-          .forEach((element: HTMLElement) => {
-            element.style.backgroundColor = isDarkTheme ? 
-                'dark' + highlightColors.backgroundHighlightColor ?? '' : highlightColors.backgroundHighlightColor ?? '';
-            element.style.color = isDarkTheme ?
-                'dark' + highlightColors.textHighlightColor ?? '' : highlightColors.textHighlightColor ?? '';
-          });
-      });
+    this.onNonEmptyAnswers$.subscribe(([, , highlightColors]) => {
+      highlight(this.elementRef, '.answer i', highlightColors);
     });
   }
 
