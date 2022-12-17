@@ -82,6 +82,7 @@ export class SettingsPanelComponent implements AfterViewInit {
       textHighlightColor: value.colors?.colorHighlight ?? '',
       backgroundHighlightColor: value.colors?.backgroundColorHighlight ?? '',
     };
+    this.colors.reset();
     this.store.dispatch(updateSettings(settings));
   }
 
