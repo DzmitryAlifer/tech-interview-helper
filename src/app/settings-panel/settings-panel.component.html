@@ -22,11 +22,11 @@
         <p><i class="highlight-example">Italics highlight</i></p>
         <p>
             <mat-label>Text</mat-label>
-            <input matInput formControlName="colorHighlight" color="primary"/>
+            <input matInput [formControl]="colorsForm.controls.textHighlightColor" color="primary"/>
         </p>
         <p>
             <mat-label>Background</mat-label>
-            <input matInput formControlName="backgroundColorHighlight" color="primary"/>
+            <input matInput [formControl]="colorsForm.controls.backgroundHighlightColor" color="primary"/>
         </p>
     </form>
 

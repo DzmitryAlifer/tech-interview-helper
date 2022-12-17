@@ -2,7 +2,7 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef} from '@an
 import {FormControl, FormGroup} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {combineLatest, Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {debounceTime, map} from 'rxjs/operators';
 import {Tech} from 'src/types';
 import {getUserSettings, Settings} from '../service/firebase';
 import {RightSidePanelService} from '../service/right-side-panel.service';
@@ -17,8 +17,8 @@ interface EnabledTechs {
 }
 
 interface Colors {
-  backgroundColorHighlight: FormControl<string|null>;
-  colorHighlight: FormControl<string|null>;
+  backgroundHighlightColor: FormControl<string|null>;
+  textHighlightColor: FormControl<string|null>;
 }
 
 interface SettingsForm {
@@ -40,6 +40,11 @@ export class SettingsPanelComponent implements AfterViewInit {
   private readonly settings: Settings = JSON.parse(localStorage.getItem('settings') ?? '');
   private enabledTechs: string[] = this.settings?.enabledTechs ?? [];
   
+  readonly colorsForm = new FormGroup<Colors>({
+    backgroundHighlightColor: new FormControl<string>(''),
+    textHighlightColor: new FormControl<string>(''),
+  });
+
   readonly settingsForm$ = combineLatest([this.techs$, this.highlightColors$]).pipe(
     map(([techs, highlightColors]) => {
       const enabledTechs = new FormGroup<EnabledTechs>({});
@@ -47,11 +52,11 @@ export class SettingsPanelComponent implements AfterViewInit {
         const toggleControl = this.createToggleControl(this.enabledTechs, tech);
         enabledTechs.setControl(tech, toggleControl);
       });
-      const colors = new FormGroup<Colors>({
-        backgroundColorHighlight: new FormControl<string>(highlightColors.backgroundHighlightColor ?? ''),
-        colorHighlight: new FormControl<string>(highlightColors.textHighlightColor ?? ''),
-      })
-      return new FormGroup({enabledTechs, colors});
+      this.colorsForm.setValue({
+        backgroundHighlightColor: highlightColors.backgroundHighlightColor ?? '',
+        textHighlightColor: highlightColors.textHighlightColor ?? '',
+      });
+      return new FormGroup({enabledTechs, colors: this.colorsForm});
     }),
   );
 
@@ -68,6 +73,10 @@ export class SettingsPanelComponent implements AfterViewInit {
     this.highlightColors$.subscribe(highlightColors => {
       highlight(this.elementRef, '.highlight-example', highlightColors);
     });
+
+    this.colorsForm.valueChanges.pipe(debounceTime(500)).subscribe(highlightColors => {
+      highlight(this.elementRef, '.highlight-example', highlightColors as Settings);
+    });
   }
 
   close(form: FormGroup<SettingsForm>): void {
@@ -83,8 +92,8 @@ export class SettingsPanelComponent implements AfterViewInit {
     this.enabledTechs = enabledTechs;
     const settings: Settings = {
       enabledTechs,
-      textHighlightColor: form.value.colors?.colorHighlight ?? '',
-      backgroundHighlightColor: form.value.colors?.backgroundColorHighlight ?? '',
+      textHighlightColor: form.value.colors?.textHighlightColor ?? '',
+      backgroundHighlightColor: form.value.colors?.backgroundHighlightColor ?? '',
     };
     form.reset();
     this.store.dispatch(updateSettings(settings));
