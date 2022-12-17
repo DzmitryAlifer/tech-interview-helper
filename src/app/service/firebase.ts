@@ -28,6 +28,8 @@ export interface User {
 export interface Settings {
   userUid?: string;
   enabledTechs: string[];
+  textHighlightColor: string;
+  backgroundHighlightColor: string;
 }
 
 const config = {
@@ -74,7 +76,7 @@ export async function getUserSettings(): Promise<Settings|null> {
   return snapshot.exists() ? snapshot.data() as Settings : null;
 }
 
-export function saveUserSettings(settings: Settings): void {
+export function saveUserSettings(settings: Partial<Settings>): void {
   if (!authentication.currentUser?.uid) return;
   
   const documentRef = doc(database, 'settings', authentication.currentUser.uid);

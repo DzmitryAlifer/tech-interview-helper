@@ -71,13 +71,18 @@ export class SettingsPanelComponent implements AfterViewInit {
     this.setToggleControls(form.controls.enabledTechs);
   }
 
-  saveSettings(form: FormGroup<SettingsForm>): void {
-    const enabledTechs = Object.entries(form.value.enabledTechs!)
+  saveSettings({value}: FormGroup<SettingsForm>): void {
+    const enabledTechs = Object.entries(value.enabledTechs!)
       .filter(entry => entry[1])
       .map(entry => entry[0]);
 
     this.enabledTechs = enabledTechs;
-    this.store.dispatch(updateSettings({enabledTechs}));
+    const settings: Settings = {
+      enabledTechs,
+      textHighlightColor: value.colors?.colorHighlight ?? '',
+      backgroundHighlightColor: value.colors?.backgroundColorHighlight ?? '',
+    };
+    this.store.dispatch(updateSettings(settings));
   }
 
   private createToggleControl(enabledTechs: string[], tech: string): FormControl<boolean|null> {

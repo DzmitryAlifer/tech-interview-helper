@@ -19,7 +19,7 @@ export class SettingsService {
     return this.getSettings()?.enabledTechs ?? Object.values(Tech);
   }
 
-  saveSettings(settings: Settings) {
+  saveSettings(settings: Partial<Settings>) {
     saveUserSettings(settings);
   }
 }
