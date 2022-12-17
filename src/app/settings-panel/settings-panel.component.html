@@ -11,14 +11,14 @@
 
     <mat-divider></mat-divider>
 
-    <form [formGroup]="data.settingsForm!.controls.enabledTechsForm">
+    <form [formGroup]="data.settingsForm!.controls.enabledTechs">
         <p>Knowledge base</p>
         <p *ngFor="let tech of data.techs">
             <mat-slide-toggle [formControlName]="tech" color="primary">{{tech}}</mat-slide-toggle>
         </p>
     </form>
 
-    <form [formGroup]="data.settingsForm!.controls.colorsForm">
+    <form [formGroup]="data.settingsForm!.controls.colors">
         <p>Italics highlight colors</p>
         <p>
             <mat-label>Text color</mat-label>

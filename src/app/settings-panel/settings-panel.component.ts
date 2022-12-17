@@ -21,8 +21,8 @@ interface Colors {
 }
 
 interface SettingsForm {
-  colorsForm: FormGroup<Colors>;
-  enabledTechsForm: FormGroup<EnabledTechs>;
+  colors: FormGroup<Colors>;
+  enabledTechs: FormGroup<EnabledTechs>;
 }
 
 
@@ -40,19 +40,19 @@ export class SettingsPanelComponent implements AfterViewInit {
   
   readonly backgroundColorHighlight = new FormControl<string>('');
   readonly colorHighlight = new FormControl<string>('');
-  private readonly colorsForm = new FormGroup<Colors>({
+  private readonly colors = new FormGroup<Colors>({
     backgroundColorHighlight: this.backgroundColorHighlight, 
     colorHighlight: this.colorHighlight,
   });
 
   readonly settingsForm$ = this.techs$.pipe(
     map(techs => {
-      const enabledTechsForm = new FormGroup<EnabledTechs>({});
+      const enabledTechs = new FormGroup<EnabledTechs>({});
       techs.forEach(tech => {
         const toggleControl = this.createToggleControl(this.enabledTechs, tech);
-        enabledTechsForm.setControl(tech, toggleControl);
+        enabledTechs.setControl(tech, toggleControl);
       });
-      return new FormGroup({enabledTechsForm, colorsForm: this.colorsForm});
+      return new FormGroup({enabledTechs, colors: this.colors});
     }),
   );
 
@@ -68,11 +68,11 @@ export class SettingsPanelComponent implements AfterViewInit {
 
   close(form: FormGroup<SettingsForm>): void {
     this.rightSidePanelService.close();
-    this.setToggleControls(form.controls.enabledTechsForm);
+    this.setToggleControls(form.controls.enabledTechs);
   }
 
   saveSettings(form: FormGroup<SettingsForm>): void {
-    const enabledTechs = Object.entries(form.value.enabledTechsForm!)
+    const enabledTechs = Object.entries(form.value.enabledTechs!)
       .filter(entry => entry[1])
       .map(entry => entry[0]);
 
