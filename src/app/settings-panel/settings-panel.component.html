@@ -1,24 +1,37 @@
 <ng-container *ngIf="{
-    enabledTechsForm: enabledTechsForm$ | async,
+    settingsForm: settingsForm$ | async,
     techs: techs$ | async
 } as data">
     <div class="header">
         <h2>Settings</h2>
-        <button mat-icon-button (click)="close(data.enabledTechsForm!)">
+        <button mat-icon-button (click)="close(data.settingsForm!)">
             <mat-icon>close</mat-icon>
         </button>
     </div>
 
     <mat-divider></mat-divider>
 
-    <form [formGroup]="data.enabledTechsForm!">
-        <p *ngFor="let tech of techs$ | async">
+    <form [formGroup]="data.settingsForm!.controls.enabledTechsForm">
+        <p>Knowledge base</p>
+        <p *ngFor="let tech of data.techs">
             <mat-slide-toggle [formControlName]="tech" color="primary">{{tech}}</mat-slide-toggle>
+        </p>
+    </form>
+
+    <form [formGroup]="data.settingsForm!.controls.colorsForm">
+        <p>Italics highlight colors</p>
+        <p>
+            <mat-label>Text color</mat-label>
+            <input matInput [formControl]="colorHighlight" color="primary"/>
+        </p>
+        <p>
+            <mat-label>Background color</mat-label>
+            <input matInput [formControl]="backgroundColorHighlight" color="primary"/>
         </p>
     </form>
 
     <div class="footer">
         <mat-divider></mat-divider>
-        <button mat-raised-button color="primary" (click)="saveSettings(data.enabledTechsForm!)">Save</button>
+        <button mat-raised-button color="primary" (click)="saveSettings(data.settingsForm!)">Save</button>
     </div>
 </ng-container>
