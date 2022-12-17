@@ -6,6 +6,7 @@ export enum Tech {
     BROWSER = 'Browser',
     CSS = 'CSS',
     JAVASCRIPT = 'JavaScript',
+    TYPESCRIPT = 'TypeScript',
     NODE_JS = 'NodeJS',
     ANGULAR = 'Angular',
     RXJS = 'RxJS',
