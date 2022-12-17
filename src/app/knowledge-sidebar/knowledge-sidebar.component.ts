@@ -2,9 +2,10 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, QueryList
 import {Store} from '@ngrx/store';
 import {DictionaryAnswer, Panel, TECHS_WITH_ICONS, Theme} from 'src/types';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
-import {filter, map} from 'rxjs/operators';
+import {debounceTime, filter, map} from 'rxjs/operators';
 import {RightSidePanelService} from '../service/right-side-panel.service';
 import {ThemeService} from '../service/theme.service';
+import {Settings} from '../settings-panel/state/settings.reducers';
 import * as settingsSelectors from '../settings-panel/state/settings.selectors';
 import * as appActions from '../store/app.actions';
 import * as appSelectors from '../store/app.selectors';
@@ -32,6 +33,8 @@ export class KnowledgeSidebar implements AfterViewInit {
   private readonly selectedTech$ = new BehaviorSubject<string>(INITIAL_KNOWLEDGE_BASE_TECH);
   private readonly allAnswers$: Observable<Map<string, DictionaryAnswer[]>> = 
       this.store.select(appSelectors.selectGroupedAnswers);
+  private readonly highlightColors$: Observable<Partial<Settings>> = 
+      this.store.select(settingsSelectors.selectHighlightColors);
 
   private readonly selectedTechDictionaryAnswers$: Observable<DictionaryAnswer[]> = 
     combineLatest([this.selectedTech$, this.allAnswers$])
@@ -46,9 +49,11 @@ export class KnowledgeSidebar implements AfterViewInit {
           dictionaryAnswers),
     );
 
-  private readonly onNonEmptyAnswersWithTheme$: Observable<[DictionaryAnswer[], boolean]> = 
-      combineLatest([this.sortedDictionaryAnswers$, this.isDarkTheme$])
-        .pipe(filter(([answers,]) => !!answers.length));
+  private readonly onNonEmptyAnswers$: Observable<[DictionaryAnswer[], boolean, Partial<Settings>]> = 
+      combineLatest([this.sortedDictionaryAnswers$, this.isDarkTheme$, this.highlightColors$]).pipe(
+        debounceTime(0),
+        filter(([answers]) => !!answers.length),
+      );
 
   constructor(
     private readonly elementRef: ElementRef,
@@ -58,13 +63,14 @@ export class KnowledgeSidebar implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.onNonEmptyAnswersWithTheme$.subscribe(([, isDarkTheme]) => {
+    this.onNonEmptyAnswers$.subscribe(([, isDarkTheme, highlightColors]) => {
       setTimeout(() => {
         this.elementRef.nativeElement.querySelectorAll('.answer i')
           .forEach((element: HTMLElement) => {
             element.style.backgroundColor = isDarkTheme ? 
-                DARK_THEME_HIGHLIGHT_COLOR : 
-                LIGHT_THEME_HIGHLIGHT_COLOR;
+                'dark' + highlightColors.backgroundHighlightColor ?? '' : highlightColors.backgroundHighlightColor ?? '';
+            element.style.color = isDarkTheme ?
+                'dark' + highlightColors.textHighlightColor ?? '' : highlightColors.textHighlightColor ?? '';
           });
       });
     });

@@ -8,6 +8,7 @@ import {Store} from '@ngrx/store';
 import {merge, Observable, Subject} from 'rxjs';
 import {updateSettings} from '../settings-panel/state/settings.actions';
 import {getUserSettings} from './firebase';
+import { Settings } from '../settings-panel/state/settings.reducers';
 
 
 export default interface User {
@@ -34,7 +35,7 @@ export class AuthService {
       localStorage.setItem('user', user ? JSON.stringify(user) : 'null');
       
       getUserSettings().then(settings => {
-        this.store.dispatch(updateSettings({enabledTechs: settings?.enabledTechs ?? []}));
+        this.store.dispatch(updateSettings(settings ?? {} as Settings));
         localStorage.setItem('settings', JSON.stringify(settings));
       });
     });

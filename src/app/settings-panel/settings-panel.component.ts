@@ -1,14 +1,14 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Tech} from 'src/types';
 import {getUserSettings, Settings} from '../service/firebase';
 import {RightSidePanelService} from '../service/right-side-panel.service';
 import {updateSettings} from './state/settings.actions';
-import * as appActions from '../store/app.actions';
 import * as appSelectors from '../store/app.selectors';
+import * as settingsSelectors from '../settings-panel/state/settings.selectors';
 
 
 interface EnabledTechs {
@@ -35,24 +35,22 @@ interface SettingsForm {
 export class SettingsPanelComponent implements AfterViewInit {
   readonly techs = Object.values(Tech);
   readonly techs$: Observable<string[]> = this.store.select(appSelectors.selectTechs);
+  readonly highlightColors$: Observable<Partial<Settings>> = this.store.select(settingsSelectors.selectHighlightColors);
   private readonly settings: Settings = JSON.parse(localStorage.getItem('settings') ?? '');
   private enabledTechs: string[] = this.settings?.enabledTechs ?? [];
   
-  readonly backgroundColorHighlight = new FormControl<string>('');
-  readonly colorHighlight = new FormControl<string>('');
-  private readonly colors = new FormGroup<Colors>({
-    backgroundColorHighlight: this.backgroundColorHighlight, 
-    colorHighlight: this.colorHighlight,
-  });
-
-  readonly settingsForm$ = this.techs$.pipe(
-    map(techs => {
+  readonly settingsForm$ = combineLatest([this.techs$, this.highlightColors$]).pipe(
+    map(([techs, highlightColors]) => {
       const enabledTechs = new FormGroup<EnabledTechs>({});
       techs.forEach(tech => {
         const toggleControl = this.createToggleControl(this.enabledTechs, tech);
         enabledTechs.setControl(tech, toggleControl);
       });
-      return new FormGroup({enabledTechs, colors: this.colors});
+      const colors = new FormGroup<Colors>({
+        backgroundColorHighlight: new FormControl<string>(highlightColors.backgroundHighlightColor ?? ''),
+        colorHighlight: new FormControl<string>(highlightColors.textHighlightColor ?? ''),
+      })
+      return new FormGroup({enabledTechs, colors});
     }),
   );
 
@@ -71,18 +69,18 @@ export class SettingsPanelComponent implements AfterViewInit {
     this.setToggleControls(form.controls.enabledTechs);
   }
 
-  saveSettings({value}: FormGroup<SettingsForm>): void {
-    const enabledTechs = Object.entries(value.enabledTechs!)
+  saveSettings(form: FormGroup<SettingsForm>): void {
+    const enabledTechs = Object.entries(form.value.enabledTechs!)
       .filter(entry => entry[1])
       .map(entry => entry[0]);
 
     this.enabledTechs = enabledTechs;
     const settings: Settings = {
       enabledTechs,
-      textHighlightColor: value.colors?.colorHighlight ?? '',
-      backgroundHighlightColor: value.colors?.backgroundColorHighlight ?? '',
+      textHighlightColor: form.value.colors?.colorHighlight ?? '',
+      backgroundHighlightColor: form.value.colors?.backgroundColorHighlight ?? '',
     };
-    this.colors.reset();
+    form.reset();
     this.store.dispatch(updateSettings(settings));
   }
 

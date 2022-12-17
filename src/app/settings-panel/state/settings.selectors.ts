@@ -21,3 +21,9 @@ export const selectEnabledTechs = createSelector(
         return (JSON.parse(settingsString) as Settings).enabledTechs;
     },
 );
+
+export const selectHighlightColors = createSelector(
+    selectSettings,
+    ({textHighlightColor, backgroundHighlightColor}) => 
+        ({textHighlightColor, backgroundHighlightColor}),
+);
