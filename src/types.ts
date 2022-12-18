@@ -5,6 +5,7 @@ export enum Tech {
     GENERAL = 'General',
     BROWSER = 'Browser',
     JAVA = 'Java',
+    SELENIUM = 'Selenium',
     SPRING = 'Spring',
     HIBERNATE = 'Hibernate',
     SQL = 'SQL',
