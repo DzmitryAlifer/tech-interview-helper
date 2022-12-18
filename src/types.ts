@@ -9,6 +9,7 @@ export enum Tech {
     TYPESCRIPT = 'TypeScript',
     NODE_JS = 'NodeJS',
     ANGULAR = 'Angular',
+    REACT = 'React',
     RXJS = 'RxJS',
     NGRX = 'NgRx',
     CODING = 'Coding',
