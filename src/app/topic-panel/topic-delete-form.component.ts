@@ -1,11 +1,10 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Store} from '@ngrx/store';
 import {combineLatest, Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {DictionaryAnswer, TopicDeleteForm} from 'src/types';
+import {DictionaryAnswer, EnabledTopics, TopicDeleteForm} from 'src/types';
 import {RightSidePanelService} from '../service/right-side-panel.service';
-import * as topicPanelActions from './store/topic-panel.actions';
 import * as appSelectors from '../store/app.selectors';
 import * as settingsSelectors from '../settings-panel/state/settings.selectors';
 import {MatSelectChange} from '@angular/material/select';
@@ -17,7 +16,7 @@ import {MatSelectChange} from '@angular/material/select';
   styleUrls: ['./topic-delete-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TopicDeleteFormComponent {
+export class TopicDeleteFormComponent implements OnInit {
   readonly techs$: Observable<string[]> =
       this.store.select(settingsSelectors.selectEnabledTechs);
   private readonly selectedTech$ = new Subject<string>();
@@ -28,17 +27,25 @@ export class TopicDeleteFormComponent {
         map(([groupedAnswers, selectedTech]) => groupedAnswers.get(selectedTech) ?? []));
 
   readonly techField = new FormControl('');
-  readonly topicField = new FormControl('');
+  readonly enabledTopicsFields = new FormGroup<EnabledTopics>({});
   
   readonly topicDeleteForm = new FormGroup<TopicDeleteForm>({
     techField: this.techField,
-    topicField: this.topicField,
+    enabledTopicsFields: this.enabledTopicsFields,
   });
 
   constructor(
     private readonly rightSidePanelService: RightSidePanelService,
     private readonly store: Store,
   ) {}
+  
+  ngOnInit(): void {
+    this.dictionaryAnswers$.subscribe(dictionaryAnswers => {
+      dictionaryAnswers.forEach(dictionaryAnswer => {
+        this.enabledTopicsFields.setControl(dictionaryAnswer.topic, new FormControl<boolean>(true));
+      });
+    });
+  }
 
   onTechSelect({value}: MatSelectChange): void {
     this.selectedTech$.next(value);

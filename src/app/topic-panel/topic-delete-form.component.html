@@ -13,8 +13,12 @@
             <mat-hint>Technology</mat-hint>
         </mat-form-field>
 
-        <div *ngFor="let dictionaryAnswer of data.dictionaryAnswers" class="topic">
-            {{dictionaryAnswer.topic}}
-        </div>
+        <form [formGroup]="enabledTopicsFields">
+            <p *ngFor="let dictionaryAnswer of data.dictionaryAnswers" class="topic">
+                <mat-slide-toggle [formControlName]="dictionaryAnswer.topic" color="primary">
+                    {{dictionaryAnswer.topic}}
+                </mat-slide-toggle>
+            </p>
+        </form>
     </form>
 </ng-container>

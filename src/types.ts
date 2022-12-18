@@ -1,4 +1,4 @@
-import {FormControl} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 
 
 export enum Tech {
@@ -38,6 +38,7 @@ export interface DictionaryAnswer {
     topic: string;
     dictionary: string[];
     answer: string;
+    isDisabled?: boolean;
 }
 
 export interface DictionaryAnswerForm {
@@ -50,5 +51,9 @@ export interface DictionaryAnswerForm {
 
 export interface TopicDeleteForm {
     techField: FormControl<string|null>;
-    topicField: FormControl<string|null>;
+    enabledTopicsFields: FormGroup<EnabledTopics>;
+}
+
+export interface EnabledTopics {
+    [topic: string]: FormControl<boolean|null>;
 }
