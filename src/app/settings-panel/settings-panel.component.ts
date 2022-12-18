@@ -92,6 +92,20 @@ export class SettingsPanelComponent implements AfterViewInit {
     });
   }
 
+  changeTextHighlightColor(color: string): void {
+    this.colorsForm.setValue({
+      backgroundHighlightColor: this.colorsForm.value.backgroundHighlightColor ?? '',
+      textHighlightColor: color,
+    });
+  }
+
+  changeBackgroundHighlightColor(color: string): void {
+    this.colorsForm.setValue({
+      backgroundHighlightColor: color,
+      textHighlightColor: this.colorsForm.value.textHighlightColor ?? '',
+    });
+  }
+
   close(form: FormGroup<SettingsForm>, initialHasVoiceRecognition: boolean): void {
     this.rightSidePanelService.close();
     this.setToggleControls(form.controls.enabledTechs);

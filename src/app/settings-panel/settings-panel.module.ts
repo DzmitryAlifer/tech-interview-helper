@@ -5,10 +5,12 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
+import {ColorPickerModule} from 'ngx-color-picker';
 import {TechLabelModule} from '../shared/tech-label/tech-label.module';
 import {SettingsPanelComponent} from './settings-panel.component';
 import {SettingsEffects} from './state/settings.effects';
@@ -17,11 +19,13 @@ import {settingsReducer} from './state/settings.reducers';
 
 @NgModule({
   imports: [
+    ColorPickerModule,
     CommonModule,
     MatButtonModule,
     MatDividerModule,
     MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatSidenavModule,
     MatSlideToggleModule,
     ReactiveFormsModule,

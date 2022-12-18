@@ -1,5 +1,6 @@
 <ng-container *ngIf="{
     hasVoiceRecognition: hasVoiceRecognition$ | async,
+    highlightColors: highlightColors$ | async,
     settingsForm: settingsForm$ | async,
     techs: techs$ | async
 } as data">
@@ -29,11 +30,23 @@
         <p><i class="highlight-example">Italics highlight</i></p>
         <p>
             <mat-label>Text</mat-label>
-            <input matInput [formControl]="colorsForm.controls.textHighlightColor" color="primary"/>
+            <input
+                matInput
+                [formControl]="colorsForm.controls.textHighlightColor"
+                [value]="data.highlightColors!.textHighlightColor!"
+                [colorPicker]="data.highlightColors!.textHighlightColor!"
+                cpPosition="bottom"
+                (colorPickerChange)="changeTextHighlightColor($event)"/>
         </p>
         <p>
             <mat-label>Background</mat-label>
-            <input matInput [formControl]="colorsForm.controls.backgroundHighlightColor" color="primary"/>
+            <input
+                matInput
+                [formControl]="colorsForm.controls.backgroundHighlightColor"
+                [value]="data.highlightColors!.backgroundHighlightColor!"
+                [colorPicker]="data.highlightColors!.textHighlightColor!"
+                cpPosition="top"
+                (colorPickerChange)="changeBackgroundHighlightColor($event)"/>
         </p>
     </form>
 
