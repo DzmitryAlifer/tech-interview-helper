@@ -92,9 +92,10 @@ export class SettingsPanelComponent implements AfterViewInit {
     });
   }
 
-  close(form: FormGroup<SettingsForm>): void {
+  close(form: FormGroup<SettingsForm>, initialHasVoiceRecognition: boolean): void {
     this.rightSidePanelService.close();
     this.setToggleControls(form.controls.enabledTechs);
+    this.hasVoiceRecognition.setValue(initialHasVoiceRecognition);
   }
 
   saveSettings(form: FormGroup<SettingsForm>): void {
