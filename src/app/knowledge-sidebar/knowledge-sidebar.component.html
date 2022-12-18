@@ -5,7 +5,7 @@
 } as data">
     <mat-button-toggle-group class="vertical-button-bar" name="tech">
         <mat-button-toggle *ngFor="let tech of data.enabledTechs" (change)="selectTech(tech)">
-            <tech-label [tech]="tech"></tech-label>
+            <tech-label [tech]="tech" [isBold]="true"></tech-label>
         </mat-button-toggle>
     </mat-button-toggle-group>
 

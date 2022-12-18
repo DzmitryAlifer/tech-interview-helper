@@ -10,6 +10,7 @@ import {Tech, TECHS_WITH_ICONS} from 'src/types';
 })
 export class TechLabelComponent implements OnInit {
   @Input() tech: Tech | string = '';
+  @Input() isBold = false;
   
   hasIcon = false;
 

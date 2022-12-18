@@ -7,6 +7,6 @@
         mat-raised-button
         [color]="data.techStatuses?.get(tech) ? 'primary' : 'basic'"
         (click)="toggleTechRecognition(tech)">
-        <tech-label [tech]="tech"></tech-label>
+        <tech-label [tech]="tech" [isBold]="true"></tech-label>
     </button>
 </div>

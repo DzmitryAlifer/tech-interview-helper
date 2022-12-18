@@ -1,2 +1,2 @@
 <img *ngIf="hasIcon" class="img-icon" [src]="tech | icon">
-<b>{{tech}}</b>
+<span class="name" [style.fontWeight]="isBold ? 600 : 200">{{tech}}</span>
