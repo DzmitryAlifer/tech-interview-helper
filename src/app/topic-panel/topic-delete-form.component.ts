@@ -42,7 +42,8 @@ export class TopicDeleteFormComponent implements OnInit {
   ngOnInit(): void {
     this.dictionaryAnswers$.subscribe(dictionaryAnswers => {
       dictionaryAnswers.forEach(dictionaryAnswer => {
-        this.enabledTopicsFields.setControl(dictionaryAnswer.topic, new FormControl<boolean>(true));
+        const isAnswerEnabledControl = new FormControl<boolean>(!dictionaryAnswer.isDisabled);
+        this.enabledTopicsFields.setControl(dictionaryAnswer.topic, isAnswerEnabledControl);
       });
     });
   }
