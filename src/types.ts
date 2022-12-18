@@ -4,6 +4,10 @@ import {FormControl} from '@angular/forms';
 export enum Tech {
     GENERAL = 'General',
     BROWSER = 'Browser',
+    JAVA = 'Java',
+    SPRING = 'Spring',
+    HIBERNATE = 'Hibernate',
+    SQL = 'SQL',
     CSS = 'CSS',
     JAVASCRIPT = 'JavaScript',
     TYPESCRIPT = 'TypeScript',
