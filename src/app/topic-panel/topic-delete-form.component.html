@@ -6,7 +6,9 @@
         <mat-form-field appearance="outline">
             <mat-label>Technology</mat-label>
             <mat-select [formControl]="techField" required (selectionChange)="onTechSelect($event)">
-                <mat-option *ngFor="let tech of data.techs" [value]="tech">{{tech}}</mat-option>
+                <mat-option *ngFor="let tech of data.techs" [value]="tech">
+                    <tech-label [tech]="tech"></tech-label>
+                </mat-option>
             </mat-select>
             <mat-hint>Technology</mat-hint>
         </mat-form-field>

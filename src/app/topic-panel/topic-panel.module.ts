@@ -13,6 +13,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTabsModule} from '@angular/material/tabs';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
+import {TechLabelModule} from '../shared/tech-label/tech-label.module';
 import {TopicCreateForm} from './topic-create-form.component';
 import {TopicPanelComponent} from './topic-panel.component';
 import {TopicPanelEffects} from './store/topic-panel.effects';
@@ -27,22 +28,23 @@ const TOPIC_PANEL_STORE_MODULES = [
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatChipsModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatSlideToggleModule,
-    MatTabsModule,
-    ReactiveFormsModule,
-    TOPIC_PANEL_STORE_MODULES,
-  ],
-  declarations: [TopicCreateForm, TopicDeleteFormComponent, TopicPanelComponent],
-  exports: [TopicPanelComponent],
+    declarations: [TopicCreateForm, TopicDeleteFormComponent, TopicPanelComponent],
+    exports: [TopicPanelComponent],
+    imports: [
+      CommonModule,
+      MatButtonModule,
+      MatChipsModule,
+      MatDividerModule,
+      MatFormFieldModule,
+      MatIconModule,
+      MatInputModule,
+      MatSelectModule,
+      MatSidenavModule,
+      MatSlideToggleModule,
+      MatTabsModule,
+      ReactiveFormsModule,
+      TechLabelModule,
+      TOPIC_PANEL_STORE_MODULES,
+    ]
 })
 export class TopicPanelModule {}
