@@ -18,18 +18,15 @@ export const initialState: Settings = {
 
 export const settingsReducer = createReducer(
     initialState,
-    on(actions.updateSettings, (state, {enabledTechs, textHighlightColor, backgroundHighlightColor}) => ({
+    on(actions.updateSettings, (state, settings) => ({
         ...state, 
-        enabledTechs,
-        textHighlightColor,
-        backgroundHighlightColor,
+        enabledTechs: settings.enabledTechs,
+        hasVoiceRecognition: settings.hasVoiceRecognition,
+        textHighlightColor: settings.textHighlightColor,
+        backgroundHighlightColor: settings.backgroundHighlightColor,
     })),
     on(actions.enableTech, (state, {tech}) => ({
         ...state, 
         enabledTechs: [...state.enabledTechs, tech],
-    })),
-    on(actions.toggleVoiceRecognition, state => ({
-        ...state,
-        hasVoiceRecognition: !state.hasVoiceRecognition,
     })),
 );

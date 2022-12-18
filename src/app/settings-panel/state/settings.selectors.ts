@@ -30,5 +30,5 @@ export const selectHighlightColors = createSelector(
 
 export const selectHasVoiceRecognition = createSelector(
     selectSettings,
-    ({hasVoiceRecognition}) => hasVoiceRecognition,
+    ({hasVoiceRecognition}) => !!hasVoiceRecognition,
 );

@@ -18,6 +18,8 @@
         </p>
     </form>
 
+    <mat-slide-toggle [formControl]="hasVoiceRecognition" color="primary">Voice recognition panel</mat-slide-toggle>
+
     <form [formGroup]="data.settingsForm!.controls.colors">
         <p><i class="highlight-example">Italics highlight</i></p>
         <p>

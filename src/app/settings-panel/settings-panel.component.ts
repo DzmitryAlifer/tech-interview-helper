@@ -25,6 +25,7 @@ interface Colors {
 interface SettingsForm {
   colors: FormGroup<Colors>;
   enabledTechs: FormGroup<EnabledTechs>;
+  hasVoiceRecognition: FormControl<boolean|null>;
 }
 
 
@@ -37,27 +38,38 @@ interface SettingsForm {
 export class SettingsPanelComponent implements AfterViewInit {
   readonly techs = Object.values(Tech);
   readonly techs$: Observable<string[]> = this.store.select(appSelectors.selectTechs);
+  readonly hasVoiceRecognition$: Observable<boolean> = this.store.select(settingsSelectors.selectHasVoiceRecognition);
   readonly highlightColors$: Observable<Partial<Settings>> = this.store.select(settingsSelectors.selectHighlightColors);
   private readonly settings: Settings = JSON.parse(localStorage.getItem('settings') ?? '');
   private enabledTechs: string[] = this.settings?.enabledTechs ?? [];
   
+  readonly hasVoiceRecognition = new FormControl<boolean>(false);
+
   readonly colorsForm = new FormGroup<Colors>({
     backgroundHighlightColor: new FormControl<string>(''),
     textHighlightColor: new FormControl<string>(''),
   });
 
-  readonly settingsForm$ = combineLatest([this.techs$, this.highlightColors$]).pipe(
-    map(([techs, highlightColors]) => {
+  readonly settingsForm$ = combineLatest([this.techs$, this.hasVoiceRecognition$, this.highlightColors$]).pipe(
+    map(([techs, hasVoiceRecognition, highlightColors]) => {
       const enabledTechs = new FormGroup<EnabledTechs>({});
       techs.forEach(tech => {
         const toggleControl = this.createToggleControl(this.enabledTechs, tech);
         enabledTechs.setControl(tech, toggleControl);
       });
+
+      this.hasVoiceRecognition.setValue(hasVoiceRecognition);
+
       this.colorsForm.setValue({
         backgroundHighlightColor: highlightColors.backgroundHighlightColor ?? '',
         textHighlightColor: highlightColors.textHighlightColor ?? '',
       });
-      return new FormGroup({enabledTechs, colors: this.colorsForm});
+      
+      return new FormGroup({
+        enabledTechs,
+        hasVoiceRecognition: this.hasVoiceRecognition,
+        colors: this.colorsForm,
+      });
     }),
   );
 
@@ -93,6 +105,7 @@ export class SettingsPanelComponent implements AfterViewInit {
     this.enabledTechs = enabledTechs;
     const settings: Settings = {
       enabledTechs,
+      hasVoiceRecognition: !!form.value.hasVoiceRecognition,
       textHighlightColor: form.value.colors?.textHighlightColor ?? '',
       backgroundHighlightColor: form.value.colors?.backgroundHighlightColor ?? '',
     };
