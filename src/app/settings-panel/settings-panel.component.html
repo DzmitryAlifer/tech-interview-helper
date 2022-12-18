@@ -14,27 +14,33 @@
     <mat-divider></mat-divider>
 
     <form [formGroup]="data.settingsForm!.controls.colors">
-        <p><i class="highlight-example">Italics highlight</i></p>
-        <p>
-            <mat-label>Text</mat-label>
-            <input class="color-picker"
-                [formControl]="colorsForm.controls.textHighlightColor"
-                [value]="data.highlightColors!.textHighlightColor!"
-                [colorPicker]="data.highlightColors!.textHighlightColor!"
-                cpWidth="200"
-                cpPosition="bottom"
-                (colorPickerChange)="changeTextHighlightColor($event)" />
-        </p>
-        <p>
-            <mat-label>Background</mat-label>
-            <input class="color-picker"
-                [formControl]="colorsForm.controls.backgroundHighlightColor"
-                [value]="data.highlightColors!.backgroundHighlightColor!"
-                [colorPicker]="data.highlightColors!.textHighlightColor!"
-                cpWidth="200"
-                cpPosition="bottom"
-                (colorPickerChange)="changeBackgroundHighlightColor($event)" />
-        </p>
+        <p>Highlighted text: <i class="highlight-example">Italics highlight</i></p>
+        
+        <button mat-button #ignoredTextButton (click)="toggleText = !toggleText">
+            Text
+        </button><br>
+        <input #ignoredTextInput 
+            class="color-picker"
+            [formControl]="colorsForm.controls.textHighlightColor"
+            [colorPicker]="data.highlightColors!.textHighlightColor!"
+            [(cpToggle)]="toggleText"
+            [cpIgnoredElements]="[ignoredTextButton, ignoredTextInput]"
+            cpWidth="200"
+            cpPosition="bottom right"
+            (colorPickerChange)="changeTextHighlightColor($event)" />
+
+        <button mat-button #ignoredBackgroundButton (click)="toggleBackground = !toggleBackground">
+            Background
+        </button><br>
+        <input #ignoredBackgroundInput
+            class="color-picker"
+            [formControl]="colorsForm.controls.backgroundHighlightColor"
+            [colorPicker]="data.highlightColors!.backgroundHighlightColor!"
+            [(cpToggle)]="toggleBackground"
+            [cpIgnoredElements]="[ignoredBackgroundButton, ignoredBackgroundInput]"
+            cpWidth="200"
+            cpPosition="bottom right"
+            (colorPickerChange)="changeBackgroundHighlightColor($event)" />
     </form>
 
     <form [formGroup]="data.settingsForm!.controls.enabledTechs">

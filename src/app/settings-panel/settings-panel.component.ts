@@ -36,6 +36,8 @@ interface SettingsForm {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsPanelComponent implements AfterViewInit {
+  toggleText = false;
+  toggleBackground = false;
   readonly techs = Object.values(Tech);
   readonly techs$: Observable<string[]> = this.store.select(appSelectors.selectTechs);
   readonly hasVoiceRecognition$: Observable<boolean> = this.store.select(settingsSelectors.selectHasVoiceRecognition);
