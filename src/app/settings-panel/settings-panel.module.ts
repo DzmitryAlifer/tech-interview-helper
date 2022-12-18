@@ -9,6 +9,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
+import {TechLabelModule} from '../shared/tech-label/tech-label.module';
 import {SettingsPanelComponent} from './settings-panel.component';
 import {SettingsEffects} from './state/settings.effects';
 import {settingsReducer} from './state/settings.reducers';
@@ -24,6 +25,7 @@ import {settingsReducer} from './state/settings.reducers';
     MatSidenavModule,
     MatSlideToggleModule,
     ReactiveFormsModule,
+    TechLabelModule,
     StoreModule.forRoot({}), 
     StoreModule.forFeature('settings', settingsReducer),
     EffectsModule.forRoot([]),

@@ -13,8 +13,6 @@ import { highlight } from '../common';
 
 
 const INITIAL_KNOWLEDGE_BASE_TECH = 'General';
-const LIGHT_THEME_HIGHLIGHT_COLOR = 'yellow';
-const DARK_THEME_HIGHLIGHT_COLOR = '#777700';
 
 
 @Component({

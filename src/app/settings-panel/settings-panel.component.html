@@ -15,7 +15,9 @@
     <form [formGroup]="data.settingsForm!.controls.enabledTechs">
         <p>Knowledge base</p>
         <p *ngFor="let tech of data.techs">
-            <mat-slide-toggle [formControlName]="tech" color="primary">{{tech}}</mat-slide-toggle>
+            <mat-slide-toggle [formControlName]="tech" color="primary">
+                <tech-label [tech]="tech"></tech-label>
+            </mat-slide-toggle>
         </p>
     </form>
 

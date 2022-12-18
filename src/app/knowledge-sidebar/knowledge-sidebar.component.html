@@ -5,8 +5,7 @@
 } as data">
     <mat-button-toggle-group class="vertical-button-bar" name="tech">
         <mat-button-toggle *ngFor="let tech of data.enabledTechs" (change)="selectTech(tech)">
-            <img *ngIf="TECHS_WITH_ICONS.includes(tech)" class="img-icon" [src]="tech | icon">
-            <b>{{tech}}</b>
+            <tech-label [tech]="tech"></tech-label>
         </mat-button-toggle>
     </mat-button-toggle-group>
 
