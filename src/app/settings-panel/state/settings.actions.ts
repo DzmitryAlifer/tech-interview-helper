@@ -7,3 +7,6 @@ export const updateSettings =
 
 export const enableTech = 
     createAction('[Settings] Add enabled tech', props<{tech: string}>());
+
+export const toggleVoiceRecognition =
+    createAction('[Settings] Toggle voice recognition');

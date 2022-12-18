@@ -4,12 +4,13 @@ import {Store} from '@ngrx/store';
 import {combineLatest, Observable} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {Tech} from 'src/types';
-import {getUserSettings, Settings} from '../service/firebase';
+import {highlight} from '../common';
+import {getUserSettings} from '../service/firebase';
 import {RightSidePanelService} from '../service/right-side-panel.service';
 import {updateSettings} from './state/settings.actions';
 import * as appSelectors from '../store/app.selectors';
 import * as settingsSelectors from '../settings-panel/state/settings.selectors';
-import { highlight } from '../common';
+import {Settings} from '../settings-panel/state/settings.reducers';
 
 
 interface EnabledTechs {

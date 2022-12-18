@@ -27,3 +27,8 @@ export const selectHighlightColors = createSelector(
     ({textHighlightColor, backgroundHighlightColor}) => 
         ({textHighlightColor, backgroundHighlightColor}),
 );
+
+export const selectHasVoiceRecognition = createSelector(
+    selectSettings,
+    ({hasVoiceRecognition}) => hasVoiceRecognition,
+);

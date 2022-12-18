@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Tech} from 'src/types';
-import {saveUserSettings, Settings} from './firebase';
+import {Settings} from '../settings-panel/state/settings.reducers'; 
+import {saveUserSettings} from './firebase';
 
 
 @Injectable({providedIn: 'root'})

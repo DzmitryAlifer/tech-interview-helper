@@ -17,6 +17,8 @@ import {
 import {from, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import { DictionaryAnswer, Tech } from 'src/types';
+import {Settings} from '../settings-panel/state/settings.reducers';
+
 
 export interface User {
   uid?: string;
@@ -25,21 +27,7 @@ export interface User {
   email: string | null;
 }
 
-export interface Settings {
-  userUid?: string;
-  enabledTechs: string[];
-  textHighlightColor: string;
-  backgroundHighlightColor: string;
-}
-
 const config = {
-  // apiKey: 'AIzaSyBxfkwcHwkojE_-lTJpSU0YHqVyxFJmr9s',
-  // authDomain: 'tech-interview-helper1.firebaseapp.com',
-  // projectId: 'tech-interview-helper1',
-  // storageBucket: 'tech-interview-helper1.appspot.com',
-  // messagingSenderId: '228304227676',
-  // appId: '1:228304227676:web:fb3bbc2fcd70d2a9b5c599',
-  // measurementId: 'G-40ZBRQZNTP',
   apiKey: "AIzaSyBxfkwcHwkojE_-lTJpSU0YHqVyxFJmr9s",
   authDomain: "tech-interview-helper.firebaseapp.com",
   projectId: "tech-interview-helper",

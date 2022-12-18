@@ -1,11 +1,13 @@
 import {createReducer, on} from '@ngrx/store';
-import {enableTech, updateSettings} from './settings.actions';
+import * as actions from './settings.actions';
 
 
 export interface Settings {
     enabledTechs: string[];
     textHighlightColor: string;
     backgroundHighlightColor: string;
+    hasVoiceRecognition?: boolean;
+    userUid?: string;
 }
 
 export const initialState: Settings = {
@@ -16,14 +18,18 @@ export const initialState: Settings = {
 
 export const settingsReducer = createReducer(
     initialState,
-    on(updateSettings, (state, {enabledTechs, textHighlightColor, backgroundHighlightColor}) => ({
+    on(actions.updateSettings, (state, {enabledTechs, textHighlightColor, backgroundHighlightColor}) => ({
         ...state, 
         enabledTechs,
         textHighlightColor,
         backgroundHighlightColor,
     })),
-    on(enableTech, (state, {tech}) => ({
+    on(actions.enableTech, (state, {tech}) => ({
         ...state, 
         enabledTechs: [...state.enabledTechs, tech],
+    })),
+    on(actions.toggleVoiceRecognition, state => ({
+        ...state,
+        hasVoiceRecognition: !state.hasVoiceRecognition,
     })),
 );

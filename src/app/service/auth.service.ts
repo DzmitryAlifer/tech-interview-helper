@@ -8,7 +8,7 @@ import {Store} from '@ngrx/store';
 import {merge, Observable, Subject} from 'rxjs';
 import {updateSettings} from '../settings-panel/state/settings.actions';
 import {getUserSettings} from './firebase';
-import { Settings } from '../settings-panel/state/settings.reducers';
+import {Settings} from '../settings-panel/state/settings.reducers';
 
 
 export default interface User {
