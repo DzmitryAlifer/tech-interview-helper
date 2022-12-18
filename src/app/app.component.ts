@@ -6,8 +6,10 @@ import {map} from 'rxjs/operators';
 import {Panel, Theme} from 'src/types';
 import {RightSidePanelService} from './service/right-side-panel.service';
 import {ThemeService} from './service/theme.service';
-import {selectActivePanel} from './store/app.selectors';
 import * as appActions from './store/app.actions';
+import * as appSelectors from './store/app.selectors';
+import * as settingsSelectors from './settings-panel/state/settings.selectors';
+
 
 @Component({
   selector: 'app-root',
@@ -19,9 +21,13 @@ export class AppComponent {
   @ViewChild('rightSidePanel') rightSidePanel!: MatSidenav;
 
   readonly Panel = Panel;
-  readonly isDarkTheme$ = this.themeService.theme$.pipe(map(theme => theme === Theme.DARK));
+  readonly isDarkTheme$ = 
+      this.themeService.theme$.pipe(map(theme => theme === Theme.DARK));
   readonly isOpenPanel$ = this.rightSidePanelService.isOpenPanel$;
-  readonly activePanel$: Observable<Panel | null> = this.store.select(selectActivePanel);
+  readonly activePanel$: Observable<Panel | null> = 
+      this.store.select(appSelectors.selectActivePanel);
+  readonly hasVoiceRecognition$: Observable<boolean> = 
+      this.store.select(settingsSelectors.selectHasVoiceRecognition);
 
   constructor(
     private readonly rightSidePanelService: RightSidePanelService,

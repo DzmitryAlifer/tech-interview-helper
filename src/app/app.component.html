@@ -1,5 +1,6 @@
 <div *ngIf="{
     activePanel: activePanel$ | async,
+    hasVoiceRecognition: hasVoiceRecognition$ | async,
     isDarkTheme: isDarkTheme$ | async
 } as data" 
     [class.app-mat-theme-dark]="data.isDarkTheme" 
@@ -10,8 +11,10 @@
             <div class="outer-container">
                 <div class="inner-container">
                     <knowledge-sidebar></knowledge-sidebar>
-                    <recognition></recognition>
-                    <tech-menu></tech-menu>
+                    <ng-container *ngIf="data.hasVoiceRecognition">
+                        <recognition></recognition>
+                        <tech-menu></tech-menu>
+                    </ng-container>
                 </div>
             </div>
         </mat-sidenav-content>
