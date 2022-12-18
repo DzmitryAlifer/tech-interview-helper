@@ -13,6 +13,30 @@
 
     <mat-divider></mat-divider>
 
+    <form [formGroup]="data.settingsForm!.controls.colors">
+        <p><i class="highlight-example">Italics highlight</i></p>
+        <p>
+            <mat-label>Text</mat-label>
+            <input class="color-picker"
+                [formControl]="colorsForm.controls.textHighlightColor"
+                [value]="data.highlightColors!.textHighlightColor!"
+                [colorPicker]="data.highlightColors!.textHighlightColor!"
+                cpWidth="200"
+                cpPosition="bottom"
+                (colorPickerChange)="changeTextHighlightColor($event)" />
+        </p>
+        <p>
+            <mat-label>Background</mat-label>
+            <input class="color-picker"
+                [formControl]="colorsForm.controls.backgroundHighlightColor"
+                [value]="data.highlightColors!.backgroundHighlightColor!"
+                [colorPicker]="data.highlightColors!.textHighlightColor!"
+                cpWidth="200"
+                cpPosition="bottom"
+                (colorPickerChange)="changeBackgroundHighlightColor($event)" />
+        </p>
+    </form>
+
     <form [formGroup]="data.settingsForm!.controls.enabledTechs">
         <p>Knowledge base</p>
         <p *ngFor="let tech of data.techs">
@@ -25,30 +49,6 @@
     <mat-slide-toggle class="control" [formControl]="hasVoiceRecognition" color="primary">
         Voice recognition panel
     </mat-slide-toggle>
-
-    <form [formGroup]="data.settingsForm!.controls.colors">
-        <p><i class="highlight-example">Italics highlight</i></p>
-        <p>
-            <mat-label>Text</mat-label>
-            <input
-                matInput
-                [formControl]="colorsForm.controls.textHighlightColor"
-                [value]="data.highlightColors!.textHighlightColor!"
-                [colorPicker]="data.highlightColors!.textHighlightColor!"
-                cpPosition="bottom"
-                (colorPickerChange)="changeTextHighlightColor($event)"/>
-        </p>
-        <p>
-            <mat-label>Background</mat-label>
-            <input
-                matInput
-                [formControl]="colorsForm.controls.backgroundHighlightColor"
-                [value]="data.highlightColors!.backgroundHighlightColor!"
-                [colorPicker]="data.highlightColors!.textHighlightColor!"
-                cpPosition="top"
-                (colorPickerChange)="changeBackgroundHighlightColor($event)"/>
-        </p>
-    </form>
 
     <div class="footer">
         <mat-divider></mat-divider>
