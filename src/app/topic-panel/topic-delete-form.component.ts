@@ -55,5 +55,7 @@ export class TopicDeleteFormComponent implements OnInit {
   saveEnabledAnswers(): void {
     const tech = this.topicDeleteForm.value.techField;
     const answers = this.topicDeleteForm.value.enabledTopicsFields;
+    // TODO: think of concept of disabled/deleted answers
+    console.log(answers);
   }
 }
