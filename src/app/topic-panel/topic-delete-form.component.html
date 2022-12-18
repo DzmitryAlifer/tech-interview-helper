@@ -2,7 +2,7 @@
     dictionaryAnswers: dictionaryAnswers$ | async,
     techs: techs$ | async
 } as data">
-    <form [formGroup]="topicDeleteForm">
+    <form class="outer-form" [formGroup]="topicDeleteForm">
         <mat-form-field appearance="outline">
             <mat-label>Technology</mat-label>
             <mat-select [formControl]="techField" required (selectionChange)="onTechSelect($event)">
@@ -21,4 +21,9 @@
             </p>
         </form>
     </form>
+
+    <div class="footer">
+        <mat-divider></mat-divider>
+        <button mat-raised-button color="primary" (click)="saveEnabledAnswers()">Save</button>
+    </div>
 </ng-container>

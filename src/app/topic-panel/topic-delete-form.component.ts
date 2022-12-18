@@ -51,4 +51,9 @@ export class TopicDeleteFormComponent implements OnInit {
   onTechSelect({value}: MatSelectChange): void {
     this.selectedTech$.next(value);
   }
+
+  saveEnabledAnswers(): void {
+    const tech = this.topicDeleteForm.value.techField;
+    const answers = this.topicDeleteForm.value.enabledTopicsFields;
+  }
 }

@@ -1,6 +1,18 @@
 @import '../../styles.scss';
 
-form {
+.outer-form {
   height: calc(100vh - calc(3 * $header-height + 118px));
   padding: 24px;
+}
+
+.footer {
+  bottom: 0px;
+  position: fixed;
+  text-align: center;
+  width: $topic-panel-width;
+
+  button {
+    margin: 16px;
+    padding: 12px 48px;
+  }
 }
