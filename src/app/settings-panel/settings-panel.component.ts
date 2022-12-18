@@ -106,10 +106,15 @@ export class SettingsPanelComponent implements AfterViewInit {
     });
   }
 
-  close(form: FormGroup<SettingsForm>, initialHasVoiceRecognition: boolean): void {
+  close(form: FormGroup<SettingsForm>, initialHasVoiceRecognition: boolean, highlightColors: Partial<Settings>): void {
     this.rightSidePanelService.close();
     this.setToggleControls(form.controls.enabledTechs);
     this.hasVoiceRecognition.setValue(initialHasVoiceRecognition);
+
+    this.colorsForm.setValue({
+      backgroundHighlightColor: highlightColors.backgroundHighlightColor ?? '',
+      textHighlightColor: highlightColors.textHighlightColor ?? '',
+    });
   }
 
   saveSettings(form: FormGroup<SettingsForm>): void {
