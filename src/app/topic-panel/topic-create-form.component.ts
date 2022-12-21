@@ -33,7 +33,7 @@ const INPUT_DEBOUNCE_TIME = 200;
 })
 export class TopicCreateForm {
     isNewTechSelected = false;
-    readonly keywords: string[] = [];
+    keywords: string[] = [];
     readonly techs$: Observable<string[]> =
         this.store.select(settingsSelectors.selectEnabledTechs)
             .pipe(map(techs => [ADD_NEW_TECH_SELECTION, ...techs]));
@@ -107,6 +107,7 @@ export class TopicCreateForm {
 
     async saveTopic(dictionaryAnswer: DictionaryAnswer): Promise<void> {
         this.rightSidePanelService.close();
+        this.resetForm();
         await saveDictionaryAnswer(dictionaryAnswer);
         this.store.dispatch(topicPanelActions.addDictionaryAnswer({dictionaryAnswer}));
 
@@ -119,5 +120,10 @@ export class TopicCreateForm {
         return !!form.techField && form.techField !== ADD_NEW_TECH_SELECTION ?
             form.techField :
             form.newTechField.trim();
+    }
+
+    private resetForm(): void {
+        this.topicCreateForm.reset();
+        this.keywords = [];
     }
 }

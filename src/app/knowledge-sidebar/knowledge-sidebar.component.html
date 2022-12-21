@@ -21,9 +21,6 @@
             <button mat-fab color="primary" (click)="collapseAll()">
                 <mat-icon class="collapse">keyboard_arrow_up</mat-icon>
             </button>
-            <button mat-fab color="primary" (click)="openTopicPanel()">
-                <mat-icon class="new-answer">assignment_add</mat-icon>
-            </button>
         </div>
 
         <details #details *ngFor="let dictionaryAnswer of data.sortedDictionaryAnswers">

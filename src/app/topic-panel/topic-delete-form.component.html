@@ -3,7 +3,7 @@
     techs: techs$ | async
 } as data">
     <form class="outer-form" [formGroup]="topicDeleteForm">
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="tech-field">
             <mat-label>Technology</mat-label>
             <mat-select [formControl]="techField" required (selectionChange)="onTechSelect($event)">
                 <mat-option *ngFor="let tech of data.techs" [value]="tech">

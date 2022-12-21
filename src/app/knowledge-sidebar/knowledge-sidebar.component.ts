@@ -3,13 +3,11 @@ import {Store} from '@ngrx/store';
 import {DictionaryAnswer, Panel, TECHS_WITH_ICONS, Theme} from 'src/types';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
-import {RightSidePanelService} from '../service/right-side-panel.service';
 import {ThemeService} from '../service/theme.service';
 import {Settings} from '../settings-panel/state/settings.reducers';
 import * as settingsSelectors from '../settings-panel/state/settings.selectors';
-import * as appActions from '../store/app.actions';
 import * as appSelectors from '../store/app.selectors';
-import { highlight } from '../common';
+import {highlight} from '../common';
 
 
 const INITIAL_KNOWLEDGE_BASE_TECH = 'General';
@@ -56,7 +54,6 @@ export class KnowledgeSidebar implements AfterViewInit {
 
   constructor(
     private readonly elementRef: ElementRef,
-    private readonly rightSidePanelService: RightSidePanelService,
     private readonly store: Store,
     private readonly themeService: ThemeService,
   ) {}
@@ -81,10 +78,5 @@ export class KnowledgeSidebar implements AfterViewInit {
 
   collapseAll(): void {
     this.detailsElements.forEach(details => details.nativeElement.removeAttribute('open'));
-  }
-
-  openTopicPanel(): void {
-    this.store.dispatch(appActions.setActivePanel({activePanel: Panel.TOPIC}));
-    this.rightSidePanelService.toggle()
   }
 }

@@ -7,6 +7,7 @@ import {AuthService} from '../service/auth.service';
 import {RightSidePanelService} from '../service/right-side-panel.service';
 import {ThemeService} from '../service/theme.service';
 import {setActivePanel} from '../store/app.actions';
+import * as appActions from '../store/app.actions';
 
 
 @Component({
@@ -30,6 +31,11 @@ export class ToolbarComponent {
 
   toggleTheme(): void {
     this.themeService.toggleTheme();
+  }
+
+  openTopicPanel(): void {
+    this.store.dispatch(appActions.setActivePanel({activePanel: Panel.TOPIC}));
+    this.rightSidePanelService.toggle();
   }
 
   toggleSettings(): void {
