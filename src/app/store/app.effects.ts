@@ -8,10 +8,17 @@ import {AnswerProviderService} from '../service/answer-provider.service';
 
 @Injectable()
 export class AppEffects {
-    loadKnowledgeBase = createEffect(() => this.actions.pipe(
+    loadGoldDataKnowledgeBase = createEffect(() => this.actions.pipe(
         ofType(appActions.loadKnowledgeBase),
         switchMap(() => this.answerProviderService.getAllAnswers2()),
         map(dictionaryAnswers => appActions.loadKnowledgeBaseSuccess({dictionaryAnswers})),
+        catchError(() => EMPTY),
+    ));
+
+    loadFirestoreKnowledgeBase = createEffect(() => this.actions.pipe(
+        ofType(appActions.loadFirestoreKnowledgeBase),
+        switchMap(() => this.answerProviderService.getAllFirestoreAnswers()),
+        map(dictionaryAnswers => appActions.loadFirestoreKnowledgeBaseSuccess({dictionaryAnswers})),
         catchError(() => EMPTY),
     ));
 

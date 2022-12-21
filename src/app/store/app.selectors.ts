@@ -10,6 +10,9 @@ export const selectActivePanel =
 export const selectGroupedAnswers = 
     createSelector(selectAppState, ({groupedAnswers}) => groupedAnswers);
 
+export const selectFirestoreGroupedAnswers = 
+    createSelector(selectAppState, ({firestoreGroupedAnswers}) => firestoreGroupedAnswers);
+
 export const selectTechs = createSelector(
     selectGroupedAnswers, 
     groupedAnswers => Array.from(groupedAnswers.keys()),

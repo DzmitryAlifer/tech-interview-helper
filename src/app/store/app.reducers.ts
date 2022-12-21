@@ -6,11 +6,13 @@ import * as appActions from './app.actions';
 export interface AppState {
     activePanel: Panel|null;
     groupedAnswers: Map<string, DictionaryAnswer[]>;
+    firestoreGroupedAnswers: Map<string, DictionaryAnswer[]>;
 }
 
 export const initialState: AppState = {
     activePanel: null,
     groupedAnswers: new Map(),
+    firestoreGroupedAnswers: new Map(),
 };
 
 export const appReducer = createReducer(
@@ -19,6 +21,8 @@ export const appReducer = createReducer(
         ({...state, activePanel})),
     on(appActions.loadKnowledgeBaseSuccess, (state, {dictionaryAnswers}) => 
         ({...state, groupedAnswers: groupAnswersByTech(dictionaryAnswers)})),
+    on(appActions.loadFirestoreKnowledgeBaseSuccess, (state, {dictionaryAnswers}) => 
+        ({...state, firestoreGroupedAnswers: groupAnswersByTech(dictionaryAnswers)})),
     on(appActions.addDictionaryAnswer, (state, {dictionaryAnswer}) => {
         const groupedAnswers = new Map(state.groupedAnswers);
         let dictionaryAnswers = groupedAnswers.get(dictionaryAnswer.tech);

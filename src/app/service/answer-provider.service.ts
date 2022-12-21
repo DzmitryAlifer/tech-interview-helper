@@ -58,6 +58,10 @@ export class AnswerProviderService {
     return this.allAnswers$;
   }
 
+  getAllFirestoreAnswers(): Observable<DictionaryAnswer[]> {
+    return getDictionaryAnswers();
+  }
+
   getAllTechs2(): Observable<string[]> {
     return this.allTechs$;
   }

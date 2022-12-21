@@ -12,6 +12,7 @@ import {
   Firestore,
   query,
   where,
+  writeBatch,
   DocumentData,
 } from 'firebase/firestore';
 import {from, Observable} from 'rxjs';
@@ -77,6 +78,17 @@ export function saveUserSettings(settings: Partial<Settings>): void {
 export function saveDictionaryAnswer(dictionaryAnswer: DictionaryAnswer): Promise<void> {
   const documentRef = doc(database, `tech/${dictionaryAnswer.tech}`, `topic/${dictionaryAnswer.topic}`);
   return setDoc(documentRef, dictionaryAnswer);
+}
+
+export function saveDictionaryAnswers(tech: string, enabledTopicsMap: Partial<{[x: string]: boolean | null}>): Promise<void> {
+  const batch = writeBatch(database);
+
+  Object.entries(enabledTopicsMap).forEach(([topic, isEnabled]) => {
+    const dictionaryAnswerRef = doc(database, `tech/${tech}`, `topic/${topic}`);
+    batch.update(dictionaryAnswerRef, {isEnabled});
+  });
+
+  return batch.commit();
 }
 
 export function getDictionaryAnswers(): Observable<DictionaryAnswer[]> {

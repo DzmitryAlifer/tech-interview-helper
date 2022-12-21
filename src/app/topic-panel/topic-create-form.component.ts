@@ -119,7 +119,7 @@ export class TopicCreateForm {
     private getTechFieldValue(form: any): string {
         return !!form.techField && form.techField !== ADD_NEW_TECH_SELECTION ?
             form.techField :
-            form.newTechField.trim();
+            form.newTechField?.trim();
     }
 
     private resetForm(): void {

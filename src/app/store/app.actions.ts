@@ -12,6 +12,13 @@ export const loadKnowledgeBaseSuccess = createAction(
     props <{dictionaryAnswers: DictionaryAnswer[]}>(),
 );
 
+export const loadFirestoreKnowledgeBase = createAction('[App] Load firestore knowledge base');
+
+export const loadFirestoreKnowledgeBaseSuccess = createAction(
+    '[App] Load firestore knowledge base - success',
+    props <{dictionaryAnswers: DictionaryAnswer[]}>(),
+);
+
 export const addDictionaryAnswer = createAction(
     '[App] Add dictionary answer',
     props<{dictionaryAnswer: DictionaryAnswer}>(),

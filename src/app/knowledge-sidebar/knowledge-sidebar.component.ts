@@ -34,8 +34,10 @@ export class KnowledgeSidebar implements AfterViewInit {
       this.store.select(settingsSelectors.selectHighlightColors);
 
   private readonly selectedTechDictionaryAnswers$: Observable<DictionaryAnswer[]> = 
-    combineLatest([this.selectedTech$, this.allAnswers$])
-        .pipe(map(([tech, allAnswers]) => allAnswers.get(tech) ?? []));
+    combineLatest([this.selectedTech$, this.allAnswers$]).pipe(
+        map(([tech, allAnswers]) => allAnswers.get(tech) ?? []),
+        map(dictionaryAnswers => dictionaryAnswers.filter(({isEnabled}) => isEnabled !== false)),
+    );
 
   readonly sortedDictionaryAnswers$: Observable<DictionaryAnswer[]> = 
     combineLatest([this.isAlphabeticallySorted$, this.selectedTechDictionaryAnswers$]).pipe(

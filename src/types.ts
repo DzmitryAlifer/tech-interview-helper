@@ -38,7 +38,7 @@ export interface DictionaryAnswer {
     topic: string;
     dictionary: string[];
     answer: string;
-    isDisabled?: boolean;
+    isEnabled?: boolean;
 }
 
 export interface DictionaryAnswerForm {
