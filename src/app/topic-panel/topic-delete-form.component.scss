@@ -9,6 +9,10 @@
   width: 100%;
 }
 
+.topic .disabled ::ng-deep label {
+  text-decoration: line-through;
+}
+
 .footer {
   bottom: 0px;
   position: fixed;
