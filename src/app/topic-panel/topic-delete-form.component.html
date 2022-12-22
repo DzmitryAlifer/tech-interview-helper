@@ -1,5 +1,6 @@
 <ng-container *ngIf="{
     dictionaryAnswers: dictionaryAnswers$ | async,
+    selectedTech: selectedTech$ | async,
     techs: techs$ | async
 } as data">
     <form class="outer-form" [formGroup]="topicDeleteForm">
@@ -13,7 +14,7 @@
             <mat-hint>Technology</mat-hint>
         </mat-form-field>
 
-        <form [formGroup]="enabledTopicsFields">
+        <form *ngIf="data.selectedTech" [formGroup]="enabledTopicsFields">
             <p *ngFor="let dictionaryAnswer of data.dictionaryAnswers" class="topic">
                 <mat-slide-toggle [formControlName]="dictionaryAnswer.topic" color="primary">
                     {{dictionaryAnswer.topic}}
@@ -24,6 +25,12 @@
 
     <div class="footer">
         <mat-divider></mat-divider>
-        <button mat-raised-button color="primary" (click)="saveEnabledAnswers()">Save</button>
+        <button 
+            mat-raised-button
+            color="primary"
+            [disabled]="!data.selectedTech"
+            (click)="saveEnabledAnswers()">
+            Save
+        </button>
     </div>
 </ng-container>

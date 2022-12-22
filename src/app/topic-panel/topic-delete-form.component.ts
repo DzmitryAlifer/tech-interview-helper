@@ -21,7 +21,7 @@ import * as topicPanelActions from './store/topic-panel.actions';
 export class TopicDeleteFormComponent implements OnInit {
   readonly techs$: Observable<string[]> =
       this.store.select(settingsSelectors.selectEnabledTechs);
-  private readonly selectedTech$ = new Subject<string>();
+  readonly selectedTech$ = new Subject<string>();
   private readonly groupedAnswers$: Observable<Map<string, DictionaryAnswer[]>> = 
       this.store.select(appSelectors.selectCustomGroupedAnswers);
   readonly dictionaryAnswers$: Observable<DictionaryAnswer[]> = 
@@ -61,6 +61,7 @@ export class TopicDeleteFormComponent implements OnInit {
     const enabledTopics = this.topicDeleteForm.value.enabledTopicsFields!;
     this.store.dispatch(topicPanelActions.updateTechDictionaryAnswers({tech, enabledTopics}));
     this.rightSidePanelService.close();
+    this.selectedTech$.next('');
     this.topicDeleteForm.reset();
   }
 }
