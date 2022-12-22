@@ -47,11 +47,17 @@ export const appReducer = createReducer(
             [...dictionaryAnswers, dictionaryAnswer] : 
             [dictionaryAnswer];
         groupedAnswers.set(dictionaryAnswer.tech, dictionaryAnswers);
-        return {...state, groupedAnswers};
+        const customAnswers = [...state.customAnswers, dictionaryAnswer];
+        return {
+            ...state, 
+            groupedAnswers,
+            customAnswers: [...state.customAnswers, dictionaryAnswer],
+            customGroupedAnswers: groupAnswersByTech(customAnswers),
+        };
     }),
 );
 
-function groupAnswersByTech(dictionaryAnswers: DictionaryAnswer[]) {
+function groupAnswersByTech(dictionaryAnswers: DictionaryAnswer[]): Map<string, DictionaryAnswer[]> {
     return dictionaryAnswers.reduce((map, dictionaryAnswer) => {
         const techDictionaryAnswers = map.get(dictionaryAnswer.tech) ?? [];
         techDictionaryAnswers.push(dictionaryAnswer);

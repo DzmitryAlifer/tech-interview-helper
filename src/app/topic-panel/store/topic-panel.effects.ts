@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {EMPTY} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
-import {saveDictionaryAnswers} from 'src/app/service/firebase';
+import {saveDictionaryAnswer, saveDictionaryAnswers} from 'src/app/service/firebase';
 import * as appActions from '../../store/app.actions';
 import * as topicPanelActions from './topic-panel.actions';
 
@@ -11,6 +11,9 @@ import * as topicPanelActions from './topic-panel.actions';
 export class TopicPanelEffects {
     addDictionaryAnswers = createEffect(() => this.actions.pipe(
         ofType(topicPanelActions.addDictionaryAnswer),
+        tap(async ({dictionaryAnswer}) => {
+            await saveDictionaryAnswer(dictionaryAnswer);
+        }),
         map(({dictionaryAnswer}) => appActions.addDictionaryAnswer({dictionaryAnswer})),
         catchError(() => EMPTY),
     ));

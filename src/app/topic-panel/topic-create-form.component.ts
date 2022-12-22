@@ -108,7 +108,6 @@ export class TopicCreateForm {
     async saveTopic(dictionaryAnswer: DictionaryAnswer): Promise<void> {
         this.rightSidePanelService.close();
         this.resetForm();
-        await saveDictionaryAnswer(dictionaryAnswer);
         this.store.dispatch(topicPanelActions.addDictionaryAnswer({dictionaryAnswer}));
 
         if (this.isNewTechSelected) {
