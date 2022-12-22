@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {EMPTY} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {catchError, map, tap} from 'rxjs/operators';
 import {saveDictionaryAnswers} from 'src/app/service/firebase';
 import * as appActions from '../../store/app.actions';
 import * as topicPanelActions from './topic-panel.actions';
@@ -17,10 +17,11 @@ export class TopicPanelEffects {
 
     updateTechDictionaryAnswers = createEffect(() => this.actions.pipe(
         ofType(topicPanelActions.updateTechDictionaryAnswers),
-        map(({tech, enabledTopics}) => {
+        tap(({tech, enabledTopics}) => {
             saveDictionaryAnswers(tech, enabledTopics);
         }),
-    ), {dispatch: false});
+        map(() => appActions.loadCustomKnowledgeBase()),
+    ));
 
     constructor(private actions: Actions) {}
 }

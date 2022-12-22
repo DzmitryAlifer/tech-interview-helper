@@ -58,7 +58,11 @@ export class AnswerProviderService {
     return this.allAnswers$;
   }
 
-  getAllFirestoreAnswers(): Observable<DictionaryAnswer[]> {
+  getAllGoldDataAnswers(): Observable<DictionaryAnswer[]> {
+    return this.getAllStaticAnswers2();
+  }
+
+  getAllCustomAnswers(): Observable<DictionaryAnswer[]> {
     return getDictionaryAnswers();
   }
 

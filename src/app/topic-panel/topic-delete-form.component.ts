@@ -23,7 +23,7 @@ export class TopicDeleteFormComponent implements OnInit {
       this.store.select(settingsSelectors.selectEnabledTechs);
   private readonly selectedTech$ = new Subject<string>();
   private readonly groupedAnswers$: Observable<Map<string, DictionaryAnswer[]>> = 
-      this.store.select(appSelectors.selectFirestoreGroupedAnswers);
+      this.store.select(appSelectors.selectCustomGroupedAnswers);
   readonly dictionaryAnswers$: Observable<DictionaryAnswer[]> = 
       combineLatest([this.groupedAnswers$, this.selectedTech$]).pipe(
         map(([groupedAnswers, selectedTech]) => groupedAnswers.get(selectedTech) ?? []));
@@ -49,7 +49,7 @@ export class TopicDeleteFormComponent implements OnInit {
       });
     });
 
-    this.store.dispatch(appActions.loadFirestoreKnowledgeBase());
+    this.store.dispatch(appActions.loadCustomKnowledgeBase());
   }
 
   onTechSelect({value}: MatSelectChange): void {

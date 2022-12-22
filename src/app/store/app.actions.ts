@@ -12,10 +12,17 @@ export const loadKnowledgeBaseSuccess = createAction(
     props <{dictionaryAnswers: DictionaryAnswer[]}>(),
 );
 
-export const loadFirestoreKnowledgeBase = createAction('[App] Load firestore knowledge base');
+export const loadGoldDataKnowledgeBase = createAction('[App] Load gold data knowledge base');
 
-export const loadFirestoreKnowledgeBaseSuccess = createAction(
-    '[App] Load firestore knowledge base - success',
+export const loadGoldDataKnowledgeBaseSuccess = createAction(
+    '[App] Load gold data knowledge base - success',
+    props<{dictionaryAnswers: DictionaryAnswer[]}>(),
+);
+
+export const loadCustomKnowledgeBase = createAction('[App] Load custom knowledge base');
+
+export const loadCustomKnowledgeBaseSuccess = createAction(
+    '[App] Load custom knowledge base - success',
     props <{dictionaryAnswers: DictionaryAnswer[]}>(),
 );
 

@@ -6,23 +6,40 @@ import * as appActions from './app.actions';
 export interface AppState {
     activePanel: Panel|null;
     groupedAnswers: Map<string, DictionaryAnswer[]>;
-    firestoreGroupedAnswers: Map<string, DictionaryAnswer[]>;
+    goldDataAnswers: DictionaryAnswer[];
+    goldDataGroupedAnswers: Map<string, DictionaryAnswer[]>;
+    customAnswers: DictionaryAnswer[];
+    customGroupedAnswers: Map<string, DictionaryAnswer[]>;
 }
 
 export const initialState: AppState = {
     activePanel: null,
     groupedAnswers: new Map(),
-    firestoreGroupedAnswers: new Map(),
+    goldDataAnswers: [],
+    goldDataGroupedAnswers: new Map(),
+    customAnswers: [],
+    customGroupedAnswers: new Map(),
 };
 
 export const appReducer = createReducer(
     initialState,
     on(appActions.setActivePanel, (state, {activePanel}) => 
         ({...state, activePanel})),
-    on(appActions.loadKnowledgeBaseSuccess, (state, {dictionaryAnswers}) => 
-        ({...state, groupedAnswers: groupAnswersByTech(dictionaryAnswers)})),
-    on(appActions.loadFirestoreKnowledgeBaseSuccess, (state, {dictionaryAnswers}) => 
-        ({...state, firestoreGroupedAnswers: groupAnswersByTech(dictionaryAnswers)})),
+    on(appActions.loadGoldDataKnowledgeBaseSuccess, (state, {dictionaryAnswers}) => {
+        const goldDataGroupedAnswers = groupAnswersByTech(dictionaryAnswers);
+        return {
+            ...state,
+            goldDataAnswers: dictionaryAnswers,
+            goldDataGroupedAnswers,
+            groupedAnswers: goldDataGroupedAnswers,
+        };
+    }),
+    on(appActions.loadCustomKnowledgeBaseSuccess, (state, {dictionaryAnswers}) => ({
+        ...state,
+        customAnswers: dictionaryAnswers,
+        customGroupedAnswers: groupAnswersByTech(dictionaryAnswers),
+        groupedAnswers: groupAnswersByTech([state.goldDataAnswers, dictionaryAnswers].flat()),
+    })),
     on(appActions.addDictionaryAnswer, (state, {dictionaryAnswer}) => {
         const groupedAnswers = new Map(state.groupedAnswers);
         let dictionaryAnswers = groupedAnswers.get(dictionaryAnswer.tech);
