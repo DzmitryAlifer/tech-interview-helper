@@ -91,7 +91,7 @@ export function saveDictionaryAnswers(
     batch.update(dictionaryAnswerRef, {isEnabled});
   });
 
-  dictionaryAnswers.filter(({isMarkedForDelete}) => isMarkedForDelete !== true)
+  dictionaryAnswers.filter(({isMarkedForDelete}) => !!isMarkedForDelete)
     .forEach(({tech, topic}) => {
       const dictionaryAnswerRef = doc(database, `tech/${tech}`, `topic/${topic}`);
       batch.delete(dictionaryAnswerRef);

@@ -3,11 +3,15 @@
 .header {
     display: flex;
     justify-content: space-between;
-    width: $settings-panel-width;
 
     h2 {
         margin: auto 16px;
     }
+}
+
+.scrollable {
+    height: calc(100vh - $header-height - $panel-header-height - $panel-footer-height - 6px);
+    overflow: auto;
 }
 
 form,
