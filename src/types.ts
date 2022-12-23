@@ -39,6 +39,7 @@ export interface DictionaryAnswer {
     dictionary: string[];
     answer: string;
     isEnabled?: boolean;
+    isMarkedForDelete?: boolean;
 }
 
 export interface DictionaryAnswerForm {

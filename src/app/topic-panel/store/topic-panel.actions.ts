@@ -9,5 +9,9 @@ export const addDictionaryAnswer = createAction(
 
 export const updateTechDictionaryAnswers = createAction(
     '[Topic Panel] Update dictionary answers for the specific tech',
-    props<{tech: string|Tech, enabledTopics: Partial<{[x: string]: boolean | null}>}>(),
+    props<{
+        tech: string|Tech,
+        enabledTopics: Partial<{[x: string]: boolean | null}>,
+        dictionaryAnswers: DictionaryAnswer[],
+    }>(),
 );

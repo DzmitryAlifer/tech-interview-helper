@@ -15,11 +15,19 @@
         </mat-form-field>
 
         <form *ngIf="data.selectedTech" [formGroup]="enabledTopicsFields">
-            <p *ngFor="let dictionaryAnswer of data.dictionaryAnswers" class="topic">
+            <div *ngFor="let dictionaryAnswer of data.dictionaryAnswers; let index = index" class="topic">
                 <mat-slide-toggle [formControlName]="dictionaryAnswer.topic" color="primary">
-                    {{dictionaryAnswer.topic}}
+                    <span class="text" [class.marked-for-delete]="dictionaryAnswer.isMarkedForDelete">
+                        {{dictionaryAnswer.topic}}
+                    </span>
                 </mat-slide-toggle>
-            </p>
+                <button 
+                    mat-icon-button
+                    class="delete"
+                    (click)="toggleMarkForDelete(data.dictionaryAnswers ?? [], index)">
+                    <mat-icon>delete_forever</mat-icon>
+                </button>
+            </div>
         </form>
     </form>
 
@@ -29,7 +37,7 @@
             mat-raised-button
             color="primary"
             [disabled]="!data.selectedTech"
-            (click)="saveEnabledAnswers()">
+            (click)="saveEnabledAnswers(data.dictionaryAnswers ?? [])">
             Save
         </button>
     </div>

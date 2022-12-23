@@ -20,7 +20,7 @@ export class TopicPanelEffects {
 
     updateTechDictionaryAnswers = createEffect(() => this.actions.pipe(
         ofType(topicPanelActions.updateTechDictionaryAnswers),
-        tap(async ({tech, enabledTopics}) => {
+        tap(async ({tech, enabledTopics, dictionaryAnswers}) => {
             await saveDictionaryAnswers(tech, enabledTopics);
         }),
         map(() => appActions.loadCustomKnowledgeBase()),
