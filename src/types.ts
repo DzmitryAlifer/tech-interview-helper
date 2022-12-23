@@ -44,7 +44,7 @@ export interface DictionaryAnswer {
 
 export interface DictionaryAnswerForm {
     techField: FormControl<string|null>;
-    newTechField: FormControl<string | null>;
+    newTechField?: FormControl<string | null>;
     topicField: FormControl<string|null>;
     dictionaryField: FormControl<string[]|null>;
     answerField: FormControl<string|null>;

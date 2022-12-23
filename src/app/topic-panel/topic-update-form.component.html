@@ -2,8 +2,7 @@
     dictionaryAnswer : dictionaryAnswer$ | async,
     techs: techs$ | async
 } as data">
-    <form [formGroup]="topicCreateForm">
-        <div class="tech-fields">
+    <form [formGroup]="topicUpdateForm">
         <mat-form-field appearance="outline">
             <mat-label>Technology</mat-label>
             <mat-select [formControl]="techField" required>
@@ -13,7 +12,6 @@
             </mat-select>
             <mat-hint>Technology</mat-hint>
         </mat-form-field>
-        </div>
 
         <mat-form-field appearance="outline">
             <mat-label>Topic</mat-label>
@@ -49,7 +47,7 @@
         <button 
             mat-raised-button
             color="primary"
-            [disabled]="!data.dictionaryAnswer || !topicCreateForm.valid"
+            [disabled]="!data.dictionaryAnswer || !topicUpdateForm.valid"
             (click)="saveTopic(data.dictionaryAnswer!)">
             Save
         </button>

@@ -5,13 +5,13 @@ import {Observable} from 'rxjs';
 import {map, tap, withLatestFrom} from 'rxjs/operators';
 import {RightSidePanelService} from '../../service/right-side-panel.service';
 import {SettingsService} from '../../service/settings.service';
-import {selectEnabledTechs} from './settings.selectors';
+import {selectEnabledNonEmptyTechs} from './settings.selectors';
 
 
 @Injectable()
 export class SettingsEffects {
     private readonly enabledTechs$: Observable<string[]> = 
-        this.store.select(selectEnabledTechs);
+        this.store.select(selectEnabledNonEmptyTechs);
 
     updateSettings = createEffect(() => this.actions.pipe(
         ofType('[Settings] Update settings'),

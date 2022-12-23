@@ -20,14 +20,9 @@ import * as settingsSelectors from '../settings-panel/state/settings.selectors';
 export class TopicUpdateFormComponent {
     keywords: string[] = [];
     readonly techs$: Observable<string[]> =
-        this.store.select(settingsSelectors.selectEnabledTechs)
-            .pipe(map(techs => [ADD_NEW_TECH_SELECTION, ...techs]));
+        this.store.select(settingsSelectors.selectEnabledNonEmptyTechs);
 
     readonly techField = new FormControl('');
-    readonly newTechField = new FormControl('', [
-        Validators.minLength(MIN_TECH_NAME_LENGTH), 
-        Validators.maxLength(MAX_TECH_NAME_LENGTH),
-    ]);
     readonly topicField = new FormControl('', [
         Validators.minLength(MIN_TOPIC_LENGTH),
         Validators.maxLength(MAX_TOPIC_LENGTH),
@@ -41,16 +36,15 @@ export class TopicUpdateFormComponent {
         Validators.maxLength(MAX_ANSWER_LENGTH),
     ]);
     
-    readonly topicCreateForm = new FormGroup<DictionaryAnswerForm>({
+    readonly topicUpdateForm = new FormGroup<DictionaryAnswerForm>({
         techField: this.techField,
-        newTechField: this.newTechField,
         topicField: this.topicField,
         dictionaryField: this.dictionaryField,
         answerField: this.answerField,
     });
 
     readonly dictionaryAnswer$: Observable<DictionaryAnswer|null> =
-        this.topicCreateForm.valueChanges.pipe(
+        this.topicUpdateForm.valueChanges.pipe(
             debounceTime(INPUT_DEBOUNCE_TIME),
             map(form => {
                 const tech = this.getTechFieldValue(form);
@@ -99,7 +93,7 @@ export class TopicUpdateFormComponent {
     }
 
     private resetForm(): void {
-        this.topicCreateForm.reset();
+        this.topicUpdateForm.reset();
         this.keywords = [];
     }
 }

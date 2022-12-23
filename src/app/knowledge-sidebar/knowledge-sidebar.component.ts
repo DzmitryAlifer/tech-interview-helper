@@ -26,7 +26,7 @@ export class KnowledgeSidebar implements AfterViewInit {
   readonly isAlphabeticallySorted$ = new BehaviorSubject<boolean>(false);
   readonly isDarkTheme$ = this.themeService.theme$.pipe(map(theme => theme === Theme.DARK));
   readonly enabledTechs$: Observable<string[]> = 
-      this.store.select(settingsSelectors.selectEnabledTechs);
+      this.store.select(settingsSelectors.selectEnabledNonEmptyTechs);
   private readonly selectedTech$ = new BehaviorSubject<string>(INITIAL_KNOWLEDGE_BASE_TECH);
   private readonly allAnswers$: Observable<Map<string, DictionaryAnswer[]>> = 
       this.store.select(appSelectors.selectGroupedAnswers);

@@ -20,7 +20,7 @@ import * as topicPanelActions from './store/topic-panel.actions';
 })
 export class TopicDeleteFormComponent implements OnInit {
   readonly techs$: Observable<string[]> =
-      this.store.select(settingsSelectors.selectEnabledTechs);
+      this.store.select(settingsSelectors.selectEnabledNonEmptyTechs);
   readonly selectedTech$ = new Subject<string>();
   private readonly groupedAnswers$: Observable<Map<string, DictionaryAnswer[]>> = 
       this.store.select(appSelectors.selectCustomGroupedAnswers);

@@ -1,6 +1,7 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {Tech} from 'src/types';
 import {Settings} from './settings.reducers';
+import * as appSelectors from 'src/app/store/app.selectors';
 
 
 export const selectSettings = createFeatureSelector<Settings>('settings');
@@ -20,6 +21,13 @@ export const selectEnabledTechs = createSelector(
 
         return (JSON.parse(settingsString) as Settings).enabledTechs;
     },
+);
+
+export const selectEnabledNonEmptyTechs = createSelector(
+    selectEnabledTechs,
+    appSelectors.selectGroupedAnswers,
+    (enabledTechs, groupedAnswers) => 
+        enabledTechs.filter(tech => !!groupedAnswers.get(tech)?.length),
 );
 
 export const selectHighlightColors = createSelector(

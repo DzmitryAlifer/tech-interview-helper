@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {TECHS_WITH_ICONS} from 'src/types';
 import {SelectedTechService} from '../service/selected-tech.service';
-import {selectEnabledTechs} from '../settings-panel/state/settings.selectors';
+import {selectEnabledNonEmptyTechs} from '../settings-panel/state/settings.selectors';
 
 
 @Component({
@@ -14,7 +14,7 @@ import {selectEnabledTechs} from '../settings-panel/state/settings.selectors';
 })
 export class TechMenu {
   readonly TECHS_WITH_ICONS = TECHS_WITH_ICONS;
-  readonly techs$: Observable<string[]> = this.store.select(selectEnabledTechs);
+  readonly techs$: Observable<string[]> = this.store.select(selectEnabledNonEmptyTechs);
   readonly techStatuses$: Observable<Map<string, boolean>> = this.selectedTechService.getSelectedTechsMap();
 
   constructor(
