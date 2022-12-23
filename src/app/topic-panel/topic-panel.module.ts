@@ -14,10 +14,11 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {TechLabelModule} from '../shared/tech-label/tech-label.module';
-import {TopicCreateForm} from './topic-create-form.component';
+import {TopicCreateFormComponent} from './topic-create-form.component';
 import {TopicPanelComponent} from './topic-panel.component';
 import {TopicPanelEffects} from './store/topic-panel.effects';
 import {TopicDeleteFormComponent} from './topic-delete-form.component';
+import {TopicUpdateFormComponent} from './topic-update-form.component';
 
 
 const TOPIC_PANEL_STORE_MODULES = [
@@ -28,7 +29,12 @@ const TOPIC_PANEL_STORE_MODULES = [
 
 
 @NgModule({
-    declarations: [TopicCreateForm, TopicDeleteFormComponent, TopicPanelComponent],
+    declarations: [
+      TopicCreateFormComponent,
+      TopicDeleteFormComponent,
+      TopicPanelComponent,
+      TopicUpdateFormComponent,
+    ],
     exports: [TopicPanelComponent],
     imports: [
       CommonModule,

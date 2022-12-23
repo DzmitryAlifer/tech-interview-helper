@@ -1,0 +1,10 @@
+export const ADD_NEW_TECH_SELECTION = 'add new technology...';
+export const MIN_TECH_NAME_LENGTH = 1;
+export const MAX_TECH_NAME_LENGTH = 30;
+export const MIN_TOPIC_LENGTH = 3;
+export const MAX_TOPIC_LENGTH = 50;
+export const MIN_ASSOCIATED_KEYWORDS = 1;
+export const MAX_ASSOCIATED_KEYWORDS = 10;
+export const MIN_ANSWER_LENGTH = 5;
+export const MAX_ANSWER_LENGTH = 2000;
+export const INPUT_DEBOUNCE_TIME = 200;

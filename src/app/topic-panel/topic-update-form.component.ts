@@ -1,12 +1,10 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, Validators, FormGroup} from '@angular/forms';
 import {MatChipInputEvent} from '@angular/material/chips';
-import {MatSelectChange} from '@angular/material/select';
 import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
-import {debounceTime, map} from 'rxjs/operators';
+import {Observable, map, debounceTime} from 'rxjs';
 import {ADD_NEW_TECH_SELECTION, INPUT_DEBOUNCE_TIME, MAX_ANSWER_LENGTH, MAX_ASSOCIATED_KEYWORDS, MAX_TECH_NAME_LENGTH, MAX_TOPIC_LENGTH, MIN_ANSWER_LENGTH, MIN_ASSOCIATED_KEYWORDS, MIN_TECH_NAME_LENGTH, MIN_TOPIC_LENGTH} from 'src/app/constants'
-import {DictionaryAnswer, DictionaryAnswerForm} from 'src/types';
+import {DictionaryAnswerForm, DictionaryAnswer} from 'src/types';
 import {RightSidePanelService} from '../service/right-side-panel.service';
 import * as topicPanelActions from './store/topic-panel.actions';
 import * as settingsActions from '../settings-panel/state/settings.actions';
@@ -14,13 +12,12 @@ import * as settingsSelectors from '../settings-panel/state/settings.selectors';
 
 
 @Component({
-    selector: 'topic-create-form',
-    templateUrl: './topic-create-form.component.html',
-    styleUrls: ['./topic-create-form.component.scss'],
+    selector: 'topic-update-form',
+    templateUrl: './topic-update-form.component.html',
+    styleUrls: ['./topic-update-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TopicCreateFormComponent {
-    isNewTechSelected = false;
+export class TopicUpdateFormComponent {
     keywords: string[] = [];
     readonly techs$: Observable<string[]> =
         this.store.select(settingsSelectors.selectEnabledTechs)
@@ -71,10 +68,6 @@ export class TopicCreateFormComponent {
         private readonly store: Store,
     ) {}
 
-    onTechSelect({value}: MatSelectChange): void {
-        this.isNewTechSelected = value === ADD_NEW_TECH_SELECTION;
-    }
-
     removeKeyword(keyword: string): void {
         const index = this.keywords.indexOf(keyword);
         
@@ -97,10 +90,6 @@ export class TopicCreateFormComponent {
         this.rightSidePanelService.close();
         this.resetForm();
         this.store.dispatch(topicPanelActions.addDictionaryAnswer({dictionaryAnswer}));
-
-        if (this.isNewTechSelected) {
-            this.store.dispatch(settingsActions.enableTech({tech: dictionaryAnswer.tech}));
-        }
     }
 
     private getTechFieldValue(form: any): string {
