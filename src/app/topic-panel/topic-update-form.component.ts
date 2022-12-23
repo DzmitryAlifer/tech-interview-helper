@@ -2,12 +2,13 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormControl, Validators, FormGroup} from '@angular/forms';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Store} from '@ngrx/store';
-import {Observable, map, debounceTime} from 'rxjs';
-import {ADD_NEW_TECH_SELECTION, INPUT_DEBOUNCE_TIME, MAX_ANSWER_LENGTH, MAX_ASSOCIATED_KEYWORDS, MAX_TECH_NAME_LENGTH, MAX_TOPIC_LENGTH, MIN_ANSWER_LENGTH, MIN_ASSOCIATED_KEYWORDS, MIN_TECH_NAME_LENGTH, MIN_TOPIC_LENGTH} from 'src/app/constants'
+import {combineLatest, Observable, ReplaySubject} from 'rxjs';
+import {debounceTime, filter, map} from 'rxjs/operators';
+import {INPUT_DEBOUNCE_TIME, MAX_ANSWER_LENGTH, MAX_ASSOCIATED_KEYWORDS, MAX_TOPIC_LENGTH, MIN_ANSWER_LENGTH, MIN_ASSOCIATED_KEYWORDS, MIN_TECH_NAME_LENGTH, MIN_TOPIC_LENGTH} from 'src/app/constants'
 import {DictionaryAnswerForm, DictionaryAnswer} from 'src/types';
 import {RightSidePanelService} from '../service/right-side-panel.service';
+import * as appSelectors from '../store/app.selectors';
 import * as topicPanelActions from './store/topic-panel.actions';
-import * as settingsActions from '../settings-panel/state/settings.actions';
 import * as settingsSelectors from '../settings-panel/state/settings.selectors';
 
 
@@ -19,8 +20,30 @@ import * as settingsSelectors from '../settings-panel/state/settings.selectors';
 })
 export class TopicUpdateFormComponent {
     keywords: string[] = [];
+    readonly selectedTech$ = new ReplaySubject<string>(1);
+    readonly selectedTopic$ = new ReplaySubject<string>(1);
     readonly techs$: Observable<string[]> =
         this.store.select(settingsSelectors.selectEnabledNonEmptyTechs);
+    readonly allAnswers$: Observable<Map<string, DictionaryAnswer[]>> =
+        this.store.select(appSelectors.selectGroupedAnswers);
+    
+    readonly selectedDictionaryAnswers$: Observable<DictionaryAnswer[]> =
+        combineLatest([this.allAnswers$, this.selectedTech$]).pipe(
+            debounceTime(0),
+            map(([allAnswers, selectedTech]) => allAnswers.get(selectedTech)),
+            filter(Boolean),
+        ); 
+    
+    readonly selectedDictionaryAnswer$: Observable<DictionaryAnswer> = 
+        combineLatest([this.selectedDictionaryAnswers$, this.selectedTopic$]).pipe(
+            debounceTime(0),
+            map(([dictionaryAnswers, selectedTopic]) => 
+                dictionaryAnswers?.find(({topic}) => topic === selectedTopic)),
+            filter(Boolean),
+        );
+
+    private readonly selectedAnswer$: Observable<string> = 
+        this.selectedDictionaryAnswer$.pipe(map(({answer}) => answer));
 
     readonly techField = new FormControl('');
     readonly topicField = new FormControl('', [
@@ -43,11 +66,11 @@ export class TopicUpdateFormComponent {
         answerField: this.answerField,
     });
 
-    readonly dictionaryAnswer$: Observable<DictionaryAnswer|null> =
+    readonly updatedDictionaryAnswer$: Observable<DictionaryAnswer|null> =
         this.topicUpdateForm.valueChanges.pipe(
             debounceTime(INPUT_DEBOUNCE_TIME),
             map(form => {
-                const tech = this.getTechFieldValue(form);
+                const tech = form.techField;
                 const topic = form.topicField?.trim();
                 const dictionary = form.dictionaryField;
                 const answer = form.answerField?.trim();
@@ -60,7 +83,11 @@ export class TopicUpdateFormComponent {
     constructor(
         private readonly rightSidePanelService: RightSidePanelService,
         private readonly store: Store,
-    ) {}
+    ) {
+        this.selectedAnswer$.subscribe(answer => {
+            this.answerField.setValue(answer);
+        });
+    }
 
     removeKeyword(keyword: string): void {
         const index = this.keywords.indexOf(keyword);
@@ -84,12 +111,6 @@ export class TopicUpdateFormComponent {
         this.rightSidePanelService.close();
         this.resetForm();
         this.store.dispatch(topicPanelActions.addDictionaryAnswer({dictionaryAnswer}));
-    }
-
-    private getTechFieldValue(form: any): string {
-        return !!form.techField && form.techField !== ADD_NEW_TECH_SELECTION ?
-            form.techField :
-            form.newTechField?.trim();
     }
 
     private resetForm(): void {
