@@ -80,13 +80,22 @@ export function saveDictionaryAnswer(dictionaryAnswer: DictionaryAnswer): Promis
   return setDoc(documentRef, dictionaryAnswer);
 }
 
-export function saveDictionaryAnswers(tech: string, enabledTopicsMap: Partial<{[x: string]: boolean | null}>): Promise<void> {
+export function saveDictionaryAnswers(
+  tech: string,
+  enabledTopicsMap: Partial<{[x: string]: boolean | null}>,
+  dictionaryAnswers: DictionaryAnswer[]): Promise<void> {
   const batch = writeBatch(database);
 
   Object.entries(enabledTopicsMap).forEach(([topic, isEnabled]) => {
     const dictionaryAnswerRef = doc(database, `tech/${tech}`, `topic/${topic}`);
     batch.update(dictionaryAnswerRef, {isEnabled});
   });
+
+  dictionaryAnswers.filter(({isMarkedForDelete}) => isMarkedForDelete !== true)
+    .forEach(({tech, topic}) => {
+      const dictionaryAnswerRef = doc(database, `tech/${tech}`, `topic/${topic}`);
+      batch.delete(dictionaryAnswerRef);
+    });
 
   return batch.commit();
 }
