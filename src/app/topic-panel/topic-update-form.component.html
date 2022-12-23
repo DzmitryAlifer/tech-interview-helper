@@ -2,6 +2,7 @@
     allAnswers: allAnswers$ | async,
     selectedDictionaryAnswer: selectedDictionaryAnswer$ | async,
     selectedDictionaryAnswers: selectedDictionaryAnswers$ | async,
+    selectedKeywords: selectedKeywords$ | async,
     selectedTech: selectedTech$ | async,
     selectedTopic: selectedTopic$ | async,
     techs: techs$ | async,
@@ -41,7 +42,7 @@
                 <mat-label>Dictionary</mat-label>
                 <mat-chip-grid #keywordChips [formControl]="dictionaryField" required>
                     <mat-chip-row 
-                        *ngFor="let keyword of data.selectedDictionaryAnswer?.dictionary"
+                        *ngFor="let keyword of data.selectedKeywords"
                         (removed)="removeKeyword(keyword)">
                         {{keyword}}
                         <button matChipRemove>

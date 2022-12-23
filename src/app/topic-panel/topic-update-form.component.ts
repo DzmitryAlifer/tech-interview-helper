@@ -1,8 +1,8 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {FormControl, Validators, FormGroup} from '@angular/forms';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Store} from '@ngrx/store';
-import {combineLatest, Observable, ReplaySubject} from 'rxjs';
+import {combineLatest, merge, Observable, ReplaySubject} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
 import {INPUT_DEBOUNCE_TIME, MAX_ANSWER_LENGTH, MAX_ASSOCIATED_KEYWORDS, MAX_TOPIC_LENGTH, MIN_ANSWER_LENGTH, MIN_ASSOCIATED_KEYWORDS, MIN_TECH_NAME_LENGTH, MIN_TOPIC_LENGTH} from 'src/app/constants'
 import {DictionaryAnswerForm, DictionaryAnswer} from 'src/types';
@@ -18,14 +18,15 @@ import * as settingsSelectors from '../settings-panel/state/settings.selectors';
     styleUrls: ['./topic-update-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TopicUpdateFormComponent {
+export class TopicUpdateFormComponent implements OnInit {
     keywords: string[] = [];
     readonly selectedTech$ = new ReplaySubject<string>(1);
     readonly selectedTopic$ = new ReplaySubject<string>(1);
+    private readonly keywords$ = new ReplaySubject<string[]>(1);
     readonly techs$: Observable<string[]> =
         this.store.select(settingsSelectors.selectEnabledNonEmptyTechs);
     readonly allAnswers$: Observable<Map<string, DictionaryAnswer[]>> =
-        this.store.select(appSelectors.selectGroupedAnswers);
+        this.store.select(appSelectors.selectCustomGroupedAnswers);
     
     readonly selectedDictionaryAnswers$: Observable<DictionaryAnswer[]> =
         combineLatest([this.allAnswers$, this.selectedTech$]).pipe(
@@ -41,6 +42,11 @@ export class TopicUpdateFormComponent {
                 dictionaryAnswers?.find(({topic}) => topic === selectedTopic)),
             filter(Boolean),
         );
+
+    readonly selectedKeywords$: Observable<string[]> = merge(
+        this.selectedDictionaryAnswer$.pipe(map(({dictionary}) => dictionary)),
+        this.keywords$,
+    );
 
     private readonly selectedAnswer$: Observable<string> = 
         this.selectedDictionaryAnswer$.pipe(map(({answer}) => answer));
@@ -83,9 +89,15 @@ export class TopicUpdateFormComponent {
     constructor(
         private readonly rightSidePanelService: RightSidePanelService,
         private readonly store: Store,
-    ) {
+    ) {}
+    
+    ngOnInit(): void {
         this.selectedAnswer$.subscribe(answer => {
             this.answerField.setValue(answer);
+        });
+
+        this.selectedDictionaryAnswer$.subscribe(({dictionary}) => {
+            this.keywords = dictionary;
         });
     }
 
@@ -101,7 +113,8 @@ export class TopicUpdateFormComponent {
         const value = (event.value ?? '').trim();
 
         if (value) {
-            this.keywords.push(value);
+            this.keywords = [...this.keywords, value];
+            this.keywords$.next(this.keywords);
         }
 
         event.chipInput!.clear();
