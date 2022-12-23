@@ -16,10 +16,7 @@
 
         <form *ngIf="data.selectedTech" [formGroup]="enabledTopicsFields">
             <p *ngFor="let dictionaryAnswer of data.dictionaryAnswers" class="topic">
-                <mat-slide-toggle
-                    [formControlName]="dictionaryAnswer.topic"
-                    [class.disabled]="!dictionaryAnswer.isEnabled"
-                    color="primary">
+                <mat-slide-toggle [formControlName]="dictionaryAnswer.topic" color="primary">
                     {{dictionaryAnswer.topic}}
                 </mat-slide-toggle>
             </p>
