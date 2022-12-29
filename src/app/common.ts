@@ -17,6 +17,7 @@ export function selectFontSize(elementRef: ElementRef, selector: string, fontSiz
         elementRef.nativeElement.querySelectorAll(selector)
             .forEach((element: HTMLElement) => {
                 element.style.fontSize = fontSize + 'px';
+                element.style.lineHeight = 1.4 * fontSize + 'px';
             });
     });
 }

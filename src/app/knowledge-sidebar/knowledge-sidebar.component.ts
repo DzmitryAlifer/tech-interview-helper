@@ -65,7 +65,7 @@ export class KnowledgeSidebar implements AfterViewInit {
   ngAfterViewInit(): void {
     this.onNonEmptyAnswers$.subscribe(([, highlightColors, fontSize]) => {
       highlight(this.elementRef, '.answer i', highlightColors);
-      selectFontSize(this.elementRef, 'summary', fontSize);
+      selectFontSize(this.elementRef, 'summary', fontSize + 1);
       selectFontSize(this.elementRef, '.answer', fontSize);
     });
   }
