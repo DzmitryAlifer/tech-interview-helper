@@ -30,9 +30,12 @@ export const selectEnabledNonEmptyTechs = createSelector(
 );
 
 export const selectHighlightColors = createSelector(
+    selectSettings,
     selectSavedSettings,
-    ({textHighlightColor, backgroundHighlightColor}) => 
-        ({textHighlightColor, backgroundHighlightColor}),
+    (settings, updatedSettings) => ({
+        textHighlightColor: settings.textHighlightColor ?? updatedSettings.textHighlightColor,
+        backgroundHighlightColor: settings.backgroundHighlightColor ?? updatedSettings.backgroundHighlightColor,
+    }),
 );
 
 export const selectHasVoiceRecognition = createSelector(
