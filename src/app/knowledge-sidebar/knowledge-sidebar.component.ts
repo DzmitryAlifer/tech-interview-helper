@@ -7,7 +7,7 @@ import {ThemeService} from '../service/theme.service';
 import {Settings} from '../settings-panel/state/settings.reducers';
 import * as settingsSelectors from '../settings-panel/state/settings.selectors';
 import * as appSelectors from '../store/app.selectors';
-import {highlight} from '../common';
+import {highlight, selectFontSize} from '../common';
 
 
 const INITIAL_KNOWLEDGE_BASE_TECH = 'General';
@@ -32,6 +32,8 @@ export class KnowledgeSidebar implements AfterViewInit {
       this.store.select(appSelectors.selectGroupedAnswers);
   private readonly highlightColors$: Observable<Partial<Settings>> = 
       this.store.select(settingsSelectors.selectHighlightColors);
+  private readonly fontSize$: Observable<number> = 
+      this.store.select(settingsSelectors.selectFontSize);
 
   private readonly selectedTechDictionaryAnswers$: Observable<DictionaryAnswer[]> = 
     combineLatest([this.selectedTech$, this.allAnswers$]).pipe(
@@ -48,8 +50,8 @@ export class KnowledgeSidebar implements AfterViewInit {
           dictionaryAnswers),
     );
 
-  private readonly onNonEmptyAnswers$: Observable<[DictionaryAnswer[], boolean, Partial<Settings>]> = 
-      combineLatest([this.sortedDictionaryAnswers$, this.isDarkTheme$, this.highlightColors$]).pipe(
+  private readonly onNonEmptyAnswers$: Observable<[DictionaryAnswer[], Partial<Settings>, number]> = 
+      combineLatest([this.sortedDictionaryAnswers$, this.highlightColors$, this.fontSize$]).pipe(
         debounceTime(0),
         filter(([answers]) => !!answers.length),
       );
@@ -61,8 +63,10 @@ export class KnowledgeSidebar implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.onNonEmptyAnswers$.subscribe(([, , highlightColors]) => {
+    this.onNonEmptyAnswers$.subscribe(([, highlightColors, fontSize]) => {
       highlight(this.elementRef, '.answer i', highlightColors);
+      selectFontSize(this.elementRef, 'summary', fontSize);
+      selectFontSize(this.elementRef, '.answer', fontSize);
     });
   }
 

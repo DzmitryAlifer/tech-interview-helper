@@ -11,3 +11,12 @@ export function highlight(elementRef: ElementRef, selector: string, highlightCol
             });
     });
 }
+
+export function selectFontSize(elementRef: ElementRef, selector: string, fontSize: number): void {
+    setTimeout(() => {
+        elementRef.nativeElement.querySelectorAll(selector)
+            .forEach((element: HTMLElement) => {
+                element.style.fontSize = fontSize + 'px';
+            });
+    });
+}
