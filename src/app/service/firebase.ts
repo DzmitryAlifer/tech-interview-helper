@@ -72,41 +72,7 @@ export function saveUserSettings(settings: Partial<Settings>): void {
   });
 }
 
-export function saveDictionaryAnswer(dictionaryAnswer: DictionaryAnswer): Promise<void> {
-  const documentRef = doc(database, `tech/${dictionaryAnswer.tech}`, `topic/${dictionaryAnswer.topic}`);
-  return setDoc(documentRef, dictionaryAnswer);
-}
-
-export function saveDictionaryAnswers(
-  tech: string,
-  enabledTopicsMap: Partial<{[x: string]: boolean | null}>,
-  dictionaryAnswers: DictionaryAnswer[]): Promise<void> {
-  const batch = writeBatch(database);
-
-  Object.entries(enabledTopicsMap).forEach(([topic, isEnabled]) => {
-    const dictionaryAnswerRef = doc(database, `tech/${tech}`, `topic/${topic}`);
-    batch.update(dictionaryAnswerRef, {isEnabled});
-  });
-
-  dictionaryAnswers.filter(({isMarkedForDelete}) => !!isMarkedForDelete)
-    .forEach(({tech, topic}) => {
-      const dictionaryAnswerRef = doc(database, `tech/${tech}`, `topic/${topic}`);
-      batch.delete(dictionaryAnswerRef);
-    });
-
-  return batch.commit();
-}
-
-export function getDictionaryAnswers(): Observable<DictionaryAnswer[]> {
-  const collectionRef = collectionGroup(database, 'topic');
-  const queryRef = query(collectionRef);
-  const result = getDocs(queryRef);
-  
-  return from(result).pipe(
-    map(snapshot => snapshot.docs.map(doc => doc.data()))) as Observable<DictionaryAnswer[]>;
-}
-
-export async function saveUserDictionaryAnswer(dictionaryAnswer: DictionaryAnswer): Promise<void|null> {
+export async function saveDictionaryAnswer(dictionaryAnswer: DictionaryAnswer): Promise<void|null> {
   if (!authentication.currentUser?.uid) return null;
 
   const documentRef = doc(
@@ -119,7 +85,7 @@ export async function saveUserDictionaryAnswer(dictionaryAnswer: DictionaryAnswe
   return setDoc(documentRef, dictionaryAnswer);
 }
 
-export async function saveUserDictionaryAnswers(
+export async function saveDictionaryAnswers(
   tech: string,
   enabledTopicsMap: Partial<{[x: string]: boolean | null}>,
   dictionaryAnswers: DictionaryAnswer[]): Promise<void|null> {
@@ -153,8 +119,13 @@ export async function saveUserDictionaryAnswers(
   return batch.commit();
 }
 
-export function getUserDictionaryAnswers(): Observable<DictionaryAnswer[]|null> {
-  if (!authentication.currentUser?.uid) return EMPTY;
+export function getUserDictionaryAnswers(): Observable<DictionaryAnswer[]> {
+  const storedUser = localStorage.getItem('user');
+  const userId = !!storedUser && storedUser !== 'null' ? 
+      (JSON.parse(storedUser) as User).uid : 
+      authentication.currentUser?.uid;
+
+  if (!userId) return EMPTY;
 
   const collectionRef = collectionGroup(database, 'topic');
   const queryRef = query(collectionRef);
