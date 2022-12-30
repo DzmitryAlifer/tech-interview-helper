@@ -4,6 +4,9 @@ service cloud.firestore {
         match /{document=**} {
             match /users/{userId} {
                 allow read, write;
+                match /tech/{techName}/topic/{topicName} {
+                    allow read, write;
+                }
             }
             match /settings/{userId} {
                 allow read, write;

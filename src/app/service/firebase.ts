@@ -2,7 +2,6 @@ import {initializeApp} from 'firebase/app';
 import {getAuth} from 'firebase/auth';
 import {
   DocumentReference,
-  collection,
   collectionGroup,
   doc,
   getDoc,
@@ -11,13 +10,11 @@ import {
   setDoc,
   Firestore,
   query,
-  where,
   writeBatch,
-  DocumentData,
 } from 'firebase/firestore';
-import {from, Observable} from 'rxjs';
+import {EMPTY, from, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import { DictionaryAnswer, Tech } from 'src/types';
+import {DictionaryAnswer} from 'src/types';
 import {Settings} from '../settings-panel/state/settings.reducers';
 
 
@@ -29,13 +26,13 @@ export interface User {
 }
 
 const config = {
-  apiKey: "AIzaSyBxfkwcHwkojE_-lTJpSU0YHqVyxFJmr9s",
-  authDomain: "tech-interview-helper.firebaseapp.com",
-  projectId: "tech-interview-helper",
-  storageBucket: "tech-interview-helper.appspot.com",
-  messagingSenderId: "228304227676",
-  appId: "1:228304227676:web:085e2ebaf9aa8547b5c599",
-  measurementId: "G-M4891K4VB7"
+  apiKey: 'AIzaSyBxfkwcHwkojE_-lTJpSU0YHqVyxFJmr9s',
+  authDomain: 'tech-interview-helper.firebaseapp.com',
+  projectId: 'tech-interview-helper',
+  storageBucket: 'tech-interview-helper.appspot.com',
+  messagingSenderId: '228304227676',
+  appId: '1:228304227676:web:085e2ebaf9aa8547b5c599',
+  measurementId: 'G-M4891K4VB7',
 };
 
 const app = initializeApp(config);
@@ -101,6 +98,64 @@ export function saveDictionaryAnswers(
 }
 
 export function getDictionaryAnswers(): Observable<DictionaryAnswer[]> {
+  const collectionRef = collectionGroup(database, 'topic');
+  const queryRef = query(collectionRef);
+  const result = getDocs(queryRef);
+  
+  return from(result).pipe(
+    map(snapshot => snapshot.docs.map(doc => doc.data()))) as Observable<DictionaryAnswer[]>;
+}
+
+export async function saveUserDictionaryAnswer(dictionaryAnswer: DictionaryAnswer): Promise<void|null> {
+  if (!authentication.currentUser?.uid) return null;
+
+  const documentRef = doc(
+    database,
+    `users/${authentication.currentUser.uid}`,
+    `tech/${dictionaryAnswer.tech}`,
+    `topic/${dictionaryAnswer.topic}`,
+  );
+  
+  return setDoc(documentRef, dictionaryAnswer);
+}
+
+export async function saveUserDictionaryAnswers(
+  tech: string,
+  enabledTopicsMap: Partial<{[x: string]: boolean | null}>,
+  dictionaryAnswers: DictionaryAnswer[]): Promise<void|null> {
+  if (!authentication.currentUser?.uid) return null;
+
+  const batch = writeBatch(database);
+
+  Object.entries(enabledTopicsMap).forEach(([topic, isEnabled]) => {
+    const dictionaryAnswerRef = doc(
+      database,
+      `users/${authentication.currentUser!.uid}`,
+      `tech/${tech}`,
+      `topic/${topic}`,
+    );
+
+    batch.update(dictionaryAnswerRef, {isEnabled});
+  });
+
+  dictionaryAnswers.filter(({isMarkedForDelete}) => !!isMarkedForDelete)
+    .forEach(({tech, topic}) => {
+      const dictionaryAnswerRef = doc(
+        database,
+        `users/${authentication.currentUser!.uid}`,
+        `tech/${tech}`,
+        `topic/${topic}`,
+      );
+
+      batch.delete(dictionaryAnswerRef);
+    });
+
+  return batch.commit();
+}
+
+export function getUserDictionaryAnswers(): Observable<DictionaryAnswer[]|null> {
+  if (!authentication.currentUser?.uid) return EMPTY;
+
   const collectionRef = collectionGroup(database, 'topic');
   const queryRef = query(collectionRef);
   const result = getDocs(queryRef);
