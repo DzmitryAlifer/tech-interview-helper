@@ -4,7 +4,7 @@ import {combineLatest, forkJoin, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {DictionaryAnswer, Tech} from 'src/types';
 import {SelectedTechService} from './selected-tech.service';
-import {getDictionaryAnswers} from '../service/firebase';
+import {getUserDictionaryAnswers} from '../service/firebase';
 
 
 @Injectable({providedIn: 'root'})
@@ -12,7 +12,7 @@ export class AnswerProviderService {
   private readonly allTechs: Tech[] = Object.values(Tech);
 
   private allAnswers$: Observable<DictionaryAnswer[]> = 
-    combineLatest([this.getAllStaticAnswers2(), getDictionaryAnswers()])
+    combineLatest([this.getAllStaticAnswers2(), getUserDictionaryAnswers()])
       .pipe(map(allAnswers => allAnswers.flat()));
 
   private allTechs$: Observable<string[]> = this.allAnswers$.pipe(
@@ -63,7 +63,7 @@ export class AnswerProviderService {
   }
 
   getAllCustomAnswers(): Observable<DictionaryAnswer[]> {
-    return getDictionaryAnswers();
+    return getUserDictionaryAnswers();
   }
 
   getAllTechs2(): Observable<string[]> {

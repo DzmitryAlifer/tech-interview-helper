@@ -5,6 +5,7 @@ import {combineLatest, Observable} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {Tech} from 'src/types';
 import {highlight} from '../common';
+import {DEFAULT_FONT_SIZE_PX} from '../constants';
 import {getUserSettings} from '../service/firebase';
 import {RightSidePanelService} from '../service/right-side-panel.service';
 import {updateSettings} from './state/settings.actions';
@@ -25,6 +26,7 @@ interface Colors {
 interface SettingsForm {
   colors: FormGroup<Colors>;
   enabledTechs: FormGroup<EnabledTechs>;
+  fontSize: FormControl<number|null>;
   hasVoiceRecognition: FormControl<boolean|null>;
 }
 
@@ -39,12 +41,19 @@ export class SettingsPanelComponent implements AfterViewInit {
   toggleText = false;
   toggleBackground = false;
   readonly techs = Object.values(Tech);
-  readonly techs$: Observable<string[]> = this.store.select(appSelectors.selectTechs);
-  readonly hasVoiceRecognition$: Observable<boolean> = this.store.select(settingsSelectors.selectHasVoiceRecognition);
-  readonly highlightColors$: Observable<Partial<Settings>> = this.store.select(settingsSelectors.selectHighlightColors);
-  private readonly settings: Settings = JSON.parse(localStorage.getItem('settings') ?? '');
+  readonly techs$: Observable<string[]> = 
+      this.store.select(appSelectors.selectTechs);
+  readonly hasVoiceRecognition$: Observable<boolean> = 
+      this.store.select(settingsSelectors.selectHasVoiceRecognition);
+  readonly highlightColors$: Observable<Partial<Settings>> = 
+      this.store.select(settingsSelectors.selectHighlightColors);
+  readonly fontSize$: Observable<number> =
+      this.store.select(settingsSelectors.selectFontSize);
+  private readonly settings: Settings = 
+      JSON.parse(localStorage.getItem('settings') ?? '');
   private enabledTechs: string[] = this.settings?.enabledTechs ?? [];
   
+  readonly fontSize = new FormControl<number>(DEFAULT_FONT_SIZE_PX);
   readonly hasVoiceRecognition = new FormControl<boolean>(false);
 
   readonly colorsForm = new FormGroup<Colors>({
@@ -52,14 +61,20 @@ export class SettingsPanelComponent implements AfterViewInit {
     textHighlightColor: new FormControl<string>(''),
   });
 
-  readonly settingsForm$ = combineLatest([this.techs$, this.hasVoiceRecognition$, this.highlightColors$]).pipe(
-    map(([techs, hasVoiceRecognition, highlightColors]) => {
+  readonly settingsForm$ = combineLatest([
+    this.techs$,
+    this.hasVoiceRecognition$,
+    this.highlightColors$,
+    this.fontSize$,
+  ]).pipe(
+    map(([techs, hasVoiceRecognition, highlightColors, fontSize]) => {
       const enabledTechs = new FormGroup<EnabledTechs>({});
       techs.forEach(tech => {
         const toggleControl = this.createToggleControl(this.enabledTechs, tech);
         enabledTechs.setControl(tech, toggleControl);
       });
 
+      this.fontSize.setValue(fontSize);
       this.hasVoiceRecognition.setValue(hasVoiceRecognition);
 
       this.colorsForm.setValue({
@@ -71,6 +86,7 @@ export class SettingsPanelComponent implements AfterViewInit {
         enabledTechs,
         hasVoiceRecognition: this.hasVoiceRecognition,
         colors: this.colorsForm,
+        fontSize: this.fontSize,
       });
     }),
   );
@@ -108,9 +124,10 @@ export class SettingsPanelComponent implements AfterViewInit {
     });
   }
 
-  close(form: FormGroup<SettingsForm>, initialHasVoiceRecognition: boolean, highlightColors: Partial<Settings>): void {
+  close(form: FormGroup<SettingsForm>, fontSize: number, initialHasVoiceRecognition: boolean, highlightColors: Partial<Settings>): void {
     this.rightSidePanelService.close();
     this.setToggleControls(form.controls.enabledTechs);
+    this.fontSize.setValue(fontSize);
     this.hasVoiceRecognition.setValue(initialHasVoiceRecognition);
 
     this.colorsForm.setValue({
@@ -130,6 +147,7 @@ export class SettingsPanelComponent implements AfterViewInit {
       hasVoiceRecognition: !!form.value.hasVoiceRecognition,
       textHighlightColor: form.value.colors?.textHighlightColor ?? '',
       backgroundHighlightColor: form.value.colors?.backgroundHighlightColor ?? '',
+      fontSize: form.value.fontSize ?? DEFAULT_FONT_SIZE_PX,
     };
     form.reset();
     this.store.dispatch(updateSettings(settings));

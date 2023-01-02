@@ -10,12 +10,37 @@
 }
 
 .scrollable {
-    height: calc(100vh - $header-height - $panel-header-height - $panel-footer-height - 6px);
+    height: calc(100vh - $header-height - $panel-header-height - $panel-footer-height - 30px);
     overflow: auto;
+
+    ::ng-deep {
+        mat-form-field {
+            .mdc-text-field {
+                height: 26px;
+                margin-left: 8px;
+            }
+
+            .mat-mdc-form-field-flex {
+                width: 40px;
+
+                .mat-mdc-form-field-infix {
+                    padding: 0 !important;
+                }
+            }
+
+            input.font-size {
+                padding: 0;
+            }
+        }
+    }
 }
 
 form,
 .control {
+    padding: 12px 0;
+}
+
+.scrollable {    
     padding: 12px 24px;
 }
 

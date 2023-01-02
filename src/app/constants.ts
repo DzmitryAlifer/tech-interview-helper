@@ -8,3 +8,4 @@ export const MAX_ASSOCIATED_KEYWORDS = 10;
 export const MIN_ANSWER_LENGTH = 5;
 export const MAX_ANSWER_LENGTH = 2000;
 export const INPUT_DEBOUNCE_TIME = 200;
+export const DEFAULT_FONT_SIZE_PX = 12;

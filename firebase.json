@@ -5,7 +5,7 @@
   },
   "hosting": {
     "site": "interviewhelper",
-    "public": "dist/tech-interview-helper1",
+    "public": "dist/tech-interview-helper",
     "ignore": [
       "firebase.json",
       "**/.*",

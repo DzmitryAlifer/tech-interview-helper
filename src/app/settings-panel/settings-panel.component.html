@@ -1,4 +1,5 @@
 <ng-container *ngIf="{
+    fontSize: fontSize$ | async,
     hasVoiceRecognition: hasVoiceRecognition$ | async,
     highlightColors: highlightColors$ | async,
     settingsForm: settingsForm$ | async,
@@ -7,7 +8,7 @@
     <div>
         <div class="header">
             <h2>Settings</h2>
-            <button mat-icon-button (click)="close(data.settingsForm!, !!data.hasVoiceRecognition, data.highlightColors!)">
+            <button mat-icon-button (click)="close(data.settingsForm!, data.fontSize!, !!data.hasVoiceRecognition, data.highlightColors!)">
                 <mat-icon>close</mat-icon>
             </button>
         </div>
@@ -15,54 +16,64 @@
     </div>
 
     <div class="scrollable">
-    <form [formGroup]="data.settingsForm!.controls.colors">
-        <p>Highlighted text: <i class="highlight-example">Italics highlight</i></p>
-        
-        <button mat-button #ignoredTextButton (click)="toggleText = !toggleText">
-            Text
-            <mat-icon>arrow_drop_down</mat-icon>
-        </button><br>
-        <input #ignoredTextInput 
-            class="color-picker"
-            [formControl]="colorsForm.controls.textHighlightColor"
-            [colorPicker]="data.highlightColors!.textHighlightColor!"
-            [(cpToggle)]="toggleText"
-            [cpIgnoredElements]="[ignoredTextButton, ignoredTextInput]"
-            cpWidth="200"
-            cpPosition="bottom right"
-            (colorPickerChange)="changeTextHighlightColor($event)" />
+        <mat-label>Font size</mat-label>
+        <mat-form-field>
+            <input matInput class="font-size" type="number" [formControl]="fontSize" min="8" max="24">
+        </mat-form-field>
 
-        <button mat-button #ignoredBackgroundButton (click)="toggleBackground = !toggleBackground">
-            Background
-            <mat-icon>arrow_drop_down</mat-icon>
-        </button><br>
-        <input #ignoredBackgroundInput
-            class="color-picker"
-            [formControl]="colorsForm.controls.backgroundHighlightColor"
-            [colorPicker]="data.highlightColors!.backgroundHighlightColor!"
-            [(cpToggle)]="toggleBackground"
-            [cpIgnoredElements]="[ignoredBackgroundButton, ignoredBackgroundInput]"
-            cpWidth="200"
-            cpPosition="bottom right"
-            (colorPickerChange)="changeBackgroundHighlightColor($event)" />
-    </form>
+        <form [formGroup]="data.settingsForm!.controls.colors">
+            <p>Highlighted text: <i class="highlight-example">Italics highlight</i></p>
+            
+            <button mat-button #ignoredTextButton (click)="toggleText = !toggleText">
+                Text
+                <mat-icon>arrow_drop_down</mat-icon>
+            </button><br>
+            <input #ignoredTextInput 
+                class="color-picker"
+                [formControl]="colorsForm.controls.textHighlightColor"
+                [colorPicker]="data.highlightColors!.textHighlightColor!"
+                [(cpToggle)]="toggleText"
+                [cpIgnoredElements]="[ignoredTextButton, ignoredTextInput]"
+                cpWidth="200"
+                cpPosition="bottom right"
+                (colorPickerChange)="changeTextHighlightColor($event)" />
 
-    <form [formGroup]="data.settingsForm!.controls.enabledTechs">
-        <p>Knowledge base</p>
-        <p *ngFor="let tech of data.techs">
-            <mat-slide-toggle [formControlName]="tech" color="primary">
-                <tech-label [tech]="tech"></tech-label>
-            </mat-slide-toggle>
-        </p>
-    </form>
+            <button mat-button #ignoredBackgroundButton (click)="toggleBackground = !toggleBackground">
+                Background
+                <mat-icon>arrow_drop_down</mat-icon>
+            </button><br>
+            <input #ignoredBackgroundInput
+                class="color-picker"
+                [formControl]="colorsForm.controls.backgroundHighlightColor"
+                [colorPicker]="data.highlightColors!.backgroundHighlightColor!"
+                [(cpToggle)]="toggleBackground"
+                [cpIgnoredElements]="[ignoredBackgroundButton, ignoredBackgroundInput]"
+                cpWidth="200"
+                cpPosition="bottom right"
+                (colorPickerChange)="changeBackgroundHighlightColor($event)" />
+        </form>
 
-    <mat-slide-toggle class="control" [formControl]="hasVoiceRecognition" color="primary">
-        Voice recognition panel
-    </mat-slide-toggle>
+        <form [formGroup]="data.settingsForm!.controls.enabledTechs">
+            <p>Knowledge base</p>
+            <p *ngFor="let tech of data.techs">
+                <mat-slide-toggle [formControlName]="tech" color="primary">
+                    <tech-label [tech]="tech"></tech-label>
+                </mat-slide-toggle>
+            </p>
+        </form>
+
+        <mat-slide-toggle class="control" [formControl]="hasVoiceRecognition" color="primary">
+            Voice recognition panel
+        </mat-slide-toggle>
+
+        <!-- <div class="footer">
+            <mat-divider></mat-divider>
+            <button mat-raised-button color="primary" (click)="saveSettings(data.settingsForm!)">Save</button>
+        </div> -->
+    </div>
 
     <div class="footer">
         <mat-divider></mat-divider>
         <button mat-raised-button color="primary" (click)="saveSettings(data.settingsForm!)">Save</button>
-    </div>
     </div>
 </ng-container>

@@ -1,26 +1,25 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {Tech} from 'src/types';
 import {Settings} from './settings.reducers';
 import * as appSelectors from 'src/app/store/app.selectors';
+import {DEFAULT_FONT_SIZE_PX} from 'src/app/constants';
 
 
 export const selectSettings = createFeatureSelector<Settings>('settings');
 
-export const selectEnabledTechs = createSelector(
+const selectSavedSettings = createSelector(
     selectSettings,
     settingsState => {
-        if (settingsState.enabledTechs.length) {
-            return settingsState.enabledTechs;
-        } 
-        
         const settingsString = localStorage.getItem('settings');
 
-        if (!settingsString || settingsString === 'null') {
-            return Object.values(Tech);
-        } 
-
-        return (JSON.parse(settingsString) as Settings).enabledTechs;
+        return !settingsString || settingsString === 'null' ? 
+            settingsState :
+            JSON.parse(settingsString) as Settings;
     },
+);
+
+export const selectEnabledTechs = createSelector(
+    selectSavedSettings,
+    ({enabledTechs}) => enabledTechs,
 );
 
 export const selectEnabledNonEmptyTechs = createSelector(
@@ -32,11 +31,21 @@ export const selectEnabledNonEmptyTechs = createSelector(
 
 export const selectHighlightColors = createSelector(
     selectSettings,
-    ({textHighlightColor, backgroundHighlightColor}) => 
-        ({textHighlightColor, backgroundHighlightColor}),
+    selectSavedSettings,
+    (settings, updatedSettings) => ({
+        textHighlightColor: settings.textHighlightColor ?? updatedSettings.textHighlightColor,
+        backgroundHighlightColor: settings.backgroundHighlightColor ?? updatedSettings.backgroundHighlightColor,
+    }),
 );
 
 export const selectHasVoiceRecognition = createSelector(
-    selectSettings,
+    selectSavedSettings,
     ({hasVoiceRecognition}) => !!hasVoiceRecognition,
+);
+
+export const selectFontSize = createSelector(
+    selectSettings,
+    selectSavedSettings,
+    (settings, updatedSettings) => 
+        settings.fontSize ?? updatedSettings.fontSize ?? DEFAULT_FONT_SIZE_PX,
 );
