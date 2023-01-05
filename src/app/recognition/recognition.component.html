@@ -46,13 +46,11 @@
         <p innerHTML="{{dictionaryAnswer.answer}}"></p>
     </mat-card>
 
-    <!-- <mat-card *ngFor="let i of [1,2,3,4,5]" class="answer" [style.font-size.px]="fontSizePx" [style.width.px]="answerCardWidthPx">
+    <mat-card *ngFor="let i of [1,2,3,4,5]" class="answer" [style.font-size.px]="fontSizePx" [style.width.px]="answerCardWidthPx">
         <p class="topic">
             <mat-chip>JavaScript</mat-chip>
             <b>Test topic name {{i}}</b>
         </p>
-        <p>;dlfks;df sl;dfk sd ;sdkf;lsd f;sdk f;lsd f;sd fs dfks;d ld;sfsdlkfgkdfghdkhgkd dfhg dfg
-        dkghdkghkdghkdhgkdjhgdkjfg dkghdkjghdkjfghkdfgh dk fgdkghkdhgjkdgh dfghdfgkdhg dsfsdsdfsdf
-        sdfsdfsdf kfjdlfgjldgjdgj sdfkjdlgj dfjgldsfkjglfdkg lfjgldskfjgldkf dfjg lkdf gkl</p>
-    </mat-card> -->
+        <p><i>var</i> has function scope and is initialized with undefined before the code is run due to hoisting.<br><br><i>let</i> has block scope and isn't initialized while getting hoisted. let and const was introduced because function scope is confusing and was one of the main sources of bugs in JS.</p>
+    </mat-card>
 </ng-container>

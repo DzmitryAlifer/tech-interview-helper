@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {DictionaryAnswer, Panel, TECHS_WITH_ICONS, Theme} from 'src/types';
+import {DictionaryAnswer, TECHS_WITH_ICONS, Theme} from 'src/types';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {debounceTime, filter, map} from 'rxjs/operators';
 import {ThemeService} from '../service/theme.service';
