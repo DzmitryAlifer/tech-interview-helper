@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DoCheck, ElementRef} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {VoiceRecognitionService} from '../service/voice-recognition.service';
 import {BehaviorSubject, Observable} from 'rxjs';
@@ -19,7 +19,7 @@ const INITIAL_FONT_SIZE_PX = 16;
   styleUrls: ['./recognition.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Recognition implements AfterViewInit {
+export class Recognition implements DoCheck {
   fontSizePx = INITIAL_FONT_SIZE_PX;
   answerCardWidthPx = INITIAL_ANSWER_CARD_WIDTH_PX;
   private allAnswers: DictionaryAnswer[] = [];
@@ -39,7 +39,7 @@ export class Recognition implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {
+  ngDoCheck(): void {
     this.highlightColors$.subscribe(highlightColors => {
       highlight(this.elementRef, '.answer i', highlightColors);
     });
