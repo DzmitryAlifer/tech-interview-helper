@@ -20,7 +20,7 @@ export class SettingsService {
     return this.getSettings()?.enabledTechs ?? Object.values(Tech);
   }
 
-  saveSettings(settings: Partial<Settings>) {
-    saveUserSettings(settings);
+  async saveSettings(settings: Settings): Promise<Settings|void|undefined> {
+    return saveUserSettings(settings);
   }
 }

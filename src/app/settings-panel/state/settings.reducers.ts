@@ -21,7 +21,7 @@ export const initialState: Settings = {
 
 export const settingsReducer = createReducer(
     initialState,
-    on(actions.updateSettings, (state, settings) => ({
+    on(actions.updateSettingsSuccess, (state, settings) => ({
         ...state, 
         enabledTechs: settings.enabledTechs,
         hasVoiceRecognition: settings.hasVoiceRecognition,

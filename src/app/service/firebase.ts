@@ -62,13 +62,14 @@ export async function getUserSettings(): Promise<Settings|null> {
   return snapshot.exists() ? snapshot.data() as Settings : null;
 }
 
-export function saveUserSettings(settings: Partial<Settings>): void {
+export function saveUserSettings(settings: Settings): Promise<Settings|void>|undefined {
   if (!authentication.currentUser?.uid) return;
   
   const documentRef = doc(database, 'settings', authentication.currentUser.uid);
   
-  setDoc(documentRef, settings).then(() => {
+  return setDoc(documentRef, settings).then(() => {
     localStorage.setItem('settings', JSON.stringify(settings));
+    return settings;
   });
 }
 

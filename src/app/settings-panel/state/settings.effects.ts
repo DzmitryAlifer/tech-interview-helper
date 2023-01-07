@@ -2,31 +2,36 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {map, tap, withLatestFrom} from 'rxjs/operators';
+import {map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {RightSidePanelService} from '../../service/right-side-panel.service';
 import {SettingsService} from '../../service/settings.service';
-import {selectEnabledNonEmptyTechs} from './settings.selectors';
+import {selectEnabledNonEmptyTechs, selectSettings} from './settings.selectors';
+import * as settingsActions from './settings.actions';
+import {Settings} from './settings.reducers';
 
 
 @Injectable()
 export class SettingsEffects {
+    private readonly settings$: Observable<Settings> =
+        this.store.select(selectSettings);
     private readonly enabledTechs$: Observable<string[]> = 
         this.store.select(selectEnabledNonEmptyTechs);
 
     updateSettings = createEffect(() => this.actions.pipe(
-        ofType('[Settings] Update settings'),
-        tap(settings => {
+        ofType(settingsActions.updateSettings),
+        tap(() => {
             this.rightSidePanelService.close();
-            this.settingsService.saveSettings(settings);
-        })
-    ), {dispatch: false});
+        }),
+        switchMap(settings => this.settingsService.saveSettings(settings)),
+        map(settings => settingsActions.updateSettingsSuccess(settings!)),
+    ));
 
     enableTech = createEffect(() => this.actions.pipe(
-        ofType('[Settings] Add enabled tech'),
-        withLatestFrom(this.enabledTechs$),
-        map(([{tech}, previousEnabledTechs]) => {
+        ofType(settingsActions.enableTech),
+        withLatestFrom(this.settings$, this.enabledTechs$),
+        map(([{tech}, peviousSettings, previousEnabledTechs]) => {
             const enabledTechs = [...previousEnabledTechs, tech];
-            this.settingsService.saveSettings({enabledTechs});
+            this.settingsService.saveSettings({...peviousSettings, enabledTechs});
         })
     ), {dispatch: false});
 
