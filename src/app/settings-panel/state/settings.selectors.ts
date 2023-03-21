@@ -26,7 +26,7 @@ export const selectEnabledNonEmptyTechs = createSelector(
     selectEnabledTechs,
     appSelectors.selectGroupedAnswers,
     (enabledTechs, groupedAnswers) => 
-        enabledTechs.filter(tech => !!groupedAnswers.get(tech)?.length),
+        (enabledTechs ?? []).filter(tech => !!groupedAnswers.get(tech)?.length),
 );
 
 export const selectHighlightColors = createSelector(
